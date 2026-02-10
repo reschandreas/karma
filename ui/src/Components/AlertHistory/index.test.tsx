@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import { act } from "react-dom/test-utils";
 
 import { render } from "@testing-library/react";
+=======
+import { render, act } from "@testing-library/react";
+>>>>>>> f2d4110a (upgrading to react 19)
 
 import fetchMock from "fetch-mock";
 
@@ -95,9 +99,13 @@ describe("<AlertHistory />", () => {
     grid.labelName = "";
     grid.labelValue = "";
     MockAlerts(3);
+<<<<<<< HEAD
     const { unmount } = render(
       <AlertHistory group={group} grid={grid}></AlertHistory>,
     );
+=======
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -128,9 +136,13 @@ describe("<AlertHistory />", () => {
     );
 
     MockAlerts(3);
+<<<<<<< HEAD
     const { unmount } = render(
       <AlertHistory group={group} grid={grid}></AlertHistory>,
     );
+=======
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -163,9 +175,13 @@ describe("<AlertHistory />", () => {
     grid.labelName = "@cluster";
     grid.labelValue = "prod";
     MockAlerts(3);
+<<<<<<< HEAD
     const { unmount } = render(
       <AlertHistory group={group} grid={grid}></AlertHistory>,
     );
+=======
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -200,9 +216,13 @@ describe("<AlertHistory />", () => {
       { name: "shared1", value: "value1" },
       { name: "shared2", value: "value2" },
     ]);
+<<<<<<< HEAD
     const { unmount } = render(
       <AlertHistory group={group} grid={grid}></AlertHistory>,
     );
+=======
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -239,14 +259,22 @@ describe("<AlertHistory />", () => {
     );
 
     MockAlerts(3);
+<<<<<<< HEAD
     const { unmount, asFragment } = render(
       <AlertHistory group={group} grid={grid}></AlertHistory>,
     );
+=======
+    const { container, unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
     expect(fetchMock.calls()).toHaveLength(1);
+<<<<<<< HEAD
     expect(asFragment()).toMatchSnapshot();
+=======
+    expect(container.innerHTML).toMatchSnapshot();
+>>>>>>> f2d4110a (upgrading to react 19)
     unmount();
   });
 
@@ -264,14 +292,22 @@ describe("<AlertHistory />", () => {
     );
 
     MockAlerts(3);
+<<<<<<< HEAD
     const { unmount, asFragment } = render(
       <AlertHistory group={group} grid={grid}></AlertHistory>,
     );
+=======
+    const { container, unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
     expect(fetchMock.calls()).toHaveLength(1);
+<<<<<<< HEAD
     expect(asFragment()).toMatchSnapshot();
+=======
+    expect(container.innerHTML).toMatchSnapshot();
+>>>>>>> f2d4110a (upgrading to react 19)
     unmount();
   });
 
@@ -294,9 +330,13 @@ describe("<AlertHistory />", () => {
     ] as any);
 
     MockAlerts(3);
+<<<<<<< HEAD
     const { unmount } = render(
       <AlertHistory group={group} grid={grid}></AlertHistory>,
     );
+=======
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -325,9 +365,13 @@ describe("<AlertHistory />", () => {
     ] as any);
 
     MockAlerts(3);
+<<<<<<< HEAD
     const { unmount } = render(
       <AlertHistory group={group} grid={grid}></AlertHistory>,
     );
+=======
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -362,14 +406,22 @@ describe("<AlertHistory />", () => {
     );
 
     MockAlerts(3);
+<<<<<<< HEAD
     const { unmount, asFragment } = render(
       <AlertHistory group={group} grid={grid}></AlertHistory>,
     );
+=======
+    const { container, unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
     expect(fetchMock.calls()).toHaveLength(1);
+<<<<<<< HEAD
     expect(asFragment()).toMatchSnapshot();
+=======
+    expect(container.innerHTML).toMatchSnapshot();
+>>>>>>> f2d4110a (upgrading to react 19)
     unmount();
   });
 
@@ -387,14 +439,22 @@ describe("<AlertHistory />", () => {
     );
 
     MockAlerts(3);
+<<<<<<< HEAD
     const { unmount, asFragment } = render(
       <AlertHistory group={group} grid={grid}></AlertHistory>,
     );
+=======
+    const { container, unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
     expect(fetchMock.calls()).toHaveLength(1);
+<<<<<<< HEAD
     expect(asFragment()).toMatchSnapshot();
+=======
+    expect(container.innerHTML).toMatchSnapshot();
+>>>>>>> f2d4110a (upgrading to react 19)
     unmount();
   });
 
@@ -536,16 +596,24 @@ describe("<AlertHistory />", () => {
         },
       );
 
+<<<<<<< HEAD
       const { container, unmount } = render(
         <AlertHistory group={g} grid={gr}></AlertHistory>,
       );
+=======
+      const { container, unmount } = render(<AlertHistory group={g} grid={gr}></AlertHistory>);
+>>>>>>> f2d4110a (upgrading to react 19)
       await act(async () => {
         await fetchMock.flush(true);
       });
 
+<<<<<<< HEAD
       const rects = Array.from(container.querySelectorAll("rect")).map(
         (r) => r.className.baseVal,
       );
+=======
+      const rects = Array.from(container.querySelectorAll("rect")).map((r) => r.className.baseVal);
+>>>>>>> f2d4110a (upgrading to react 19)
       expect(rects).toStrictEqual(testCase.values);
       unmount();
     });

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { render, screen } from "@testing-library/react";
+=======
+import { render } from "@testing-library/react";
+>>>>>>> f2d4110a (upgrading to react 19)
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import {
@@ -24,7 +28,11 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
+<<<<<<< HEAD
 const renderMatchCounter = () => {
+=======
+const MountedMatchCounter = () => {
+>>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <MatchCounter silenceFormStore={silenceFormStore} matcher={matcher} />,
   );
@@ -45,7 +53,11 @@ describe("<MatchCounter />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
+<<<<<<< HEAD
     const { asFragment } = renderMatchCounter();
+=======
+    const { asFragment } = MountedMatchCounter();
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -60,7 +72,11 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
+<<<<<<< HEAD
     const { container } = renderMatchCounter();
+=======
+    const { container } = MountedMatchCounter();
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(container.querySelectorAll("svg.fa-spinner")).toHaveLength(1);
     expect(
       container.querySelectorAll("svg.fa-spinner.text-danger"),
@@ -78,7 +94,11 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
+<<<<<<< HEAD
     const { container } = renderMatchCounter();
+=======
+    const { container } = MountedMatchCounter();
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(
       container.querySelectorAll("svg.fa-spinner.text-danger"),
     ).toHaveLength(1);
@@ -95,7 +115,11 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
+<<<<<<< HEAD
     const { container } = renderMatchCounter();
+=======
+    const { container } = MountedMatchCounter();
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(
       container.querySelectorAll("svg.fa-circle-exclamation.text-danger"),
     ).toHaveLength(1);
@@ -112,8 +136,13 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
+<<<<<<< HEAD
     renderMatchCounter();
     expect(screen.getByText("0")).toBeInTheDocument();
+=======
+    const { container } = MountedMatchCounter();
+    expect(container.textContent).toBe("0");
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("updates totalAlerts after successful fetch", () => {
@@ -130,8 +159,13 @@ describe("<MatchCounter />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
+<<<<<<< HEAD
     renderMatchCounter();
     expect(screen.getByText("25")).toBeInTheDocument();
+=======
+    const { container } = MountedMatchCounter();
+    expect(container.textContent).toBe("25");
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("sends correct query string for a 'foo=bar' matcher", () => {

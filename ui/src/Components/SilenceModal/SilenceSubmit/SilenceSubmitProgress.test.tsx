@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import { act } from "react-dom/test-utils";
 
 import { render } from "@testing-library/react";
+=======
+import { render, act } from "@testing-library/react";
+>>>>>>> f2d4110a (upgrading to react 19)
 
 import fetchMock from "fetch-mock";
 
@@ -61,7 +65,11 @@ afterEach(() => {
   fetchMock.resetHistory();
 });
 
+<<<<<<< HEAD
 const renderSilenceSubmitProgress = () => {
+=======
+const MountedSilenceSubmitProgress = () => {
+>>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <SilenceSubmitProgress
       cluster="mockAlertmanager"
@@ -487,7 +495,11 @@ describe("<SilenceSubmitProgress />", () => {
   });
 
   it("renders silence link on successful fetch", async () => {
+<<<<<<< HEAD
     renderSilenceSubmitProgress();
+=======
+    MountedSilenceSubmitProgress();
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -507,7 +519,11 @@ describe("<SilenceSubmitProgress />", () => {
       status: 500,
       body: "error message",
     });
+<<<<<<< HEAD
     renderSilenceSubmitProgress();
+=======
+    MountedSilenceSubmitProgress();
+>>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });

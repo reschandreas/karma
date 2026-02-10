@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx jest:*)",
+      "Bash(grep:*)",
+      "Bash(npm ls:*)",
+      "Bash(node -e:*)",
+      "Bash(node --version:*)",
+      "Bash(node:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}

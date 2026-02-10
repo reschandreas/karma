@@ -96,7 +96,10 @@ describe("<SilenceSubmitController />", () => {
       />,
     );
     expect(container.querySelectorAll("table")).toHaveLength(0);
+<<<<<<< HEAD
     expect(container.querySelectorAll(".display-1")).toHaveLength(1);
+=======
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("resets the form on 'Back' button click", () => {
@@ -107,8 +110,13 @@ describe("<SilenceSubmitController />", () => {
         silenceFormStore={silenceFormStore}
       />,
     );
+<<<<<<< HEAD
     const button = container.querySelector("button");
     fireEvent.click(button!);
+=======
+    const button = container.querySelector("button") as HTMLButtonElement;
+    fireEvent.click(button);
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.data.currentStage).toBe("form");
   });
 });
@@ -138,10 +146,16 @@ describe("<MultiClusterStatus />", () => {
       />,
     );
     expect(container.querySelectorAll("tr")).toHaveLength(1);
+<<<<<<< HEAD
     const tds = container.querySelectorAll("td");
     expect(tds[0].innerHTML).toMatch(/fa-circle-notch/);
     expect(tds[1].textContent).toBe("single");
     expect(tds[2].textContent).toBe("");
+=======
+    expect(container.querySelectorAll("td")[0].innerHTML).toMatch(/fa-circle-notch/);
+    expect(container.querySelectorAll("td")[1].textContent).toBe("single");
+    expect(container.querySelectorAll("td")[2].textContent).toBe("");
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders error for failed requests", () => {
@@ -156,10 +170,16 @@ describe("<MultiClusterStatus />", () => {
       />,
     );
     expect(container.querySelectorAll("tr")).toHaveLength(1);
+<<<<<<< HEAD
     const tds = container.querySelectorAll("td");
     expect(tds[0].innerHTML).toMatch(/fa-circle-exclamation/);
     expect(tds[1].textContent).toBe("single");
     expect(tds[2].textContent).toBe("fake error");
+=======
+    expect(container.querySelectorAll("td")[0].innerHTML).toMatch(/fa-circle-exclamation/);
+    expect(container.querySelectorAll("td")[1].textContent).toBe("single");
+    expect(container.querySelectorAll("td")[2].textContent).toBe("fake error");
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders silence link for completed requests", () => {
@@ -175,6 +195,7 @@ describe("<MultiClusterStatus />", () => {
       />,
     );
     expect(container.querySelectorAll("tr")).toHaveLength(1);
+<<<<<<< HEAD
     const tds = container.querySelectorAll("td");
     expect(tds[0].innerHTML).toMatch(/fa-circle-check/);
     expect(tds[1].textContent).toBe("single");
@@ -182,6 +203,14 @@ describe("<MultiClusterStatus />", () => {
     expect(
       tds[2].querySelector('a[href="http://localhost"]'),
     ).toBeInTheDocument();
+=======
+    expect(container.querySelectorAll("td")[0].innerHTML).toMatch(/fa-circle-check/);
+    expect(container.querySelectorAll("td")[1].textContent).toBe("single");
+    expect(container.querySelectorAll("td")[2].textContent).toBe("123456789");
+    expect(
+      container.querySelectorAll("td")[2].querySelectorAll('a[href="http://localhost"]'),
+    ).toHaveLength(1);
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 });
 
@@ -195,12 +224,17 @@ describe("<SingleClusterStatus />", () => {
         silenceFormStore={silenceFormStore}
       />,
     );
+<<<<<<< HEAD
     expect(container.querySelector("div.display-1")?.innerHTML).toMatch(
       /fa-circle-notch/,
     );
     expect(container.querySelector("div.badge.bg-primary")?.textContent).toBe(
       "single",
     );
+=======
+    expect(container.querySelectorAll("div.display-1")[0].innerHTML).toMatch(/fa-circle-notch/);
+    expect(container.querySelector("div.badge.bg-primary")!.textContent).toBe("single");
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(container.querySelectorAll("p")).toHaveLength(0);
   });
 
@@ -215,6 +249,7 @@ describe("<SingleClusterStatus />", () => {
         silenceFormStore={silenceFormStore}
       />,
     );
+<<<<<<< HEAD
     expect(container.querySelector("div.display-1")?.innerHTML).toMatch(
       /fa-circle-exclamation/,
     );
@@ -222,6 +257,13 @@ describe("<SingleClusterStatus />", () => {
       "single",
     );
     expect(container.querySelector("p")?.textContent).toBe("fake error");
+=======
+    expect(container.querySelectorAll("div.display-1")[0].innerHTML).toMatch(
+      /fa-circle-exclamation/,
+    );
+    expect(container.querySelector("div.badge.bg-primary")!.textContent).toBe("single");
+    expect(container.querySelector("p")!.textContent).toBe("fake error");
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders silence link for completed requests", () => {
@@ -237,6 +279,7 @@ describe("<SingleClusterStatus />", () => {
       />,
     );
 
+<<<<<<< HEAD
     expect(container.querySelector("div.display-1")?.innerHTML).toMatch(
       /fa-circle-check/,
     );
@@ -247,5 +290,11 @@ describe("<SingleClusterStatus />", () => {
     expect(
       container.querySelector('p a[href="http://localhost"]'),
     ).toBeInTheDocument();
+=======
+    expect(container.querySelectorAll("div.display-1")[0].innerHTML).toMatch(/fa-circle-check/);
+    expect(container.querySelector("div.badge.bg-primary")!.textContent).toBe("single");
+    expect(container.querySelector("p")!.textContent).toBe("123456789");
+    expect(container.querySelector("p")!.querySelectorAll('a[href="http://localhost"]')).toHaveLength(1);
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 });

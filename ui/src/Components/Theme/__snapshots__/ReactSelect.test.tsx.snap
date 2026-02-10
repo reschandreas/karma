@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<WrappedCustomMultiSelect /> matches snapshot when focused 1`] = `
 <DocumentFragment>
@@ -58,7 +58,11 @@ exports[`<WrappedCustomMultiSelect /> matches snapshot when focused 1`] = `
             id="react-select-3-input"
             role="combobox"
             spellcheck="false"
+<<<<<<< HEAD
             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+=======
+            style="color: inherit; background: 0px; opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+>>>>>>> f2d4110a (upgrading to react 19)
             tabindex="0"
             type="text"
             value=""
@@ -154,7 +158,11 @@ exports[`<WrappedCustomMultiSelect /> matches snapshot when focused and disabled
             id="react-select-4-input"
             role="combobox"
             spellcheck="false"
+<<<<<<< HEAD
             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+=======
+            style="color: inherit; background: 0px; opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+>>>>>>> f2d4110a (upgrading to react 19)
             tabindex="0"
             type="text"
             value=""
@@ -233,7 +241,11 @@ exports[`<WrappedCustomMultiSelect /> matches snapshot with a value 1`] = `
             id="react-select-5-input"
             role="combobox"
             spellcheck="false"
+<<<<<<< HEAD
             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+=======
+            style="color: inherit; background: 0px; opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+>>>>>>> f2d4110a (upgrading to react 19)
             tabindex="0"
             type="text"
             value=""
@@ -314,7 +326,11 @@ exports[`<WrappedCustomMultiSelect /> matches snapshot with isDisabled=true 1`] 
             id="react-select-7-input"
             role="combobox"
             spellcheck="false"
+<<<<<<< HEAD
             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+=======
+            style="color: inherit; background: 0px; opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+>>>>>>> f2d4110a (upgrading to react 19)
             tabindex="0"
             type="text"
             value=""
@@ -395,7 +411,11 @@ exports[`<WrappedCustomMultiSelect /> matches snapshot with isMulti=true 1`] = `
             id="react-select-2-input"
             role="combobox"
             spellcheck="false"
+<<<<<<< HEAD
             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+=======
+            style="color: inherit; background: 0px; opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+>>>>>>> f2d4110a (upgrading to react 19)
             tabindex="0"
             type="text"
             value=""
@@ -496,7 +516,11 @@ exports[`<WrappedCustomMultiSelect /> matches snapshot with isMulti=true and a v
             id="react-select-6-input"
             role="combobox"
             spellcheck="false"
+<<<<<<< HEAD
             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+=======
+            style="color: inherit; background: 0px; opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+>>>>>>> f2d4110a (upgrading to react 19)
             tabindex="0"
             type="text"
             value=""

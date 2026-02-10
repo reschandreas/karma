@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { render, screen, fireEvent } from "@testing-library/react";
+=======
+import { render, fireEvent } from "@testing-library/react";
+>>>>>>> f2d4110a (upgrading to react 19)
 
 import { AlertStore, NewUnappliedFilter } from "Stores/AlertStore";
 
@@ -31,15 +35,28 @@ const renderLabelWithPercent = (
   );
 };
 
+<<<<<<< HEAD
 const renderAndClick = (name: string, value: string, clickOptions?: any) => {
   renderLabelWithPercent(name, value, 25, 50, 0, false);
   const labelText = screen.getByText(value);
   fireEvent.click(labelText, clickOptions || {});
+=======
+const RenderAndClick = (name: string, value: string, clickOptions?: any) => {
+  const { container } = MountedLabelWithPercent(name, value, 25, 50, 0, false);
+  const span = container.querySelector(
+    ".components-label .components-label-value",
+  );
+  fireEvent.click(span!, clickOptions || {});
+>>>>>>> f2d4110a (upgrading to react 19)
 };
 
 describe("<LabelWithPercent />", () => {
   it("matches snapshot with offset=0", () => {
+<<<<<<< HEAD
     const { asFragment } = renderLabelWithPercent(
+=======
+    const { asFragment } = MountedLabelWithPercent(
+>>>>>>> f2d4110a (upgrading to react 19)
       "foo",
       "bar",
       25,
@@ -51,7 +68,11 @@ describe("<LabelWithPercent />", () => {
   });
 
   it("matches snapshot with offset=25", () => {
+<<<<<<< HEAD
     const { asFragment } = renderLabelWithPercent(
+=======
+    const { asFragment } = MountedLabelWithPercent(
+>>>>>>> f2d4110a (upgrading to react 19)
       "foo",
       "bar",
       25,
@@ -63,7 +84,11 @@ describe("<LabelWithPercent />", () => {
   });
 
   it("matches snapshot with isActive=true", () => {
+<<<<<<< HEAD
     const { asFragment } = renderLabelWithPercent(
+=======
+    const { asFragment } = MountedLabelWithPercent(
+>>>>>>> f2d4110a (upgrading to react 19)
       "foo",
       "bar",
       25,
@@ -83,9 +108,22 @@ describe("<LabelWithPercent />", () => {
   });
 
   it("clicking the X buttom removes label from filters", () => {
+<<<<<<< HEAD
     const { container } = renderLabelWithPercent("foo", "bar", 25, 50, 0, true);
     const removeButton = container.querySelector("svg.fa-xmark");
     fireEvent.click(removeButton!);
+=======
+    const { container } = MountedLabelWithPercent(
+      "foo",
+      "bar",
+      25,
+      50,
+      0,
+      true,
+    );
+    const svg = container.querySelector(".components-label svg");
+    fireEvent.click(svg!);
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(alertStore.filters.values).toHaveLength(0);
     expect(alertStore.filters.values).not.toContainEqual(
       NewUnappliedFilter("foo=bar"),
@@ -101,7 +139,11 @@ describe("<LabelWithPercent />", () => {
   });
 
   it("uses bg-danger when percent is >66", () => {
+<<<<<<< HEAD
     const { container } = renderLabelWithPercent(
+=======
+    const { container } = MountedLabelWithPercent(
+>>>>>>> f2d4110a (upgrading to react 19)
       "foo",
       "bar",
       25,
@@ -109,6 +151,7 @@ describe("<LabelWithPercent />", () => {
       0,
       false,
     );
+<<<<<<< HEAD
     expect(
       container.querySelector(".progress-bar.bg-danger"),
     ).toBeInTheDocument();
@@ -116,6 +159,13 @@ describe("<LabelWithPercent />", () => {
 
   it("uses bg-warning when percent is >33", () => {
     const { container } = renderLabelWithPercent(
+=======
+    expect(container.innerHTML).toMatch(/progress-bar bg-danger/);
+  });
+
+  it("uses bg-warning when percent is >33", () => {
+    const { container } = MountedLabelWithPercent(
+>>>>>>> f2d4110a (upgrading to react 19)
       "foo",
       "bar",
       25,
@@ -123,6 +173,7 @@ describe("<LabelWithPercent />", () => {
       0,
       false,
     );
+<<<<<<< HEAD
     expect(
       container.querySelector(".progress-bar.bg-warning"),
     ).toBeInTheDocument();
@@ -130,6 +181,13 @@ describe("<LabelWithPercent />", () => {
 
   it("uses bg-success when percent is <=33", () => {
     const { container } = renderLabelWithPercent(
+=======
+    expect(container.innerHTML).toMatch(/progress-bar bg-warning/);
+  });
+
+  it("uses bg-success when percent is <=33", () => {
+    const { container } = MountedLabelWithPercent(
+>>>>>>> f2d4110a (upgrading to react 19)
       "foo",
       "bar",
       25,
@@ -137,8 +195,12 @@ describe("<LabelWithPercent />", () => {
       0,
       false,
     );
+<<<<<<< HEAD
     expect(
       container.querySelector(".progress-bar.bg-success"),
     ).toBeInTheDocument();
+=======
+    expect(container.innerHTML).toMatch(/progress-bar bg-success/);
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 });

@@ -12,7 +12,11 @@ beforeEach(() => {
   Favico.badge.mockClear();
 });
 
+<<<<<<< HEAD
 const renderFaviconBadge = () => {
+=======
+const MountedFaviconBadge = () => {
+>>>>>>> f2d4110a (upgrading to react 19)
   return render(<FaviconBadge alertStore={alertStore} />);
 };
 

@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<ManagedSilence /> matches snapshot when collapsed 1`] = `
 <DocumentFragment>
@@ -75,7 +75,11 @@ exports[`<ManagedSilence /> matches snapshot when collapsed 1`] = `
             >
               <svg
                 aria-hidden="true"
+<<<<<<< HEAD
                 class="svg-inline--fa fa-chevron-down fa-rotate-180 m-auto text-muted cursor-pointer"
+=======
+                class="svg-inline--fa fa-chevron-down m-auto text-muted cursor-pointer fa-rotate-180"
+>>>>>>> f2d4110a (upgrading to react 19)
                 data-icon="chevron-down"
                 data-prefix="fas"
                 role="img"
@@ -209,7 +213,11 @@ exports[`<ManagedSilence /> matches snapshot with expaned details 1`] = `
               >
                 <svg
                   aria-hidden="true"
+<<<<<<< HEAD
                   class="svg-inline--fa fa-calendar-check fa-fw text-muted me-1"
+=======
+                  class="svg-inline--fa fa-calendar-check text-muted me-1 fa-fw"
+>>>>>>> f2d4110a (upgrading to react 19)
                   data-icon="calendar-check"
                   data-prefix="fas"
                   role="img"
@@ -227,7 +235,11 @@ exports[`<ManagedSilence /> matches snapshot with expaned details 1`] = `
               >
                 <svg
                   aria-hidden="true"
+<<<<<<< HEAD
                   class="svg-inline--fa fa-calendar-xmark fa-fw text-muted me-1"
+=======
+                  class="svg-inline--fa fa-calendar-xmark text-muted me-1 fa-fw"
+>>>>>>> f2d4110a (upgrading to react 19)
                   data-icon="calendar-xmark"
                   data-prefix="fas"
                   role="img"
@@ -249,7 +261,11 @@ exports[`<ManagedSilence /> matches snapshot with expaned details 1`] = `
               >
                 <svg
                   aria-hidden="true"
+<<<<<<< HEAD
                   class="svg-inline--fa fa-fingerprint fa-fw text-muted me-1"
+=======
+                  class="svg-inline--fa fa-fingerprint text-muted me-1 fa-fw"
+>>>>>>> f2d4110a (upgrading to react 19)
                   data-icon="fingerprint"
                   data-prefix="fas"
                   role="img"
@@ -275,7 +291,11 @@ exports[`<ManagedSilence /> matches snapshot with expaned details 1`] = `
                 >
                   <svg
                     aria-hidden="true"
+<<<<<<< HEAD
                     class="svg-inline--fa fa-copy "
+=======
+                    class="svg-inline--fa fa-copy"
+>>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="copy"
                     data-prefix="fas"
                     role="img"
@@ -297,7 +317,11 @@ exports[`<ManagedSilence /> matches snapshot with expaned details 1`] = `
               >
                 <svg
                   aria-hidden="true"
+<<<<<<< HEAD
                   class="svg-inline--fa fa-house fa-fw text-muted me-1"
+=======
+                  class="svg-inline--fa fa-house text-muted me-1 fa-fw"
+>>>>>>> f2d4110a (upgrading to react 19)
                   data-icon="house"
                   data-prefix="fas"
                   role="img"
@@ -318,7 +342,11 @@ exports[`<ManagedSilence /> matches snapshot with expaned details 1`] = `
               >
                 <svg
                   aria-hidden="true"
+<<<<<<< HEAD
                   class="svg-inline--fa fa-up-right-from-square "
+=======
+                  class="svg-inline--fa fa-up-right-from-square"
+>>>>>>> f2d4110a (upgrading to react 19)
                   data-icon="up-right-from-square"
                   data-prefix="fas"
                   role="img"
@@ -343,7 +371,11 @@ exports[`<ManagedSilence /> matches snapshot with expaned details 1`] = `
                 >
                   <svg
                     aria-hidden="true"
+<<<<<<< HEAD
                     class="svg-inline--fa fa-filter fa-fw text-muted me-1"
+=======
+                    class="svg-inline--fa fa-filter text-muted me-1 fa-fw"
+>>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="filter"
                     data-prefix="fas"
                     role="img"

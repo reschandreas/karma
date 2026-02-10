@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import { render, within } from "@testing-library/react";
 
+=======
+>>>>>>> f2d4110a (upgrading to react 19)
 import fetchMock from "fetch-mock";
 
 import { mockMatchMedia } from "__fixtures__/matchMedia";

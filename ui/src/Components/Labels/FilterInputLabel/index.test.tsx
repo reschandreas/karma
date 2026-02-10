@@ -24,7 +24,11 @@ const MockColors = () => {
   });
 };
 
+<<<<<<< HEAD
 const createFilter = (
+=======
+const RenderLabel = (
+>>>>>>> f2d4110a (upgrading to react 19)
   matcher: string,
   applied: boolean,
   valid: boolean,
@@ -39,7 +43,11 @@ const createFilter = (
   filter.value = value;
   filter.isValid = valid;
   filter.hits = hits;
+<<<<<<< HEAD
   return filter;
+=======
+  return render(<FilterInputLabel alertStore={alertStore} filter={filter} />);
+>>>>>>> f2d4110a (upgrading to react 19)
 };
 
 const renderLabel = (
@@ -57,9 +65,30 @@ const validateClass = (
   applied: boolean,
   expectedClass: string,
 ) => {
+<<<<<<< HEAD
   const { container } = renderLabel(matcher, applied, true, 1);
   const label = container.firstChild as HTMLElement;
   expect(label.className.split(" ")).toContain(expectedClass);
+=======
+  const { container } = RenderLabel(matcher, applied, true, 1);
+  const element = container.querySelector(".badge");
+  expect(element?.classList.contains(expectedClass)).toBe(true);
+};
+
+const ValidateOnChange = (newRaw: string) => {
+  const { container } = render(
+    <FilterInputLabel
+      alertStore={alertStore}
+      filter={alertStore.filters.values[0]}
+    />,
+  );
+
+  const input = container.querySelector(".form-control") as HTMLInputElement;
+  fireEvent.change(input, { target: { value: newRaw } });
+  fireEvent.blur(input);
+
+  return container;
+>>>>>>> f2d4110a (upgrading to react 19)
 };
 
 describe("<FilterInputLabel /> className", () => {
@@ -113,6 +142,7 @@ describe("<FilterInputLabel /> className", () => {
 describe("<FilterInputLabel /> style", () => {
   it("unapplied filter with color information and '=' matcher should have empty style", () => {
     MockColors();
+<<<<<<< HEAD
     const { container } = renderLabel("=", false, true, 1);
     const label = container.firstChild as HTMLElement;
     expect(label.style.backgroundColor).toBe("");
@@ -122,18 +152,36 @@ describe("<FilterInputLabel /> style", () => {
     const { container } = renderLabel("=", false, true, 1);
     const label = container.firstChild as HTMLElement;
     expect(label.style.backgroundColor).toBe("");
+=======
+    const { container } = RenderLabel("=", false, true, 1);
+    const element = container.querySelector(".badge") as HTMLElement;
+    expect(element.style.backgroundColor).toBe("");
+  });
+
+  it("unapplied filter with no color information and '=' matcher should have empty style", () => {
+    const { container } = RenderLabel("=", false, true, 1);
+    const element = container.querySelector(".badge") as HTMLElement;
+    expect(element.style.backgroundColor).toBe("");
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("unapplied filter with no color information and any matcher other than '=' should have empty style", () => {
     for (const matcher of NonEqualMatchers) {
+<<<<<<< HEAD
       const { container } = renderLabel(matcher, false, true, 1);
       const label = container.firstChild as HTMLElement;
       expect(label.style.backgroundColor).toBe("");
+=======
+      const { container } = RenderLabel(matcher, false, true, 1);
+      const element = container.querySelector(".badge") as HTMLElement;
+      expect(element.style.backgroundColor).toBe("");
+>>>>>>> f2d4110a (upgrading to react 19)
     }
   });
 
   it("applied filter with color information and '=' matcher should have non empty style", () => {
     MockColors();
+<<<<<<< HEAD
     const { container } = renderLabel("=", true, true, 1);
     const label = container.firstChild as HTMLElement;
     expect(label.style.backgroundColor).toBe("rgb(4, 5, 6)");
@@ -143,13 +191,30 @@ describe("<FilterInputLabel /> style", () => {
     const { container } = renderLabel("=", true, true, 1);
     const label = container.firstChild as HTMLElement;
     expect(label.style.backgroundColor).toBe("");
+=======
+    const { container } = RenderLabel("=", true, true, 1);
+    const element = container.querySelector(".badge") as HTMLElement;
+    expect(element.style.backgroundColor).toBe("rgba(4, 5, 6, 0.784314)");
+  });
+
+  it("applied filter with no color information and '=' matcher should have empty style", () => {
+    const { container } = RenderLabel("=", true, true, 1);
+    const element = container.querySelector(".badge") as HTMLElement;
+    expect(element.style.backgroundColor).toBe("");
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("applied filter with no color information and any matcher other than '=' should have empty style", () => {
     for (const matcher of NonEqualMatchers) {
+<<<<<<< HEAD
       const { container } = renderLabel(matcher, true, true, 1);
       const label = container.firstChild as HTMLElement;
       expect(label.style.backgroundColor).toBe("");
+=======
+      const { container } = RenderLabel(matcher, true, true, 1);
+      const element = container.querySelector(".badge") as HTMLElement;
+      expect(element.style.backgroundColor).toBe("");
+>>>>>>> f2d4110a (upgrading to react 19)
     }
   });
 });
@@ -167,8 +232,13 @@ describe("<FilterInputLabel /> onChange", () => {
       />,
     );
 
+<<<<<<< HEAD
     const button = container.querySelector("svg.fa-xmark");
     fireEvent.click(button!);
+=======
+    const button = container.querySelector("svg.fa-xmark") as SVGElement;
+    fireEvent.click(button);
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(alertStore.filters.values).toHaveLength(1);
     expect(alertStore.filters.values).toContainEqual(
       NewUnappliedFilter("bar=baz"),
@@ -177,10 +247,19 @@ describe("<FilterInputLabel /> onChange", () => {
 });
 
 describe("<FilterInputLabel /> render", () => {
+<<<<<<< HEAD
   it("invalid filter shows error icon", () => {
     const { container } = renderLabel("=", true, false, 1);
     const errorIcon = container.querySelector("svg.text-danger");
     expect(errorIcon).toBeInTheDocument();
+=======
+  it("invalid filter matches snapshot", () => {
+    const { container } = RenderLabel("=", true, false, 1);
+    const errorSpan = container.querySelector(".text-danger");
+    expect(errorSpan).toBeTruthy();
+    const errorIcon = errorSpan?.querySelector("svg");
+    expect(errorIcon).toBeTruthy();
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 });
 
@@ -203,8 +282,13 @@ describe("<FilterInputLabel /> counter badge", () => {
         filter={alertStore.filters.values[0]}
       />,
     );
+<<<<<<< HEAD
     const counter = container.querySelector(".rounded-pill");
     expect(counter).not.toBeInTheDocument();
+=======
+    const counter = container.querySelectorAll(".rounded-pill");
+    expect(counter).toHaveLength(0);
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("counter is rendered when hits !== totalAlerts #1", () => {
@@ -215,8 +299,13 @@ describe("<FilterInputLabel /> counter badge", () => {
         filter={alertStore.filters.values[0]}
       />,
     );
+<<<<<<< HEAD
     const counter = container.querySelector(".rounded-pill");
     expect(counter).toBeInTheDocument();
+=======
+    const counter = container.querySelectorAll(".rounded-pill");
+    expect(counter).toHaveLength(1);
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("counter is rendered when hits !== totalAlerts #2", () => {
@@ -227,7 +316,12 @@ describe("<FilterInputLabel /> counter badge", () => {
         filter={alertStore.filters.values[1]}
       />,
     );
+<<<<<<< HEAD
     const counter = container.querySelector(".rounded-pill");
     expect(counter).toBeInTheDocument();
+=======
+    const counter = container.querySelectorAll(".rounded-pill");
+    expect(counter).toHaveLength(1);
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 });

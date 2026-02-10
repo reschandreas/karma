@@ -1,5 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+<<<<<<< HEAD
 exports[`<Dots /> matches snapshot 1`] = `
 <DocumentFragment>
   <div
@@ -35,3 +36,6 @@ exports[`<Dots /> matches snapshot 1`] = `
   </div>
 </DocumentFragment>
 `;
+=======
+exports[`<Dots /> matches snapshot 1`] = `"<div class="cursor-pointer components-fetcher   "><div class="dot  visible"></div><div class="dot  visible"></div><div class="dot  visible"></div><div class="dot  visible"></div><div class="dot dot-middle visible"></div><div class="dot  visible"></div><div class="dot  visible"></div><div class="dot  visible"></div><div class="dot  hidden"></div></div>"`;
+>>>>>>> f2d4110a (upgrading to react 19)

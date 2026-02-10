@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { render, screen, fireEvent } from "@testing-library/react";
+=======
+import { render, fireEvent } from "@testing-library/react";
+>>>>>>> f2d4110a (upgrading to react 19)
 
 import { AlertStore } from "Stores/AlertStore";
 import { ToastMessage, UpgradeToastMessage } from "./ToastMessages";
@@ -31,6 +35,7 @@ describe("<UpgradeToastMessage />", () => {
     const { container } = render(
       <UpgradeToastMessage alertStore={alertStore} />,
     );
+<<<<<<< HEAD
     const button = screen.getByRole("button");
     expect(container.querySelector("svg.fa-stop")).toBeInTheDocument();
     expect(button.textContent).toBe("Stop auto-reload");
@@ -48,6 +53,29 @@ describe("<UpgradeToastMessage />", () => {
     expect(button.textContent).toBe("Reload now");
 
     fireEvent.click(button);
+=======
+    expect(container.querySelector("button")!.innerHTML).toMatch(/fa-stop/);
+    expect(container.querySelector("button")!.textContent).toBe(
+      "Stop auto-reload",
+    );
+
+    fireEvent.click(container.querySelector("button")!);
+    expect(container.querySelector("button")!.innerHTML).toMatch(
+      /fa-arrows-rotate/,
+    );
+    expect(container.querySelector("button")!.textContent).toBe("Reload now");
+  });
+
+  it("clicking on the reload buton triggers a reload", () => {
+    const { container } = render(
+      <UpgradeToastMessage alertStore={alertStore} />,
+    );
+
+    fireEvent.click(container.querySelector("button")!);
+    expect(container.querySelector("button")!.textContent).toBe("Reload now");
+
+    fireEvent.click(container.querySelector("button")!);
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(alertStore.info.upgradeNeeded).toBe(true);
   });
 
@@ -55,10 +83,16 @@ describe("<UpgradeToastMessage />", () => {
     const { container } = render(
       <UpgradeToastMessage alertStore={alertStore} />,
     );
+<<<<<<< HEAD
     const progressbar = container.querySelector(
       "div.toast-upgrade-progressbar",
     );
     fireEvent.animationEnd(progressbar!);
+=======
+    fireEvent.animationEnd(
+      container.querySelector("div.toast-upgrade-progressbar")!,
+    );
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(alertStore.info.upgradeNeeded).toBe(true);
   });
 });

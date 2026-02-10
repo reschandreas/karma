@@ -16,7 +16,11 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
+<<<<<<< HEAD
 const renderOverviewModalContent = () =>
+=======
+const MountedOverviewModalContent = () =>
+>>>>>>> f2d4110a (upgrading to react 19)
   render(
     <span>
       <OverviewModalContent alertStore={alertStore} onHide={onHide} />
@@ -94,7 +98,11 @@ describe("<OverviewModalContent />", () => {
       NewUnappliedFilter("foo=bar"),
     ]);
 
+<<<<<<< HEAD
     const { asFragment } = renderOverviewModalContent();
+=======
+    const { asFragment } = MountedOverviewModalContent();
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -111,7 +119,11 @@ describe("<OverviewModalContent />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
+<<<<<<< HEAD
     const { asFragment } = renderOverviewModalContent();
+=======
+    const { asFragment } = MountedOverviewModalContent();
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -155,6 +167,7 @@ describe("<OverviewModalContent />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
+<<<<<<< HEAD
     const { container } = renderOverviewModalContent();
 
     const labels = container.querySelectorAll("span.components-label");
@@ -171,5 +184,18 @@ describe("<OverviewModalContent />", () => {
     expect(expandedLabels).toHaveLength(4 + 1); // +1 for toggle icon
     expect(expandedLabels[3].textContent).toBe("3bar");
     expect(expandedLabels[4].textContent).toBe("3foo");
+=======
+    const { container } = MountedOverviewModalContent();
+
+    expect(container.querySelectorAll("span.components-label")).toHaveLength(2 + 1); // +1 for toggle icon
+    expect(container.querySelectorAll("span.components-label")[0].textContent).toBe("5foo");
+    expect(container.querySelectorAll("span.components-label")[1].textContent).toBe("5bar");
+
+    fireEvent.click(container.querySelector("span.badge.cursor-pointer.with-click") as HTMLElement);
+
+    expect(container.querySelectorAll("span.components-label")).toHaveLength(4 + 1); // +1 for toggle icon
+    expect(container.querySelectorAll("span.components-label")[3].textContent).toBe("3bar");
+    expect(container.querySelectorAll("span.components-label")[4].textContent).toBe("3foo");
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 });

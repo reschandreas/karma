@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import { act } from "react-dom/test-utils";
 
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
+=======
+import { render, fireEvent, act } from "@testing-library/react";
+>>>>>>> f2d4110a (upgrading to react 19)
 
 import fetchMock from "fetch-mock";
 
@@ -91,7 +95,11 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
+<<<<<<< HEAD
 const renderAlertAck = () => {
+=======
+const MountedAlertAck = () => {
+>>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <AlertAck
       alertStore={alertStore}
@@ -101,10 +109,17 @@ const renderAlertAck = () => {
   );
 };
 
+<<<<<<< HEAD
 const renderAndClick = async () => {
   renderAlertAck();
   const badge = screen.getByRole("img", { hidden: true }).parentElement;
   if (badge) fireEvent.click(badge);
+=======
+const MountAndClick = async () => {
+  const { container } = MountedAlertAck();
+  const button = container.querySelector("span.badge");
+  fireEvent.click(button!);
+>>>>>>> f2d4110a (upgrading to react 19)
   await act(async () => {
     await fetchMock.flush(true);
   });
@@ -123,6 +138,7 @@ describe("<AlertAck />", () => {
         },
       },
     });
+<<<<<<< HEAD
     const { container } = renderAlertAck();
     expect(container).toBeEmptyDOMElement();
   });
@@ -178,10 +194,54 @@ describe("<AlertAck />", () => {
         "fa-circle-exclamation",
       );
     });
+=======
+    const { container } = MountedAlertAck();
+    expect(container.innerHTML).toBe("");
+  });
+
+  it("uses faCheck icon when idle", () => {
+    const { container } = MountedAlertAck();
+    expect(container.innerHTML).toMatch(/fa-check/);
+  });
+
+  it("uses faExclamationCircle after failed fetch", async () => {
+    fetchMock.reset();
+    fetchMock.mock("*", {
+      status: 500,
+      body: "error message",
+    });
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
+    await act(async () => {
+      await fetchMock.flush(true);
+    });
+    expect(container.innerHTML).toMatch(
+      /fa-circle-exclamation/,
+    );
+  });
+
+  it("resets faExclamationCircle after 20s", async () => {
+    fetchMock.reset();
+    fetchMock.mock("*", {
+      status: 500,
+      body: "error message",
+    });
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
+    await act(async () => {
+      await fetchMock.flush(true);
+    });
+    expect(container.innerHTML).toMatch(
+      /fa-circle-exclamation/,
+    );
+>>>>>>> f2d4110a (upgrading to react 19)
 
     act(() => {
       jest.advanceTimersByTime(21 * 1000);
     });
+<<<<<<< HEAD
     await waitFor(() => {
       expect(screen.getByRole("img", { hidden: true })).not.toHaveClass(
         "fa-circle-exclamation",
@@ -202,6 +262,22 @@ describe("<AlertAck />", () => {
         "fa-circle-check",
       );
     });
+=======
+    expect(container.innerHTML).not.toMatch(
+      /fa-circle-exclamation/,
+    );
+    expect(container.innerHTML).toMatch(/fa-check/);
+  });
+
+  it("uses faCheckCircle after successful fetch", async () => {
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
+    await act(async () => {
+      await fetchMock.flush(true);
+    });
+    expect(container.innerHTML).toMatch(/fa-circle-check/);
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("sends a POST request on click", async () => {
@@ -209,7 +285,7 @@ describe("<AlertAck />", () => {
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.lastOptions()).toMatchObject({
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
     });
   });
 
@@ -227,7 +303,8 @@ describe("<AlertAck />", () => {
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers:
+          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -245,7 +322,7 @@ describe("<AlertAck />", () => {
     expect(fetchMock.calls()[0][1]).toMatchObject({
       method: "POST",
       credentials: "same-origin",
-      headers: { "X-Cluster": "c1" },
+      headers: { "x-cluster": "c1" },
     });
     expect(fetchMock.calls()[1][0]).toBe(
       "http://m3.example.com/api/v2/silences",
@@ -253,7 +330,7 @@ describe("<AlertAck />", () => {
     expect(fetchMock.calls()[1][1]).toMatchObject({
       method: "POST",
       credentials: "include",
-      headers: { "X-Cluster": "c2" },
+      headers: { "x-cluster": "c2" },
     });
   });
 
@@ -267,11 +344,13 @@ describe("<AlertAck />", () => {
         publicURI: `http://${a}.example.com`,
         readonly: a === "m1" || a === "m3" ? true : false,
         headers: { "X-Cluster": a === "m1" || a === "2" ? "c1" : "c2" },
-        corsCredentials: a === "m1" || a === "m2" ? "same-origin" : "include",
+        corsCredentials:
+          a === "m1" || a === "m2" ? "same-origin" : "include",
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers:
+          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -292,7 +371,11 @@ describe("<AlertAck />", () => {
   });
 
   it("doesn't send any request on click when already done", async () => {
+<<<<<<< HEAD
     const { container } = renderAlertAck();
+=======
+    const { container } = MountedAlertAck();
+>>>>>>> f2d4110a (upgrading to react 19)
     const button = container.querySelector("span.badge");
 
     fireEvent.click(button!);
@@ -405,17 +488,25 @@ describe("<AlertAck />", () => {
           enabled: true,
           durationSeconds: 237,
           author: "me",
-          comment: "ACK! This alert was acknowledged using karma on %NOWLOC%",
+          comment:
+            "ACK! This alert was acknowledged using karma on %NOWLOC%",
         },
       },
     });
+<<<<<<< HEAD
     await renderAndClick();
     const comment = JSON.parse((fetchMock.lastOptions() as any).body).comment;
+=======
+    await MountAndClick();
+    const comment = JSON.parse(
+      (fetchMock.lastOptions() as any).body,
+    ).comment;
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(comment).not.toEqual(
       "ACK! This alert was acknowledged using karma on Tue Feb 01 2000 00:00:00 GMT",
     );
     expect(comment).toMatch(
-      /ACK! This alert was acknowledged using karma on (Mon Jan 31 2000 19|Tue Feb 01 2000 00):00:00 GMT([+-]+)[0-9]+ \(.*\)/,
+      /ACK! This alert was acknowledged using karma on (Mon Jan 31|Tue Feb 01) 2000 \d{2}:00:00 GMT([+-]+)\d+ \(.*\)/,
     );
   });
 
@@ -546,11 +637,13 @@ describe("<AlertAck />", () => {
         publicURI: `http://${a}.example.com`,
         readonly: false,
         headers: { "X-Cluster": a === "m1" || a === "2" ? "c1" : "c2" },
-        corsCredentials: a === "m1" || a === "m2" ? "same-origin" : "include",
+        corsCredentials:
+          a === "m1" || a === "m2" ? "same-origin" : "include",
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers:
+          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -560,7 +653,11 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
+<<<<<<< HEAD
     const { container } = renderAlertAck();
+=======
+    const { container } = MountedAlertAck();
+>>>>>>> f2d4110a (upgrading to react 19)
     const button = container.querySelector("span.badge");
     fireEvent.click(button!);
     await act(async () => {
@@ -606,11 +703,13 @@ describe("<AlertAck />", () => {
         publicURI: `http://${a}.example.com`,
         readonly: false,
         headers: { "X-Cluster": a === "m1" || a === "2" ? "c1" : "c2" },
-        corsCredentials: a === "m1" || a === "m2" ? "same-origin" : "include",
+        corsCredentials:
+          a === "m1" || a === "m2" ? "same-origin" : "include",
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers:
+          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -620,7 +719,11 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
+<<<<<<< HEAD
     const { container } = renderAlertAck();
+=======
+    const { container } = MountedAlertAck();
+>>>>>>> f2d4110a (upgrading to react 19)
     const button = container.querySelector("span.badge");
     fireEvent.click(button!);
     await act(async () => {
@@ -667,7 +770,11 @@ describe("<AlertAck />", () => {
       ],
     });
 
+<<<<<<< HEAD
     const { container } = renderAlertAck();
+=======
+    const { container } = MountedAlertAck();
+>>>>>>> f2d4110a (upgrading to react 19)
     const button = container.querySelector("span.badge");
     fireEvent.click(button!);
     await act(async () => {

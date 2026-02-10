@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { render, screen, fireEvent } from "@testing-library/react";
+=======
+import { render, fireEvent } from "@testing-library/react";
+>>>>>>> f2d4110a (upgrading to react 19)
 
 import { AlertStore, NewUnappliedFilter } from "Stores/AlertStore";
 import { QueryOperators } from "Common/Query";
@@ -15,7 +19,11 @@ const validateClassName = (
   className: string,
   themed: boolean,
 ) => {
+<<<<<<< HEAD
   render(
+=======
+  const { container } = render(
+>>>>>>> f2d4110a (upgrading to react 19)
     <FilteringCounterBadge
       alertStore={alertStore}
       name="@state"
@@ -24,11 +32,19 @@ const validateClassName = (
       themed={themed}
     />,
   );
+<<<<<<< HEAD
   expect(screen.getByText("1")).toHaveClass(className);
 };
 
 const validateStyle = (value: string, themed: boolean) => {
   render(
+=======
+  expect(container.querySelector("span")?.classList.contains(className)).toBe(true);
+};
+
+const validateStyle = (value: string, themed: boolean) => {
+  const { container } = render(
+>>>>>>> f2d4110a (upgrading to react 19)
     <FilteringCounterBadge
       alertStore={alertStore}
       name="@state"
@@ -37,7 +53,12 @@ const validateStyle = (value: string, themed: boolean) => {
       themed={themed}
     />,
   );
+<<<<<<< HEAD
   expect(screen.getByText("1")).not.toHaveAttribute("style");
+=======
+  const span = container.querySelector("span") as HTMLElement;
+  expect(span.style.backgroundColor).toBe("");
+>>>>>>> f2d4110a (upgrading to react 19)
 };
 
 const validateOnClick = (
@@ -47,7 +68,11 @@ const validateOnClick = (
   isAppend: boolean,
 ) => {
   alertStore.filters.setFilterValues([NewUnappliedFilter("foo=bar")]);
+<<<<<<< HEAD
   render(
+=======
+  const { container } = render(
+>>>>>>> f2d4110a (upgrading to react 19)
     <FilteringCounterBadge
       alertStore={alertStore}
       name="@state"
@@ -57,7 +82,12 @@ const validateOnClick = (
       isAppend={isAppend}
     />,
   );
+<<<<<<< HEAD
   fireEvent.click(screen.getByText("1"), { altKey: isNegative ? true : false });
+=======
+  const label = container.querySelector(".components-label")!;
+  fireEvent.click(label, { altKey: isNegative ? true : false });
+>>>>>>> f2d4110a (upgrading to react 19)
   expect(alertStore.filters.values).toHaveLength(isAppend ? 2 : 1);
   if (isAppend) {
     expect(alertStore.filters.values).toContainEqual(
@@ -98,7 +128,11 @@ describe("<FilteringCounterBadge />", () => {
   });
 
   it("counter badge should have correct children based on the counter prop value", () => {
+<<<<<<< HEAD
     render(
+=======
+    const { container } = render(
+>>>>>>> f2d4110a (upgrading to react 19)
       <FilteringCounterBadge
         alertStore={alertStore}
         name="@state"
@@ -107,7 +141,11 @@ describe("<FilteringCounterBadge />", () => {
         themed={true}
       />,
     );
+<<<<<<< HEAD
     expect(screen.getByText("123")).toBeInTheDocument();
+=======
+    expect(container.textContent).toBe("123");
+>>>>>>> f2d4110a (upgrading to react 19)
   });
 
   for (const state of ["unprocessed", "active", "suppressed"]) {

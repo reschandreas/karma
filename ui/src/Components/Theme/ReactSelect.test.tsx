@@ -20,18 +20,31 @@ describe("<WrappedCustomMultiSelect />", () => {
   });
 
   it("matches snapshot when focused", () => {
+<<<<<<< HEAD
     const { asFragment, container } = render(<ThemedSelect autoFocus />);
     const input = container.querySelector("input");
     fireEvent.focus(input!);
+=======
+    // this test is to cover styles state.isFocused conditions
+    const { container, asFragment } = render(<ThemedSelect autoFocus />);
+    fireEvent.focus(container.querySelector("input")!);
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("matches snapshot when focused and disabled", () => {
+<<<<<<< HEAD
     const { asFragment, container } = render(
       <ThemedSelect autoFocus isDisabled />,
     );
     const input = container.querySelector("input");
     fireEvent.focus(input!);
+=======
+    const { container, asFragment } = render(
+      <ThemedSelect autoFocus isDisabled />,
+    );
+    fireEvent.focus(container.querySelector("input")!);
+>>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 

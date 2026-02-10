@@ -12,13 +12,14 @@ const settingsElement = {
 
 beforeEach(() => {
   window.matchMedia = mockMatchMedia({});
+  jest.resetModules();
 });
 
 afterEach(() => {
   jest.restoreAllMocks();
 });
 
-it("renders without crashing with missing defaults div", () => {
+it("renders without crashing with missing defaults div", async () => {
   const root = document.createElement("div");
   jest
     .spyOn(global.document, "getElementById")
@@ -44,7 +45,7 @@ it("renders without crashing with missing defaults div", () => {
   expect(root.innerHTML).toMatch(/data-theme="auto"/);
 });
 
-it("renders without crashing with defaults present", () => {
+it("renders without crashing with defaults present", async () => {
   const root = document.createElement("div");
   jest
     .spyOn(global.document, "getElementById")
