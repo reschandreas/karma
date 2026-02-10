@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import { AlertStore } from "Stores/AlertStore";
@@ -18,22 +16,21 @@ afterEach(() => {
 });
 
 const MountedOverviewModal = () => {
-  return mount(<OverviewModal alertStore={alertStore} />);
+  return render(<OverviewModal alertStore={alertStore} />);
 };
 
 describe("<OverviewModal />", () => {
   it("only renders the counter when modal is not shown", () => {
-    const tree = MountedOverviewModal();
-    expect(tree.text()).toBe("0");
-    expect(tree.find("OverviewModalContent")).toHaveLength(0);
+    const { container } = MountedOverviewModal();
+    expect(container.textContent).toBe("0");
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
   it("renders a spinner placeholder while modal content is loading", () => {
-    const tree = MountedOverviewModal();
-    const toggle = tree.find("div.navbar-brand");
-    toggle.simulate("click");
-    expect(tree.find("OverviewModalContent")).toHaveLength(0);
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(1);
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(1);
   });
 
   it("renders a spinner placeholder while fetch is in progress", () => {
@@ -46,11 +43,10 @@ describe("<OverviewModal />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedOverviewModal();
-    const toggle = tree.find("div.navbar-brand");
-    toggle.simulate("click");
-    expect(tree.find("LoadingMessage")).toHaveLength(1);
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(1);
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(1);
   });
 
   it("renders an error message on fetch error", () => {
@@ -63,11 +59,10 @@ describe("<OverviewModal />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedOverviewModal();
-    const toggle = tree.find("div.navbar-brand");
-    toggle.simulate("click");
-    expect(tree.find("ErrorMessage")).toHaveLength(1);
-    expect(tree.find("h1.text-danger").text()).toBe("mock error");
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(document.body.querySelector("h1.text-danger")!.textContent).toBe("mock error");
   });
 
   it("renders modal content if fallback is not used", () => {
@@ -83,11 +78,11 @@ describe("<OverviewModal />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedOverviewModal();
-    const toggle = tree.find("div.navbar-brand");
-    toggle.simulate("click");
-    expect(tree.find(".modal-title").text()).toBe("Overview");
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(0);
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(document.body.querySelector(".modal-title")!.textContent).toBe("Overview");
+    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(0);
   });
 
   it("re-fetches counters after timestamp change", () => {
@@ -104,9 +99,9 @@ describe("<OverviewModal />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedOverviewModal();
-    const toggle = tree.find("div.navbar-brand");
-    toggle.simulate("click");
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    fireEvent.click(toggle);
     expect(useFetchGetMock.fetch.calls).toHaveLength(1);
 
     act(() => {
@@ -116,53 +111,50 @@ describe("<OverviewModal />", () => {
   });
 
   it("hides the modal when toggle() is called twice", () => {
-    const tree = MountedOverviewModal();
-    const toggle = tree.find("div.navbar-brand");
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find(".modal-title").text()).toBe("Overview");
+    expect(document.body.querySelector(".modal-title")!.textContent).toBe("Overview");
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find(".modal-title")).toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-title")).toHaveLength(0);
   });
 
   it("hides the modal when button.btn-close is clicked", () => {
-    const tree = MountedOverviewModal();
-    const toggle = tree.find("div.navbar-brand");
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
 
-    toggle.simulate("click");
-    expect(tree.find(".modal-title").text()).toBe("Overview");
+    fireEvent.click(toggle);
+    expect(document.body.querySelector(".modal-title")!.textContent).toBe("Overview");
 
-    tree.find("button.btn-close").simulate("click");
+    fireEvent.click(document.body.querySelector("button.btn-close") as HTMLElement);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("OverviewModalContent")).toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
   it("'modal-open' class is appended to body node when modal is visible", () => {
-    const tree = MountedOverviewModal();
-    const toggle = tree.find("div.navbar-brand");
-    toggle.simulate("click");
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    fireEvent.click(toggle);
     expect(document.body.className.split(" ")).toContain("modal-open");
   });
 
   it("'modal-open' class is removed from body node after modal is hidden", () => {
-    const tree = MountedOverviewModal();
+    const { container } = MountedOverviewModal();
 
-    tree.find("div.navbar-brand").simulate("click");
+    fireEvent.click(container.querySelector("div.navbar-brand") as HTMLElement);
     expect(document.body.className.split(" ")).toContain("modal-open");
 
-    tree.find("div.navbar-brand").simulate("click");
+    fireEvent.click(container.querySelector("div.navbar-brand") as HTMLElement);
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -170,10 +162,10 @@ describe("<OverviewModal />", () => {
   });
 
   it("'modal-open' class is removed from body node after modal is unmounted", () => {
-    const tree = MountedOverviewModal();
-    const toggle = tree.find("div.navbar-brand");
-    toggle.simulate("click");
-    tree.unmount();
+    const { container, unmount } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    fireEvent.click(toggle);
+    unmount();
     expect(document.body.className.split(" ")).not.toContain("modal-open");
   });
 });

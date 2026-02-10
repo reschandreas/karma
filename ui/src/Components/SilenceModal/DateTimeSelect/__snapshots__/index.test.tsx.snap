@@ -1,1748 +1,2014 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<DateTimeSelect /> 'Duration' tab matches snapshot 1`] = `
-"
-<ul class="nav nav-tabs nav-fill">
-  <li class="nav-item">
-    <span class="nav-link cursor-pointer ">
-      <span class="me-1">
-        Starts
+<DocumentFragment>
+  <ul
+    class="nav nav-tabs nav-fill"
+  >
+    <li
+      class="nav-item"
+    >
+      <span
+        class="nav-link cursor-pointer "
+      >
+        <span
+          class="me-1"
+        >
+          Starts
+        </span>
+        <span
+          class="badge bg-light"
+        >
+          now
+        </span>
       </span>
-      <span class="badge bg-light">
-        now
+    </li>
+    <li
+      class="nav-item"
+    >
+      <span
+        class="nav-link cursor-pointer "
+      >
+        <span
+          class="me-1"
+        >
+          Ends
+        </span>
+        <span
+          class="badge bg-light"
+        >
+          in 366d 
+        </span>
       </span>
-    </span>
-  </li>
-  <li class="nav-item">
-    <span class="nav-link cursor-pointer ">
-      <span class="me-1">
-        Ends
+    </li>
+    <li
+      class="nav-item"
+    >
+      <span
+        class="nav-link cursor-pointer active"
+      >
+        <span
+          class="me-1"
+        >
+          Duration
+        </span>
+        <span
+          class="badge bg-light"
+        >
+          366d 
+        </span>
       </span>
-      <span class="badge bg-light">
-        in 366d
-      </span>
-    </span>
-  </li>
-  <li class="nav-item">
-    <span class="nav-link cursor-pointer active">
-      <span class="me-1">
-        Duration
-      </span>
-      <span class="badge bg-light">
-        366d
-      </span>
-    </span>
-  </li>
-</ul>
-<div class="tab-content mb-3">
-  <div class="d-flex flex-sm-row flex-column justify-content-around mt-2 mx-3">
-    <div class="components-duration">
-      <table class="w-100">
-        <tbody>
-          <tr>
-            <td class="w-50 text-center with-click px-2">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-up"
-                  class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+    </li>
+  </ul>
+  <div
+    class="tab-content mb-3"
+  >
+    <div
+      class="d-flex flex-sm-row flex-column justify-content-around mt-2 mx-3"
+    >
+      <div
+        class="components-duration"
+      >
+        <table
+          class="w-100"
+        >
+          <tbody>
+            <tr>
+              <td
+                class="w-50 text-center with-click px-2"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
+                    data-icon="angle-up"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-            <td class="w-50">
-            </td>
-          </tr>
-          <tr>
-            <td class="w-50 text-center">
-              <h2>
-                366
-              </h2>
-            </td>
-            <td class="w-50">
-              <span class="text-muted ms-2">
-                days
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td class="w-50 text-center with-click px-2">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-down"
-                  class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
+                    <path
+                      d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+              <td
+                class="w-50"
+              />
+            </tr>
+            <tr>
+              <td
+                class="w-50 text-center"
+              >
+                <h2>
+                  366
+                </h2>
+              </td>
+              <td
+                class="w-50"
+              >
+                <span
+                  class="text-muted ms-2"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                  days
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="w-50 text-center with-click px-2"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
+                    data-icon="angle-down"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-            <td class="w-50">
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="components-duration">
-      <table class="w-100">
-        <tbody>
-          <tr>
-            <td class="w-50 text-center with-click px-2">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-up"
-                  class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
+                    <path
+                      d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+              <td
+                class="w-50"
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="components-duration"
+      >
+        <table
+          class="w-100"
+        >
+          <tbody>
+            <tr>
+              <td
+                class="w-50 text-center with-click px-2"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
+                    data-icon="angle-up"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
+                  >
+                    <path
+                      d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+              <td
+                class="w-50"
+              />
+            </tr>
+            <tr>
+              <td
+                class="w-50 text-center"
+              >
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td
+                class="w-50"
+              >
+                <span
+                  class="text-muted ms-2"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+                  hours
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="w-50 text-center with-click px-2"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
+                    data-icon="angle-down"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-            <td class="w-50">
-            </td>
-          </tr>
-          <tr>
-            <td class="w-50 text-center">
-              <h2>
-                0
-              </h2>
-            </td>
-            <td class="w-50">
-              <span class="text-muted ms-2">
-                hours
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td class="w-50 text-center with-click px-2">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-down"
-                  class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
+                    <path
+                      d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+              <td
+                class="w-50"
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="components-duration"
+      >
+        <table
+          class="w-100"
+        >
+          <tbody>
+            <tr>
+              <td
+                class="w-50 text-center with-click px-2"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
+                    data-icon="angle-up"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
+                  >
+                    <path
+                      d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+              <td
+                class="w-50"
+              />
+            </tr>
+            <tr>
+              <td
+                class="w-50 text-center"
+              >
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td
+                class="w-50"
+              >
+                <span
+                  class="text-muted ms-2"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                  minutes
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="w-50 text-center with-click px-2"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
+                    data-icon="angle-down"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-            <td class="w-50">
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="components-duration">
-      <table class="w-100">
-        <tbody>
-          <tr>
-            <td class="w-50 text-center with-click px-2">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-up"
-                  class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
-                  >
-                  </path>
-                </svg>
-              </span>
-            </td>
-            <td class="w-50">
-            </td>
-          </tr>
-          <tr>
-            <td class="w-50 text-center">
-              <h2>
-                0
-              </h2>
-            </td>
-            <td class="w-50">
-              <span class="text-muted ms-2">
-                minutes
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td class="w-50 text-center with-click px-2">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-down"
-                  class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
-                  >
-                  </path>
-                </svg>
-              </span>
-            </td>
-            <td class="w-50">
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                    <path
+                      d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+              <td
+                class="w-50"
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
-"
+</DocumentFragment>
 `;
 
 exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
-"
-<ul class="nav nav-tabs nav-fill">
-  <li class="nav-item">
-    <span class="nav-link cursor-pointer ">
-      <span class="me-1">
-        Starts
+<DocumentFragment>
+  <ul
+    class="nav nav-tabs nav-fill"
+  >
+    <li
+      class="nav-item"
+    >
+      <span
+        class="nav-link cursor-pointer "
+      >
+        <span
+          class="me-1"
+        >
+          Starts
+        </span>
+        <span
+          class="badge bg-light"
+        >
+          now
+        </span>
       </span>
-      <span class="badge bg-light">
-        now
+    </li>
+    <li
+      class="nav-item"
+    >
+      <span
+        class="nav-link cursor-pointer active"
+      >
+        <span
+          class="me-1"
+        >
+          Ends
+        </span>
+        <span
+          class="badge bg-light"
+        >
+          in 366d 
+        </span>
       </span>
-    </span>
-  </li>
-  <li class="nav-item">
-    <span class="nav-link cursor-pointer active">
-      <span class="me-1">
-        Ends
+    </li>
+    <li
+      class="nav-item"
+    >
+      <span
+        class="nav-link cursor-pointer "
+      >
+        <span
+          class="me-1"
+        >
+          Duration
+        </span>
+        <span
+          class="badge bg-light"
+        >
+          366d 
+        </span>
       </span>
-      <span class="badge bg-light">
-        in 366d
-      </span>
-    </span>
-  </li>
-  <li class="nav-item">
-    <span class="nav-link cursor-pointer ">
-      <span class="me-1">
-        Duration
-      </span>
-      <span class="badge bg-light">
-        366d
-      </span>
-    </span>
-  </li>
-</ul>
-<div class="tab-content mb-3">
-  <div class="d-flex flex-sm-row flex-column justify-content-around mx-3 mt-2">
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="rdp components-date-range">
-        <div class="rdp-months">
-          <div class="rdp-month rdp-caption_start rdp-caption_end">
-            <div class="rdp-caption">
-              <div
-                class="rdp-caption_label"
-                aria-live="polite"
-                role="presentation"
-                id="react-day-picker-6"
-              >
-                February 2061
-              </div>
-              <div class="rdp-nav">
-                <button
-                  name="previous-month"
-                  aria-label="Go to previous month"
-                  class="rdp-button_reset rdp-button rdp-nav_button rdp-nav_button_previous"
-                  type="button"
-                >
-                  <svg
-                    width="16px"
-                    height="16px"
-                    viewbox="0 0 120 120"
-                    class="rdp-nav_icon"
-                  >
-                    <path
-                      d="M69.490332,3.34314575 C72.6145263,0.218951416 77.6798462,0.218951416 80.8040405,3.34314575 C83.8617626,6.40086786 83.9268205,11.3179931 80.9992143,14.4548388 L80.8040405,14.6568542 L35.461,60 L80.8040405,105.343146 C83.8617626,108.400868 83.9268205,113.317993 80.9992143,116.454839 L80.8040405,116.656854 C77.7463184,119.714576 72.8291931,119.779634 69.6923475,116.852028 L69.490332,116.656854 L18.490332,65.6568542 C15.4326099,62.5991321 15.367552,57.6820069 18.2951583,54.5451612 L18.490332,54.3431458 L69.490332,3.34314575 Z"
-                      fill="currentColor"
-                      fill-rule="nonzero"
-                    >
-                    </path>
-                  </svg>
-                </button>
-                <button
-                  name="next-month"
-                  aria-label="Go to next month"
-                  class="rdp-button_reset rdp-button rdp-nav_button rdp-nav_button_next"
-                  type="button"
-                >
-                  <svg
-                    width="16px"
-                    height="16px"
-                    viewbox="0 0 120 120"
-                    class="rdp-nav_icon"
-                  >
-                    <path
-                      d="M49.8040405,3.34314575 C46.6798462,0.218951416 41.6145263,0.218951416 38.490332,3.34314575 C35.4326099,6.40086786 35.367552,11.3179931 38.2951583,14.4548388 L38.490332,14.6568542 L83.8333725,60 L38.490332,105.343146 C35.4326099,108.400868 35.367552,113.317993 38.2951583,116.454839 L38.490332,116.656854 C41.5480541,119.714576 46.4651794,119.779634 49.602025,116.852028 L49.8040405,116.656854 L100.804041,65.6568542 C103.861763,62.5991321 103.926821,57.6820069 100.999214,54.5451612 L100.804041,54.3431458 L49.8040405,3.34314575 Z"
-                      fill="currentColor"
-                    >
-                    </path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <table
-              class="rdp-table"
-              role="grid"
-              aria-labelledby="react-day-picker-6"
+    </li>
+  </ul>
+  <div
+    class="tab-content mb-3"
+  >
+    <div
+      class="d-flex flex-sm-row flex-column justify-content-around mx-3 mt-2"
+    >
+      <div
+        class="d-flex justify-content-center align-items-center"
+      >
+        <div
+          class="rdp-root components-date-range"
+          data-mode="range"
+        >
+          <div
+            class="rdp-months"
+          >
+            <nav
+              aria-label="Navigation bar"
+              class="rdp-nav"
             >
-              <thead class="rdp-head">
-                <tr class="rdp-head_row">
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Sunday"
+              <button
+                aria-label="Go to the Previous Month"
+                class="rdp-button_previous"
+                type="button"
+              >
+                <svg
+                  class="rdp-chevron"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                >
+                  <polygon
+                    points="16 18.112 9.81111111 12 16 5.87733333 14.0888889 4 6 12 14.0888889 20"
+                  />
+                </svg>
+              </button>
+              <button
+                aria-label="Go to the Next Month"
+                class="rdp-button_next"
+                type="button"
+              >
+                <svg
+                  class="rdp-chevron"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                >
+                  <polygon
+                    points="8 18.112 14.18888889 12 8 5.87733333 9.91111111 4 18 12 9.91111111 20"
+                  />
+                </svg>
+              </button>
+            </nav>
+            <div
+              class="rdp-month"
+            >
+              <div
+                class="rdp-month_caption"
+              >
+                <span
+                  aria-live="polite"
+                  class="rdp-caption_label"
+                  role="status"
+                >
+                  February 2061
+                </span>
+              </div>
+              <table
+                aria-label="February 2061"
+                aria-multiselectable="true"
+                class="rdp-month_grid"
+                role="grid"
+              >
+                <thead
+                  aria-hidden="true"
+                >
+                  <tr
+                    class="rdp-weekdays"
                   >
-                    Su
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Monday"
+                    <th
+                      aria-label="Sunday"
+                      class="rdp-weekday"
+                      scope="col"
+                    >
+                      Su
+                    </th>
+                    <th
+                      aria-label="Monday"
+                      class="rdp-weekday"
+                      scope="col"
+                    >
+                      Mo
+                    </th>
+                    <th
+                      aria-label="Tuesday"
+                      class="rdp-weekday"
+                      scope="col"
+                    >
+                      Tu
+                    </th>
+                    <th
+                      aria-label="Wednesday"
+                      class="rdp-weekday"
+                      scope="col"
+                    >
+                      We
+                    </th>
+                    <th
+                      aria-label="Thursday"
+                      class="rdp-weekday"
+                      scope="col"
+                    >
+                      Th
+                    </th>
+                    <th
+                      aria-label="Friday"
+                      class="rdp-weekday"
+                      scope="col"
+                    >
+                      Fr
+                    </th>
+                    <th
+                      aria-label="Saturday"
+                      class="rdp-weekday"
+                      scope="col"
+                    >
+                      Sa
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="rdp-weeks"
+                >
+                  <tr
+                    class="rdp-week"
                   >
-                    Mo
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Tuesday"
-                  >
-                    Tu
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Wednesday"
-                  >
-                    We
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Thursday"
-                  >
-                    Th
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Friday"
-                  >
-                    Fr
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Saturday"
-                  >
-                    Sa
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="rdp-tbody">
-                <tr class="rdp-row">
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_end"
-                      role="gridcell"
+                    <td
                       aria-selected="true"
-                      tabindex="0"
-                      type="button"
-                    >
-                      1
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
+                      class="rdp-day rdp-hidden rdp-outside rdp-selected rdp-range_middle"
+                      data-day="2061-01-30"
+                      data-hidden="true"
+                      data-month="2061-01"
+                      data-outside="true"
+                      data-selected="true"
                       role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      2
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
+                    />
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-hidden rdp-outside rdp-selected rdp-range_middle"
+                      data-day="2061-01-31"
+                      data-hidden="true"
+                      data-month="2061-01"
+                      data-outside="true"
+                      data-selected="true"
                       role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      3
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
+                    />
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_end"
+                      data-day="2061-02-01"
+                      data-selected="true"
                       role="gridcell"
-                      tabindex="-1"
-                      type="button"
                     >
-                      4
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      5
-                    </button>
-                  </td>
-                </tr>
-                <tr class="rdp-row">
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      6
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      7
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      8
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      9
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      10
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      11
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      12
-                    </button>
-                  </td>
-                </tr>
-                <tr class="rdp-row">
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      13
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      14
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      15
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      16
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      17
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      18
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      19
-                    </button>
-                  </td>
-                </tr>
-                <tr class="rdp-row">
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      20
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      21
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      22
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      23
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      24
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      25
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      26
-                    </button>
-                  </td>
-                </tr>
-                <tr class="rdp-row">
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      27
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day"
-                      role="gridcell"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      28
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot class="rdp-tfoot">
-                <tr>
-                  <td colspan="8">
-                    <div class="d-flex justify-content-around mt-3">
-                      <button class="btn btn-light btn-sm">
-                        <svg
-                          data-prefix="fas"
-                          data-icon="calendar-day"
-                          class="svg-inline--fa fa-calendar-day fa-fw me-1"
-                          role="img"
-                          viewbox="0 0 448 512"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 32 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l32 0 0-32c0-17.7 14.3-32 32-32zm0 256c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-64 0z"
-                          >
-                          </path>
-                        </svg>
-                        Today
+                      <button
+                        aria-label="Tuesday, February 1st, 2061, selected"
+                        class="rdp-day_button"
+                        tabindex="0"
+                        type="button"
+                      >
+                        1
                       </button>
-                    </div>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-02"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Wednesday, February 2nd, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        2
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-03"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Thursday, February 3rd, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        3
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-04"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Friday, February 4th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        4
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-05"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Saturday, February 5th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        5
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    class="rdp-week"
+                  >
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-06"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Sunday, February 6th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        6
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-07"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Monday, February 7th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        7
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-08"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Tuesday, February 8th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        8
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-09"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Wednesday, February 9th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        9
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-10"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Thursday, February 10th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        10
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-11"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Friday, February 11th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        11
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-12"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Saturday, February 12th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        12
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    class="rdp-week"
+                  >
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-13"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Sunday, February 13th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        13
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-14"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Monday, February 14th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        14
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-15"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Tuesday, February 15th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        15
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-16"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Wednesday, February 16th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        16
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-17"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Thursday, February 17th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        17
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-18"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Friday, February 18th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        18
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-19"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Saturday, February 19th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        19
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    class="rdp-week"
+                  >
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-20"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Sunday, February 20th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        20
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-21"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Monday, February 21st, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        21
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-22"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Tuesday, February 22nd, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        22
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-23"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Wednesday, February 23rd, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        23
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-24"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Thursday, February 24th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        24
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-25"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Friday, February 25th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        25
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-26"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Saturday, February 26th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        26
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    class="rdp-week"
+                  >
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-27"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Sunday, February 27th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        27
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day"
+                      data-day="2061-02-28"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Monday, February 28th, 2061"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        28
+                      </button>
+                    </td>
+                    <td
+                      class="rdp-day rdp-hidden rdp-outside"
+                      data-day="2061-03-01"
+                      data-hidden="true"
+                      data-month="2061-03"
+                      data-outside="true"
+                      role="gridcell"
+                    />
+                    <td
+                      class="rdp-day rdp-hidden rdp-outside"
+                      data-day="2061-03-02"
+                      data-hidden="true"
+                      data-month="2061-03"
+                      data-outside="true"
+                      role="gridcell"
+                    />
+                    <td
+                      class="rdp-day rdp-hidden rdp-outside"
+                      data-day="2061-03-03"
+                      data-hidden="true"
+                      data-month="2061-03"
+                      data-outside="true"
+                      role="gridcell"
+                    />
+                    <td
+                      class="rdp-day rdp-hidden rdp-outside"
+                      data-day="2061-03-04"
+                      data-hidden="true"
+                      data-month="2061-03"
+                      data-outside="true"
+                      role="gridcell"
+                    />
+                    <td
+                      class="rdp-day rdp-hidden rdp-outside"
+                      data-day="2061-03-05"
+                      data-hidden="true"
+                      data-month="2061-03"
+                      data-outside="true"
+                      role="gridcell"
+                    />
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div
+            aria-live="polite"
+            class="rdp-footer"
+            role="status"
+          >
+            <div
+              class="d-flex justify-content-around mt-3"
+            >
+              <button
+                class="btn btn-light btn-sm"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-calendar-day me-1 fa-fw"
+                  data-icon="calendar-day"
+                  data-prefix="fas"
+                  role="img"
+                  viewBox="0 0 448 512"
+                >
+                  <path
+                    d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 32 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l32 0 0-32c0-17.7 14.3-32 32-32zm0 256c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-64 0z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Today
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="d-flex justify-content-center align-items-center components-hour-minute">
-      <table class="text-center border-0">
-        <tbody>
-          <tr>
-            <td class="components-hour-up with-click">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-up"
-                  class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+      <div
+        class="d-flex justify-content-center align-items-center components-hour-minute"
+      >
+        <table
+          class="text-center border-0"
+        >
+          <tbody>
+            <tr>
+              <td
+                class="components-hour-up with-click"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
+                    data-icon="angle-up"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-            <td>
-            </td>
-            <td class="components-minute-up with-click">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-up"
-                  class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+                    <path
+                      d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+              <td />
+              <td
+                class="components-minute-up with-click"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
+                    data-icon="angle-up"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td class="components-hour">
-              <h2>
-                00
-              </h2>
-            </td>
-            <td>
-              <h2 class="mx-2">
-                :
-              </h2>
-            </td>
-            <td class="components-minute">
-              <h2>
-                00
-              </h2>
-            </td>
-          </tr>
-          <tr>
-            <td class="components-hour-down with-click">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-down"
-                  class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
+                    <path
+                      d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="components-hour"
+              >
+                <h2>
+                  00
+                </h2>
+              </td>
+              <td>
+                <h2
+                  class="mx-2"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                  :
+                </h2>
+              </td>
+              <td
+                class="components-minute"
+              >
+                <h2>
+                  00
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="components-hour-down with-click"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
+                    data-icon="angle-down"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-            <td>
-            </td>
-            <td class="components-minute-down with-click">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-down"
-                  class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                    <path
+                      d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+              <td />
+              <td
+                class="components-minute-down with-click"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
+                    data-icon="angle-down"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                    <path
+                      d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
-"
+</DocumentFragment>
 `;
 
 exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
-"
-<ul class="nav nav-tabs nav-fill">
-  <li class="nav-item">
-    <span class="nav-link cursor-pointer active">
-      <span class="me-1">
-        Starts
+<DocumentFragment>
+  <ul
+    class="nav nav-tabs nav-fill"
+  >
+    <li
+      class="nav-item"
+    >
+      <span
+        class="nav-link cursor-pointer active"
+      >
+        <span
+          class="me-1"
+        >
+          Starts
+        </span>
+        <span
+          class="badge bg-light"
+        >
+          now
+        </span>
       </span>
-      <span class="badge bg-light">
-        now
+    </li>
+    <li
+      class="nav-item"
+    >
+      <span
+        class="nav-link cursor-pointer "
+      >
+        <span
+          class="me-1"
+        >
+          Ends
+        </span>
+        <span
+          class="badge bg-light"
+        >
+          in 366d 
+        </span>
       </span>
-    </span>
-  </li>
-  <li class="nav-item">
-    <span class="nav-link cursor-pointer ">
-      <span class="me-1">
-        Ends
+    </li>
+    <li
+      class="nav-item"
+    >
+      <span
+        class="nav-link cursor-pointer "
+      >
+        <span
+          class="me-1"
+        >
+          Duration
+        </span>
+        <span
+          class="badge bg-light"
+        >
+          366d 
+        </span>
       </span>
-      <span class="badge bg-light">
-        in 366d
-      </span>
-    </span>
-  </li>
-  <li class="nav-item">
-    <span class="nav-link cursor-pointer ">
-      <span class="me-1">
-        Duration
-      </span>
-      <span class="badge bg-light">
-        366d
-      </span>
-    </span>
-  </li>
-</ul>
-<div class="tab-content mb-3">
-  <div class="d-flex flex-sm-row flex-column justify-content-around mx-3 mt-2">
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="rdp components-date-range">
-        <div class="rdp-months">
-          <div class="rdp-month rdp-caption_start rdp-caption_end">
-            <div class="rdp-caption">
-              <div
-                class="rdp-caption_label"
-                aria-live="polite"
-                role="presentation"
-                id="react-day-picker-3"
-              >
-                February 2060
-              </div>
-              <div class="rdp-nav">
-                <button
-                  name="previous-month"
-                  aria-label="Go to previous month"
-                  class="rdp-button_reset rdp-button rdp-nav_button rdp-nav_button_previous"
-                  type="button"
-                >
-                  <svg
-                    width="16px"
-                    height="16px"
-                    viewbox="0 0 120 120"
-                    class="rdp-nav_icon"
-                  >
-                    <path
-                      d="M69.490332,3.34314575 C72.6145263,0.218951416 77.6798462,0.218951416 80.8040405,3.34314575 C83.8617626,6.40086786 83.9268205,11.3179931 80.9992143,14.4548388 L80.8040405,14.6568542 L35.461,60 L80.8040405,105.343146 C83.8617626,108.400868 83.9268205,113.317993 80.9992143,116.454839 L80.8040405,116.656854 C77.7463184,119.714576 72.8291931,119.779634 69.6923475,116.852028 L69.490332,116.656854 L18.490332,65.6568542 C15.4326099,62.5991321 15.367552,57.6820069 18.2951583,54.5451612 L18.490332,54.3431458 L69.490332,3.34314575 Z"
-                      fill="currentColor"
-                      fill-rule="nonzero"
-                    >
-                    </path>
-                  </svg>
-                </button>
-                <button
-                  name="next-month"
-                  aria-label="Go to next month"
-                  class="rdp-button_reset rdp-button rdp-nav_button rdp-nav_button_next"
-                  type="button"
-                >
-                  <svg
-                    width="16px"
-                    height="16px"
-                    viewbox="0 0 120 120"
-                    class="rdp-nav_icon"
-                  >
-                    <path
-                      d="M49.8040405,3.34314575 C46.6798462,0.218951416 41.6145263,0.218951416 38.490332,3.34314575 C35.4326099,6.40086786 35.367552,11.3179931 38.2951583,14.4548388 L38.490332,14.6568542 L83.8333725,60 L38.490332,105.343146 C35.4326099,108.400868 35.367552,113.317993 38.2951583,116.454839 L38.490332,116.656854 C41.5480541,119.714576 46.4651794,119.779634 49.602025,116.852028 L49.8040405,116.656854 L100.804041,65.6568542 C103.861763,62.5991321 103.926821,57.6820069 100.999214,54.5451612 L100.804041,54.3431458 L49.8040405,3.34314575 Z"
-                      fill="currentColor"
-                    >
-                    </path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <table
-              class="rdp-table"
-              role="grid"
-              aria-labelledby="react-day-picker-3"
+    </li>
+  </ul>
+  <div
+    class="tab-content mb-3"
+  >
+    <div
+      class="d-flex flex-sm-row flex-column justify-content-around mx-3 mt-2"
+    >
+      <div
+        class="d-flex justify-content-center align-items-center"
+      >
+        <div
+          class="rdp-root components-date-range"
+          data-mode="range"
+        >
+          <div
+            class="rdp-months"
+          >
+            <nav
+              aria-label="Navigation bar"
+              class="rdp-nav"
             >
-              <thead class="rdp-head">
-                <tr class="rdp-head_row">
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Sunday"
+              <button
+                aria-label="Go to the Previous Month"
+                class="rdp-button_previous"
+                type="button"
+              >
+                <svg
+                  class="rdp-chevron"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                >
+                  <polygon
+                    points="16 18.112 9.81111111 12 16 5.87733333 14.0888889 4 6 12 14.0888889 20"
+                  />
+                </svg>
+              </button>
+              <button
+                aria-label="Go to the Next Month"
+                class="rdp-button_next"
+                type="button"
+              >
+                <svg
+                  class="rdp-chevron"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                >
+                  <polygon
+                    points="8 18.112 14.18888889 12 8 5.87733333 9.91111111 4 18 12 9.91111111 20"
+                  />
+                </svg>
+              </button>
+            </nav>
+            <div
+              class="rdp-month"
+            >
+              <div
+                class="rdp-month_caption"
+              >
+                <span
+                  aria-live="polite"
+                  class="rdp-caption_label"
+                  role="status"
+                >
+                  February 2060
+                </span>
+              </div>
+              <table
+                aria-label="February 2060"
+                aria-multiselectable="true"
+                class="rdp-month_grid"
+                role="grid"
+              >
+                <thead
+                  aria-hidden="true"
+                >
+                  <tr
+                    class="rdp-weekdays"
                   >
-                    Su
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Monday"
-                  >
-                    Mo
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Tuesday"
-                  >
-                    Tu
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Wednesday"
-                  >
-                    We
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Thursday"
-                  >
-                    Th
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Friday"
-                  >
-                    Fr
-                  </th>
-                  <th
-                    scope="col"
-                    class="rdp-head_cell"
-                    aria-label="Saturday"
-                  >
-                    Sa
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="rdp-tbody">
-                <tr class="rdp-row">
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_today rdp-day_range_start"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="0"
-                      type="button"
+                    <th
+                      aria-label="Sunday"
+                      class="rdp-weekday"
+                      scope="col"
                     >
-                      1
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
+                      Su
+                    </th>
+                    <th
+                      aria-label="Monday"
+                      class="rdp-weekday"
+                      scope="col"
                     >
-                      2
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
+                      Mo
+                    </th>
+                    <th
+                      aria-label="Tuesday"
+                      class="rdp-weekday"
+                      scope="col"
                     >
-                      3
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
+                      Tu
+                    </th>
+                    <th
+                      aria-label="Wednesday"
+                      class="rdp-weekday"
+                      scope="col"
                     >
-                      4
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
+                      We
+                    </th>
+                    <th
+                      aria-label="Thursday"
+                      class="rdp-weekday"
+                      scope="col"
                     >
-                      5
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
+                      Th
+                    </th>
+                    <th
+                      aria-label="Friday"
+                      class="rdp-weekday"
+                      scope="col"
                     >
-                      6
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
+                      Fr
+                    </th>
+                    <th
+                      aria-label="Saturday"
+                      class="rdp-weekday"
+                      scope="col"
                     >
-                      7
-                    </button>
-                  </td>
-                </tr>
-                <tr class="rdp-row">
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
+                      Sa
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="rdp-weeks"
+                >
+                  <tr
+                    class="rdp-week"
                   >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
+                    <td
                       aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      8
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
+                      class="rdp-day rdp-today rdp-selected rdp-range_start"
+                      data-day="2060-02-01"
+                      data-selected="true"
+                      data-today="true"
                       role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
                     >
-                      9
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      10
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      11
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      12
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      13
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      14
-                    </button>
-                  </td>
-                </tr>
-                <tr class="rdp-row">
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      15
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      16
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      17
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      18
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      19
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      20
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      21
-                    </button>
-                  </td>
-                </tr>
-                <tr class="rdp-row">
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      22
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      23
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      24
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      25
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      26
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      27
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      28
-                    </button>
-                  </td>
-                </tr>
-                <tr class="rdp-row">
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <button
-                      name="day"
-                      class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                      role="gridcell"
-                      aria-selected="true"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      29
-                    </button>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                  <td
-                    class="rdp-cell"
-                    role="presentation"
-                  >
-                    <div role="gridcell">
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot class="rdp-tfoot">
-                <tr>
-                  <td colspan="8">
-                    <div class="d-flex justify-content-around mt-3">
                       <button
-                        class="btn btn-light btn-sm"
-                        disabled
+                        aria-label="Today, Sunday, February 1st, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="0"
+                        type="button"
                       >
-                        <svg
-                          data-prefix="fas"
-                          data-icon="calendar-day"
-                          class="svg-inline--fa fa-calendar-day fa-fw me-1"
-                          role="img"
-                          viewbox="0 0 448 512"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 32 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l32 0 0-32c0-17.7 14.3-32 32-32zm0 256c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-64 0z"
-                          >
-                          </path>
-                        </svg>
-                        Today
+                        1
                       </button>
-                    </div>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-02"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Monday, February 2nd, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        2
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-03"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Tuesday, February 3rd, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        3
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-04"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Wednesday, February 4th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        4
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-05"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Thursday, February 5th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        5
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-06"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Friday, February 6th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        6
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-07"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Saturday, February 7th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        7
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    class="rdp-week"
+                  >
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-08"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Sunday, February 8th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        8
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-09"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Monday, February 9th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        9
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-10"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Tuesday, February 10th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        10
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-11"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Wednesday, February 11th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        11
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-12"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Thursday, February 12th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        12
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-13"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Friday, February 13th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        13
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-14"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Saturday, February 14th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        14
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    class="rdp-week"
+                  >
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-15"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Sunday, February 15th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        15
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-16"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Monday, February 16th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        16
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-17"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Tuesday, February 17th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        17
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-18"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Wednesday, February 18th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        18
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-19"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Thursday, February 19th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        19
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-20"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Friday, February 20th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        20
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-21"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Saturday, February 21st, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        21
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    class="rdp-week"
+                  >
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-22"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Sunday, February 22nd, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        22
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-23"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Monday, February 23rd, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        23
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-24"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Tuesday, February 24th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        24
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-25"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Wednesday, February 25th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        25
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-26"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Thursday, February 26th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        26
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-27"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Friday, February 27th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        27
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-28"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Saturday, February 28th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        28
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    class="rdp-week"
+                  >
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-selected rdp-range_middle"
+                      data-day="2060-02-29"
+                      data-selected="true"
+                      role="gridcell"
+                    >
+                      <button
+                        aria-label="Sunday, February 29th, 2060, selected"
+                        class="rdp-day_button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        29
+                      </button>
+                    </td>
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-hidden rdp-outside rdp-selected rdp-range_middle"
+                      data-day="2060-03-01"
+                      data-hidden="true"
+                      data-month="2060-03"
+                      data-outside="true"
+                      data-selected="true"
+                      role="gridcell"
+                    />
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-hidden rdp-outside rdp-selected rdp-range_middle"
+                      data-day="2060-03-02"
+                      data-hidden="true"
+                      data-month="2060-03"
+                      data-outside="true"
+                      data-selected="true"
+                      role="gridcell"
+                    />
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-hidden rdp-outside rdp-selected rdp-range_middle"
+                      data-day="2060-03-03"
+                      data-hidden="true"
+                      data-month="2060-03"
+                      data-outside="true"
+                      data-selected="true"
+                      role="gridcell"
+                    />
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-hidden rdp-outside rdp-selected rdp-range_middle"
+                      data-day="2060-03-04"
+                      data-hidden="true"
+                      data-month="2060-03"
+                      data-outside="true"
+                      data-selected="true"
+                      role="gridcell"
+                    />
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-hidden rdp-outside rdp-selected rdp-range_middle"
+                      data-day="2060-03-05"
+                      data-hidden="true"
+                      data-month="2060-03"
+                      data-outside="true"
+                      data-selected="true"
+                      role="gridcell"
+                    />
+                    <td
+                      aria-selected="true"
+                      class="rdp-day rdp-hidden rdp-outside rdp-selected rdp-range_middle"
+                      data-day="2060-03-06"
+                      data-hidden="true"
+                      data-month="2060-03"
+                      data-outside="true"
+                      data-selected="true"
+                      role="gridcell"
+                    />
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div
+            aria-live="polite"
+            class="rdp-footer"
+            role="status"
+          >
+            <div
+              class="d-flex justify-content-around mt-3"
+            >
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-calendar-day me-1 fa-fw"
+                  data-icon="calendar-day"
+                  data-prefix="fas"
+                  role="img"
+                  viewBox="0 0 448 512"
+                >
+                  <path
+                    d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 32 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l32 0 0-32c0-17.7 14.3-32 32-32zm0 256c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-64 0z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Today
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="d-flex justify-content-center align-items-center components-hour-minute">
-      <table class="text-center border-0">
-        <tbody>
-          <tr>
-            <td class="components-hour-up with-click">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-up"
-                  class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+      <div
+        class="d-flex justify-content-center align-items-center components-hour-minute"
+      >
+        <table
+          class="text-center border-0"
+        >
+          <tbody>
+            <tr>
+              <td
+                class="components-hour-up with-click"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
+                    data-icon="angle-up"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-            <td>
-            </td>
-            <td class="components-minute-up with-click">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-up"
-                  class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+                    <path
+                      d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+              <td />
+              <td
+                class="components-minute-up with-click"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
+                    data-icon="angle-up"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td class="components-hour">
-              <h2>
-                00
-              </h2>
-            </td>
-            <td>
-              <h2 class="mx-2">
-                :
-              </h2>
-            </td>
-            <td class="components-minute">
-              <h2>
-                00
-              </h2>
-            </td>
-          </tr>
-          <tr>
-            <td class="components-hour-down with-click">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-down"
-                  class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
+                    <path
+                      d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="components-hour"
+              >
+                <h2>
+                  00
+                </h2>
+              </td>
+              <td>
+                <h2
+                  class="mx-2"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                  :
+                </h2>
+              </td>
+              <td
+                class="components-minute"
+              >
+                <h2>
+                  00
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="components-hour-down with-click"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
+                    data-icon="angle-down"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-            <td>
-            </td>
-            <td class="components-minute-down with-click">
-              <span>
-                <svg
-                  data-prefix="fas"
-                  data-icon="angle-down"
-                  class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-                  role="img"
-                  viewbox="0 0 384 512"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                    <path
+                      d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+              <td />
+              <td
+                class="components-minute-down with-click"
+              >
+                <span>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
+                    data-icon="angle-down"
+                    data-prefix="fas"
+                    role="img"
+                    viewBox="0 0 384 512"
                   >
-                  </path>
-                </svg>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                    <path
+                      d="M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
-"
+</DocumentFragment>
 `;

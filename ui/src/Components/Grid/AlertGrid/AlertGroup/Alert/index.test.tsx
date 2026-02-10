@@ -1,8 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { act, render } from "@testing-library/react";
 
 import {
   MockAlert,
@@ -70,22 +66,20 @@ const MountedAlert = (
   showReceiver: boolean,
   showOnlyExpandedAnnotations: boolean,
 ) => {
-  return mount(
-    <Alert
-      grid={grid}
-      alert={alert}
-      group={group}
-      showReceiver={showReceiver}
-      showOnlyExpandedAnnotations={showOnlyExpandedAnnotations}
-      afterUpdate={MockAfterUpdate}
-      alertStore={alertStore}
-      silenceFormStore={silenceFormStore}
-      setIsMenuOpen={MockSetIsMenuOpen}
-    />,
-    {
-      wrappingComponent: ThemeContext.Provider,
-      wrappingComponentProps: { value: MockThemeContext },
-    },
+  return render(
+    <ThemeContext.Provider value={MockThemeContext}>
+      <Alert
+        grid={grid}
+        alert={alert}
+        group={group}
+        showReceiver={showReceiver}
+        showOnlyExpandedAnnotations={showOnlyExpandedAnnotations}
+        afterUpdate={MockAfterUpdate}
+        alertStore={alertStore}
+        silenceFormStore={silenceFormStore}
+        setIsMenuOpen={MockSetIsMenuOpen}
+      />
+    </ThemeContext.Provider>,
   );
 };
 
@@ -94,8 +88,8 @@ describe("<Alert />", () => {
     const alert = MockedAlert();
     const group = MockAlertGroup([], [alert], [], [], {});
     group.shared.clusters = ["default"];
-    const tree = MountedAlert(alert, group, false, false);
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedAlert(alert, group, false, false);
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("matches snapshot when inhibited", () => {
@@ -103,8 +97,8 @@ describe("<Alert />", () => {
     alert.alertmanager[0].inhibitedBy = ["123456"];
     const group = MockAlertGroup([], [alert], [], [], {});
     group.shared.clusters = ["default"];
-    const tree = MountedAlert(alert, group, false, false);
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedAlert(alert, group, false, false);
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("renders inhibition icon when inhibited", () => {
@@ -121,16 +115,16 @@ describe("<Alert />", () => {
       inhibitedBy: ["123456"],
     });
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
-    expect(tree.find(".fa-volume-xmark")).toHaveLength(1);
+    const { container } = MountedAlert(alert, group, false, false);
+    expect(container.querySelectorAll(".fa-volume-xmark")).toHaveLength(1);
   });
 
   it("inhibition icon passes only unique fingerprints", () => {
     const alert = MockedAlert();
     alert.alertmanager[0].inhibitedBy = ["123456"];
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
-    expect(tree.find(".fa-volume-xmark")).toHaveLength(1);
+    const { container } = MountedAlert(alert, group, false, false);
+    expect(container.querySelectorAll(".fa-volume-xmark")).toHaveLength(1);
   });
 
   it("renders @cluster label for non-shared clusters", () => {
@@ -167,17 +161,19 @@ describe("<Alert />", () => {
 
     const alert = MockedAlert();
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
-    const label = tree
-      .find("Memo(FilteringLabel)")
-      .filterWhere((elem) => elem.props().name === "@cluster");
-    expect(label.text()).toBe("@cluster: default");
+    const { container } = MountedAlert(alert, group, false, false);
+    // Find labels containing @cluster text
+    const labels = Array.from(
+      container.querySelectorAll("span.components-label"),
+    ).filter((el) => el.textContent?.includes("@cluster"));
+    expect(labels).toHaveLength(1);
+    expect(labels[0].textContent).toBe("@cluster: default");
   });
 
   it("only renders one @cluster label per alertmanager cluster", () => {
     alertStore.data.setUpstreams({
       counters: { total: 2, healthy: 2, failed: 0 },
-      clusters: { default: ["default"], second: ["second"] },
+      clusters: { default: ["default"], HA: ["HA"] },
       instances: [
         {
           name: "default",
@@ -227,23 +223,24 @@ describe("<Alert />", () => {
       inhibitedBy: [],
     });
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
-    const labels = tree
-      .find("Memo(FilteringLabel)")
-      .filterWhere((elem) => elem.props().name === "@cluster");
+    const { container } = MountedAlert(alert, group, false, false);
+    const labels = Array.from(
+      container.querySelectorAll("span.components-label"),
+    ).filter((el) => el.textContent?.includes("@cluster"));
     expect(labels).toHaveLength(2);
-    expect(labels.at(0).text()).toBe("@cluster: default");
-    expect(labels.at(1).text()).toBe("@cluster: HA");
+    expect(labels[0].textContent).toBe("@cluster: default");
+    expect(labels[1].textContent).toBe("@cluster: HA");
   });
 
   it("renders @receiver label with showReceiver=true", () => {
     const alert = MockedAlert();
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, true, false);
-    const label = tree
-      .find("Memo(FilteringLabel)")
-      .filterWhere((elem) => elem.props().name === "@receiver");
-    expect(label.text()).toBe("@receiver: by-name");
+    const { container } = MountedAlert(alert, group, true, false);
+    const labels = Array.from(
+      container.querySelectorAll("span.components-label"),
+    ).filter((el) => el.textContent?.includes("@receiver"));
+    expect(labels).toHaveLength(1);
+    expect(labels[0].textContent).toBe("@receiver: by-name");
   });
 
   it("renders a silence if alert is silenced", () => {
@@ -255,10 +252,10 @@ describe("<Alert />", () => {
       },
     });
     const group = MockAlertGroup([], [alert], [], [], { default: [] });
-    const tree = MountedAlert(alert, group, false, false);
-    const silence = tree.find("ManagedSilence");
-    expect(silence).toHaveLength(1);
-    expect(silence.html()).toMatch(/Mocked Silence/);
+    const { container } = MountedAlert(alert, group, false, false);
+    const silences = container.querySelectorAll(".components-managed-silence");
+    expect(silences).toHaveLength(1);
+    expect(container.innerHTML).toMatch(/Mocked Silence/);
   });
 
   it("renders a fallback silence if the silence is not found in alertStore", () => {
@@ -270,10 +267,9 @@ describe("<Alert />", () => {
       },
     });
     const group = MockAlertGroup([], [alert], [], [], { default: [] });
-    const tree = MountedAlert(alert, group, false, false);
-    const silence = tree.find("FallbackSilenceDesciption");
-    expect(silence).toHaveLength(1);
-    expect(silence.html()).not.toMatch(/Mocked Silence/);
+    const { container } = MountedAlert(alert, group, false, false);
+    expect(container.innerHTML).toMatch(/Silenced by silence123456789/);
+    expect(container.innerHTML).not.toMatch(/Mocked Silence/);
   });
 
   it("renders a fallback silence if the cluster is not found in alertStore", () => {
@@ -285,10 +281,9 @@ describe("<Alert />", () => {
       },
     });
     const group = MockAlertGroup([], [alert], [], [], { default: [] });
-    const tree = MountedAlert(alert, group, false, false);
-    const silence = tree.find("FallbackSilenceDesciption");
-    expect(silence).toHaveLength(1);
-    expect(silence.html()).not.toMatch(/Mocked Silence/);
+    const { container } = MountedAlert(alert, group, false, false);
+    expect(container.innerHTML).toMatch(/Silenced by silence123456789/);
+    expect(container.innerHTML).not.toMatch(/Mocked Silence/);
   });
 
   it("renders only one silence for HA cluster", () => {
@@ -321,10 +316,10 @@ describe("<Alert />", () => {
       },
     });
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
-    const silence = tree.find("ManagedSilence");
-    expect(silence).toHaveLength(1);
-    expect(silence.html()).toMatch(/Mocked Silence/);
+    const { container } = MountedAlert(alert, group, false, false);
+    const silences = container.querySelectorAll(".components-managed-silence");
+    expect(silences).toHaveLength(1);
+    expect(container.innerHTML).toMatch(/Mocked Silence/);
   });
 
   it("doesn't render shared silences", () => {
@@ -333,9 +328,9 @@ describe("<Alert />", () => {
     const group = MockAlertGroup([], [alert], [], [], {
       default: ["silence123456789"],
     });
-    const tree = MountedAlert(alert, group, false, false);
-    const silence = tree.find("ManagedSilence");
-    expect(silence).toHaveLength(0);
+    const { container } = MountedAlert(alert, group, false, false);
+    const silences = container.querySelectorAll(".components-managed-silence");
+    expect(silences).toHaveLength(0);
   });
 
   it("renders collapsed annotations when showOnlyExpandedAnnotations=false", () => {
@@ -357,8 +352,10 @@ describe("<Alert />", () => {
       },
     ];
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
-    const annotations = tree.find("div.components-grid-annotation");
+    const { container } = MountedAlert(alert, group, false, false);
+    const annotations = container.querySelectorAll(
+      "div.components-grid-annotation",
+    );
     expect(annotations).toHaveLength(2);
   });
 
@@ -381,8 +378,10 @@ describe("<Alert />", () => {
       },
     ];
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, true);
-    const annotations = tree.find("div.components-grid-annotation");
+    const { container } = MountedAlert(alert, group, false, true);
+    const annotations = container.querySelectorAll(
+      "div.components-grid-annotation",
+    );
     expect(annotations).toHaveLength(1);
   });
 
@@ -390,11 +389,11 @@ describe("<Alert />", () => {
     const alert = MockedAlert();
     alert.state = "active";
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
+    const { container } = MountedAlert(alert, group, false, false);
     expect(
-      tree
-        .find(".components-grid-alertgrid-alertgroup-alert")
-        .hasClass(BorderClassMap.active),
+      container
+        .querySelector(".components-grid-alertgrid-alertgroup-alert")!
+        .classList.contains(BorderClassMap.active),
     ).toBe(true);
   });
 
@@ -402,11 +401,11 @@ describe("<Alert />", () => {
     const alert = MockedAlert();
     alert.state = "suppressed";
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
+    const { container } = MountedAlert(alert, group, false, false);
     expect(
-      tree
-        .find(".components-grid-alertgrid-alertgroup-alert")
-        .hasClass(BorderClassMap.suppressed),
+      container
+        .querySelector(".components-grid-alertgrid-alertgroup-alert")!
+        .classList.contains(BorderClassMap.suppressed),
     ).toBe(true);
   });
 
@@ -414,11 +413,11 @@ describe("<Alert />", () => {
     const alert = MockedAlert();
     alert.state = "unprocessed";
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
+    const { container } = MountedAlert(alert, group, false, false);
     expect(
-      tree
-        .find(".components-grid-alertgrid-alertgroup-alert")
-        .hasClass(BorderClassMap.unprocessed),
+      container
+        .querySelector(".components-grid-alertgrid-alertgroup-alert")!
+        .classList.contains(BorderClassMap.unprocessed),
     ).toBe(true);
   });
 
@@ -428,11 +427,11 @@ describe("<Alert />", () => {
     const alert = MockedAlert();
     (alert.state as string) = "foobar";
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
+    const { container } = MountedAlert(alert, group, false, false);
     expect(
-      tree
-        .find(".components-grid-alertgrid-alertgroup-alert")
-        .hasClass("border-default"),
+      container
+        .querySelector(".components-grid-alertgrid-alertgroup-alert")!
+        .classList.contains("border-default"),
     ).toBe(true);
   });
 
@@ -443,12 +442,11 @@ describe("<Alert />", () => {
 
     const alert = MockedAlert();
     const group = MockAlertGroup([], [alert], [], [], {});
-    const tree = MountedAlert(alert, group, false, false);
+    const { container } = MountedAlert(alert, group, false, false);
     expect(
-      tree
-        .find("span.components-label.badge.bg-secondary.cursor-pointer")
-        .at(0)
-        .text(),
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
     ).toBe("just now");
 
     jest.setSystemTime(new Date(Date.UTC(2018, 7, 14, 17, 36, 42)));
@@ -456,10 +454,9 @@ describe("<Alert />", () => {
       jest.advanceTimersByTime(31 * 1000);
     });
     expect(
-      tree
-        .find("span.components-label.badge.bg-secondary.cursor-pointer")
-        .at(0)
-        .text(),
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
     ).toBe("a few seconds ago");
 
     jest.setSystemTime(new Date(Date.UTC(2018, 7, 14, 17, 37, 41)));
@@ -467,10 +464,9 @@ describe("<Alert />", () => {
       jest.advanceTimersByTime(31 * 1000);
     });
     expect(
-      tree
-        .find("span.components-label.badge.bg-secondary.cursor-pointer")
-        .at(0)
-        .text(),
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
     ).toBe("1 minute ago");
 
     jest.setSystemTime(new Date(Date.UTC(2018, 7, 14, 18, 36, 41)));
@@ -478,10 +474,9 @@ describe("<Alert />", () => {
       jest.advanceTimersByTime(31 * 1000);
     });
     expect(
-      tree
-        .find("span.components-label.badge.bg-secondary.cursor-pointer")
-        .at(0)
-        .text(),
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
     ).toBe("1 hour ago");
 
     jest.setSystemTime(new Date(Date.UTC(2018, 7, 14, 19, 36, 41)));
@@ -489,10 +484,9 @@ describe("<Alert />", () => {
       jest.advanceTimersByTime(31 * 1000);
     });
     expect(
-      tree
-        .find("span.components-label.badge.bg-secondary.cursor-pointer")
-        .at(0)
-        .text(),
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
     ).toBe("2 hours ago");
 
     jest.setSystemTime(new Date(Date.UTC(2018, 7, 16, 19, 36, 41)));
@@ -500,10 +494,9 @@ describe("<Alert />", () => {
       jest.advanceTimersByTime(31 * 1000);
     });
     expect(
-      tree
-        .find("span.components-label.badge.bg-secondary.cursor-pointer")
-        .at(0)
-        .text(),
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
     ).toBe("2 days ago");
   });
 });

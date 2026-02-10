@@ -1,8 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { renderHook } from "@testing-library/react-hooks";
-
-import { mount } from "enzyme";
+import { act, renderHook, waitFor, render } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -35,13 +31,14 @@ describe("useFetchDelete", () => {
   const EmptyOptions = {};
 
   it("sends a DELETE request", async () => {
-    const { waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useFetchDelete("http://localhost/ok", EmptyOptions),
     );
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(fetchMock.calls()).toHaveLength(1);
+    });
 
-    expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.lastUrl()).toBe("http://localhost/ok");
     expect(fetchMock.lastOptions()).toMatchObject({
       method: "DELETE",
@@ -49,13 +46,14 @@ describe("useFetchDelete", () => {
   });
 
   it("sends correct headers", async () => {
-    const { waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useFetchDelete("http://localhost/ok", EmptyOptions),
     );
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(fetchMock.calls()).toHaveLength(1);
+    });
 
-    expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.lastUrl()).toBe("http://localhost/ok");
     expect(fetchMock.lastOptions()).toMatchObject({
       mode: "cors",
@@ -65,7 +63,7 @@ describe("useFetchDelete", () => {
   });
 
   it("response is updated after successful fetch", async () => {
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useFetchDelete("http://localhost/ok", EmptyOptions),
     );
 
@@ -73,15 +71,16 @@ describe("useFetchDelete", () => {
     expect(result.current.error).toBe(null);
     expect(result.current.isDeleting).toBe(true);
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(result.current.response).toBe("body ok");
+    });
 
-    expect(result.current.response).toBe("body ok");
     expect(result.current.error).toBe(null);
     expect(result.current.isDeleting).toBe(false);
   });
 
   it("error is updated after 401 error", async () => {
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useFetchDelete("http://localhost/401", EmptyOptions),
     );
 
@@ -89,15 +88,16 @@ describe("useFetchDelete", () => {
     expect(result.current.error).toBe(null);
     expect(result.current.isDeleting).toBe(true);
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(result.current.error).toBe("401 Unauthorized");
+    });
 
     expect(result.current.response).toBe(null);
-    expect(result.current.error).toBe("401 Unauthorized");
     expect(result.current.isDeleting).toBe(false);
   });
 
   it("error is updated after 500 error", async () => {
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useFetchDelete("http://localhost/500", EmptyOptions),
     );
 
@@ -105,15 +105,16 @@ describe("useFetchDelete", () => {
     expect(result.current.error).toBe(null);
     expect(result.current.isDeleting).toBe(true);
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(result.current.error).toBe("fake error");
+    });
 
     expect(result.current.response).toBe(null);
-    expect(result.current.error).toBe("fake error");
     expect(result.current.isDeleting).toBe(false);
   });
 
   it("error is updated after an exception", async () => {
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useFetchDelete("http://localhost/error", EmptyOptions),
     );
 
@@ -121,15 +122,16 @@ describe("useFetchDelete", () => {
     expect(result.current.error).toBe(null);
     expect(result.current.isDeleting).toBe(true);
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(result.current.error).toBe("failed to fetch");
+    });
 
     expect(result.current.response).toBe(null);
-    expect(result.current.error).toBe("failed to fetch");
     expect(result.current.isDeleting).toBe(false);
   });
 
   it("error is updated after unknown error", async () => {
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useFetchDelete("http://localhost/unknown", EmptyOptions),
     );
 
@@ -137,10 +139,11 @@ describe("useFetchDelete", () => {
     expect(result.current.error).toBe(null);
     expect(result.current.isDeleting).toBe(true);
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(result.current.error).toBe("unknown error: foo");
+    });
 
     expect(result.current.response).toBe(null);
-    expect(result.current.error).toBe("unknown error: foo");
     expect(result.current.isDeleting).toBe(false);
   });
 
@@ -164,8 +167,8 @@ describe("useFetchDelete", () => {
       );
     };
 
-    const tree = mount(<Component />);
-    tree.unmount();
+    const { unmount } = render(<Component />);
+    unmount();
 
     await fetchMock.flush(true);
   });
@@ -191,10 +194,8 @@ describe("useFetchDelete", () => {
       );
     };
 
-    act(() => {
-      const tree = mount(<Component />);
-      tree.unmount();
-    });
+    const { unmount } = render(<Component />);
+    unmount();
 
     await fetchMock.flush(true);
   });
@@ -219,10 +220,8 @@ describe("useFetchDelete", () => {
       );
     };
 
-    act(() => {
-      const tree = mount(<Component />);
-      tree.unmount();
-    });
+    const { unmount } = render(<Component />);
+    unmount();
 
     await fetchMock.flush(true);
   });

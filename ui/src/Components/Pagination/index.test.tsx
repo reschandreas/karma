@@ -1,6 +1,5 @@
-import { mount } from "enzyme";
+import { render, fireEvent, act } from "@testing-library/react";
 
-import { PressKey } from "__fixtures__/PressKey";
 import { PageSelect } from ".";
 
 let originalInnerWidth: number;
@@ -23,7 +22,7 @@ describe("<PageSelect />", () => {
   it("calls setPageCallback on arrow key press", () => {
     const setPageCallback = jest.fn();
 
-    const tree = mount(
+    const { container } = render(
       <PageSelect
         totalPages={4}
         maxPerPage={5}
@@ -31,37 +30,56 @@ describe("<PageSelect />", () => {
         setPageCallback={setPageCallback}
       />,
     );
-    tree.simulate("focus");
 
-    PressKey("ArrowRight", 39);
+    // react-hotkeys-hook listens on keydown with key names
+    const pressKey = (key: string, code: string) => {
+      act(() => {
+        document.dispatchEvent(
+          new KeyboardEvent("keydown", {
+            key,
+            code,
+            bubbles: true,
+          }),
+        );
+        document.dispatchEvent(
+          new KeyboardEvent("keyup", {
+            key,
+            code,
+            bubbles: true,
+          }),
+        );
+      });
+    };
+
+    pressKey("ArrowRight", "ArrowRight");
     expect(setPageCallback).toHaveBeenLastCalledWith(2);
 
-    PressKey("ArrowRight", 39);
+    pressKey("ArrowRight", "ArrowRight");
     expect(setPageCallback).toHaveBeenLastCalledWith(3);
 
-    PressKey("ArrowRight", 39);
+    pressKey("ArrowRight", "ArrowRight");
     expect(setPageCallback).toHaveBeenLastCalledWith(4);
 
-    PressKey("ArrowRight", 39);
+    pressKey("ArrowRight", "ArrowRight");
     expect(setPageCallback).toHaveBeenLastCalledWith(4);
 
-    PressKey("ArrowLeft", 37);
+    pressKey("ArrowLeft", "ArrowLeft");
     expect(setPageCallback).toHaveBeenLastCalledWith(3);
 
-    PressKey("ArrowLeft", 37);
+    pressKey("ArrowLeft", "ArrowLeft");
     expect(setPageCallback).toHaveBeenLastCalledWith(2);
 
-    PressKey("ArrowLeft", 37);
+    pressKey("ArrowLeft", "ArrowLeft");
     expect(setPageCallback).toHaveBeenLastCalledWith(1);
 
-    PressKey("ArrowLeft", 37);
+    pressKey("ArrowLeft", "ArrowLeft");
     expect(setPageCallback).toHaveBeenLastCalledWith(1);
   });
 
   it("calls setPageCallback on button press", () => {
     const setPageCallback = jest.fn();
 
-    const tree = mount(
+    const { container } = render(
       <PageSelect
         totalPages={15}
         maxPerPage={5}
@@ -69,7 +87,9 @@ describe("<PageSelect />", () => {
         setPageCallback={setPageCallback}
       />,
     );
-    tree.simulate("focus");
+
+    const getButtons = () =>
+      container.querySelectorAll<HTMLButtonElement>("button.page-link");
 
     for (const elem of [
       { index: 0, page: 1, label: "" }, // <<
@@ -85,17 +105,16 @@ describe("<PageSelect />", () => {
       { index: 1, page: 5, label: "" }, //  <<34567>> -> <<23456>>
       { index: 8, page: 15, label: "" }, //  <<23456>> -> <<end>>
     ]) {
-      expect(tree.find("button.page-link").at(elem.index).text()).toBe(
-        elem.label,
-      );
-      tree.find("button.page-link").at(elem.index).simulate("click");
+      const buttons = getButtons();
+      expect(buttons[elem.index].textContent).toBe(elem.label);
+      fireEvent.click(buttons[elem.index]);
       expect(setPageCallback).toHaveBeenLastCalledWith(elem.page);
     }
   });
 
   it("doesn't render anything if totalItemsCount <= maxPerPage", () => {
     global.innerWidth = 1024;
-    const tree = mount(
+    const { container } = render(
       <PageSelect
         totalPages={1}
         maxPerPage={5}
@@ -103,12 +122,12 @@ describe("<PageSelect />", () => {
         setPageCallback={jest.fn()}
       />,
     );
-    expect(tree.find(".page-link")).toHaveLength(0);
+    expect(container.querySelectorAll(".page-link")).toHaveLength(0);
   });
 
   it("renders 5 page range on desktop", () => {
     global.innerWidth = 1024;
-    const tree = mount(
+    const { container } = render(
       <PageSelect
         totalPages={7}
         maxPerPage={5}
@@ -116,12 +135,12 @@ describe("<PageSelect />", () => {
         setPageCallback={jest.fn()}
       />,
     );
-    expect(tree.find(".page-link")).toHaveLength(7);
+    expect(container.querySelectorAll(".page-link")).toHaveLength(7);
   });
 
   it("renders 3 page range on mobile", () => {
     global.innerWidth = 760;
-    const tree = mount(
+    const { container } = render(
       <PageSelect
         totalPages={7}
         maxPerPage={5}
@@ -129,12 +148,12 @@ describe("<PageSelect />", () => {
         setPageCallback={jest.fn()}
       />,
     );
-    expect(tree.find(".page-link")).toHaveLength(5);
+    expect(container.querySelectorAll(".page-link")).toHaveLength(5);
   });
 
   it("resets page if activePage >= totalPages", () => {
     const setPageCallback = jest.fn();
-    const tree = mount(
+    const { container, rerender } = render(
       <PageSelect
         initialPage={3}
         totalPages={7}
@@ -143,15 +162,32 @@ describe("<PageSelect />", () => {
         setPageCallback={setPageCallback}
       />,
     );
-    expect(tree.find(".page-item").at(3).hasClass("active")).toBe(true);
+    const pageItems = container.querySelectorAll(".page-item");
+    expect(pageItems[3].classList.contains("active")).toBe(true);
 
-    tree.setProps({ totalPages: 2 });
-    tree.update();
-    expect(tree.find(".page-item").at(2).hasClass("active")).toBe(true);
+    rerender(
+      <PageSelect
+        initialPage={3}
+        totalPages={2}
+        maxPerPage={5}
+        totalItemsCount={10}
+        setPageCallback={setPageCallback}
+      />,
+    );
+    const updatedPageItems = container.querySelectorAll(".page-item");
+    expect(updatedPageItems[2].classList.contains("active")).toBe(true);
     expect(setPageCallback).toHaveBeenLastCalledWith(2);
 
-    tree.setProps({ totalPages: 5 });
-    tree.update();
-    expect(tree.find(".page-item").at(2).hasClass("active")).toBe(true);
+    rerender(
+      <PageSelect
+        initialPage={3}
+        totalPages={5}
+        maxPerPage={5}
+        totalItemsCount={25}
+        setPageCallback={setPageCallback}
+      />,
+    );
+    const finalPageItems = container.querySelectorAll(".page-item");
+    expect(finalPageItems[2].classList.contains("active")).toBe(true);
   });
 });

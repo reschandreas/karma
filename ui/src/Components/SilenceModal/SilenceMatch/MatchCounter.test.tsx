@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render } from "@testing-library/react";
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import {
@@ -27,7 +25,7 @@ afterEach(() => {
 });
 
 const MountedMatchCounter = () => {
-  return mount(
+  return render(
     <MatchCounter silenceFormStore={silenceFormStore} matcher={matcher} />,
   );
 };
@@ -47,8 +45,8 @@ describe("<MatchCounter />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedMatchCounter();
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedMatchCounter();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("renders spinner icon while fetching", () => {
@@ -62,9 +60,11 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
-    const tree = MountedMatchCounter();
-    expect(tree.find("svg.fa-spinner")).toHaveLength(1);
-    expect(tree.find("svg.fa-spinner.text-danger")).toHaveLength(0);
+    const { container } = MountedMatchCounter();
+    expect(container.querySelectorAll("svg.fa-spinner")).toHaveLength(1);
+    expect(
+      container.querySelectorAll("svg.fa-spinner.text-danger"),
+    ).toHaveLength(0);
   });
 
   it("renders spinner icon with text-danger while retrying fetching", () => {
@@ -78,8 +78,10 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
-    const tree = MountedMatchCounter();
-    expect(tree.find("svg.fa-spinner.text-danger")).toHaveLength(1);
+    const { container } = MountedMatchCounter();
+    expect(
+      container.querySelectorAll("svg.fa-spinner.text-danger"),
+    ).toHaveLength(1);
   });
 
   it("renders error icon on failed fetch", () => {
@@ -93,8 +95,10 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
-    const tree = MountedMatchCounter();
-    expect(tree.find("svg.fa-circle-exclamation.text-danger")).toHaveLength(1);
+    const { container } = MountedMatchCounter();
+    expect(
+      container.querySelectorAll("svg.fa-circle-exclamation.text-danger"),
+    ).toHaveLength(1);
   });
 
   it("totalAlerts is 0 after mount", () => {
@@ -108,8 +112,8 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
-    const tree = MountedMatchCounter();
-    expect(tree.text()).toBe("0");
+    const { container } = MountedMatchCounter();
+    expect(container.textContent).toBe("0");
   });
 
   it("updates totalAlerts after successful fetch", () => {
@@ -126,8 +130,8 @@ describe("<MatchCounter />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedMatchCounter();
-    expect(tree.text()).toBe("25");
+    const { container } = MountedMatchCounter();
+    expect(container.textContent).toBe("25");
   });
 
   it("sends correct query string for a 'foo=bar' matcher", () => {

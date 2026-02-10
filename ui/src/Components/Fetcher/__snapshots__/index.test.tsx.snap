@@ -1,26 +1,3 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`<Dots /> matches snapshot 1`] = `
-"
-<div class="cursor-pointer components-fetcher   ">
-  <div class="dot  visible">
-  </div>
-  <div class="dot  visible">
-  </div>
-  <div class="dot  visible">
-  </div>
-  <div class="dot  visible">
-  </div>
-  <div class="dot dot-middle visible">
-  </div>
-  <div class="dot  visible">
-  </div>
-  <div class="dot  visible">
-  </div>
-  <div class="dot  visible">
-  </div>
-  <div class="dot  hidden">
-  </div>
-</div>
-"
-`;
+exports[`<Dots /> matches snapshot 1`] = `"<div class="cursor-pointer components-fetcher   "><div class="dot  visible"></div><div class="dot  visible"></div><div class="dot  visible"></div><div class="dot  visible"></div><div class="dot dot-middle visible"></div><div class="dot  visible"></div><div class="dot  visible"></div><div class="dot  visible"></div><div class="dot  hidden"></div></div>"`;

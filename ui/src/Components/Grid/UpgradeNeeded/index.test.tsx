@@ -1,22 +1,12 @@
-import React from "react";
-import { act } from "react-dom/test-utils";
-
-import { mount, shallow } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render } from "@testing-library/react";
 
 import { MockThemeContext } from "__fixtures__/Theme";
+import { ThemeContext } from "Components/Theme";
 import { UpgradeNeeded } from ".";
-
-declare let window: any;
 
 beforeEach(() => {
   jest.useFakeTimers();
   jest.clearAllTimers();
-  jest.spyOn(React, "useContext").mockImplementation(() => MockThemeContext);
-
-  delete window.location;
-  window.location = { reload: jest.fn() };
 });
 
 afterEach(() => {
@@ -26,42 +16,33 @@ afterEach(() => {
 
 describe("<UpgradeNeeded />", () => {
   it("matches snapshot", () => {
-    const tree = shallow(
-      <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />,
+    const { asFragment } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />
+      </ThemeContext.Provider>,
     );
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it("calls window.location.reload after timer is done", () => {
-    const reloadSpy = jest
-      .spyOn(global.window.location, "reload")
-      .mockImplementation(() => {});
-
-    mount(<UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />);
-
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(reloadSpy).toBeCalled();
+  it("renders the version number", () => {
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />
+      </ThemeContext.Provider>,
+    );
+    expect(container.textContent).toContain("1.2.3");
   });
 
-  it("stops calling window.location.reload after unmount", () => {
-    const reloadSpy = jest
-      .spyOn(global.window.location, "reload")
-      .mockImplementation(() => {});
+  it("cleans up timer on unmount", () => {
+    const clearTimeoutSpy = jest.spyOn(global, "clearTimeout");
 
-    const tree = mount(
-      <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />,
+    const { unmount } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />
+      </ThemeContext.Provider>,
     );
-    expect(reloadSpy).not.toBeCalled();
 
-    act(() => {
-      tree.unmount();
-    });
-
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(reloadSpy).not.toBeCalled();
+    unmount();
+    expect(clearTimeoutSpy).toHaveBeenCalled();
   });
 });

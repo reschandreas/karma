@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import { MockThemeContext } from "__fixtures__/Theme";
@@ -12,7 +10,6 @@ import {
 import { ThemeContext } from "Components/Theme";
 import { OptionT, StringToOption } from "Common/Select";
 import { LabelValueInput } from "./LabelValueInput";
-import { act } from "react-dom/test-utils";
 
 let silenceFormStore: SilenceFormStore;
 let matcher: MatcherWithIDT;
@@ -28,28 +25,26 @@ afterEach(() => {
 });
 
 const MountedLabelValueInput = (isValid: boolean) => {
-  return mount(
-    <LabelValueInput
-      silenceFormStore={silenceFormStore}
-      matcher={matcher}
-      isValid={isValid}
-    />,
-    {
-      wrappingComponent: ThemeContext.Provider,
-      wrappingComponentProps: { value: MockThemeContext },
-    },
+  return render(
+    <ThemeContext.Provider value={MockThemeContext}>
+      <LabelValueInput
+        silenceFormStore={silenceFormStore}
+        matcher={matcher}
+        isValid={isValid}
+      />
+    </ThemeContext.Provider>,
   );
 };
 
 describe("<LabelValueInput />", () => {
   it("matches snapshot", () => {
-    const tree = MountedLabelValueInput(true);
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedLabelValueInput(true);
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("fetches suggestions on mount", () => {
-    const tree = MountedLabelValueInput(true);
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedLabelValueInput(true);
+    expect(asFragment()).toMatchSnapshot();
     expect(useFetchGetMock.fetch.calls).toHaveLength(1);
     expect(useFetchGetMock.fetch.calls[0]).toBe(
       "./labelValues.json?name=cluster",
@@ -63,76 +58,83 @@ describe("<LabelValueInput />", () => {
   });
 
   it("doesn't renders ValidationError after passed validation", () => {
-    const tree = MountedLabelValueInput(true);
-    expect(toDiffableHtml(tree.html())).not.toMatch(/fa-circle-exclamation/);
-    expect(toDiffableHtml(tree.html())).not.toMatch(/Required/);
+    const { container } = MountedLabelValueInput(true);
+    expect(container.innerHTML).not.toMatch(/fa-circle-exclamation/);
+    expect(container.innerHTML).not.toMatch(/Required/);
   });
 
   it("renders ValidationError after failed validation", () => {
-    const tree = MountedLabelValueInput(false);
-    expect(toDiffableHtml(tree.html())).toMatch(/fa-circle-exclamation/);
-    expect(toDiffableHtml(tree.html())).toMatch(/Required/);
+    const { container } = MountedLabelValueInput(false);
+    expect(container.innerHTML).toMatch(/fa-circle-exclamation/);
+    expect(container.innerHTML).toMatch(/Required/);
   });
 
   it("renders suggestions", () => {
-    const tree = MountedLabelValueInput(true);
-    tree.find("input").simulate("change", { target: { value: "f" } });
-    const options = tree.find("div.react-select__option");
+    const { container } = MountedLabelValueInput(true);
+    fireEvent.change(container.querySelector("input")!, {
+      target: { value: "f" },
+    });
+    const options = container.querySelectorAll("div.react-select__option");
     expect(options).toHaveLength(3);
-    expect(options.at(0).text()).toBe("dev");
-    expect(options.at(1).text()).toBe("staging");
-    expect(options.at(2).text()).toBe("prod");
+    expect(options[0].textContent).toBe("dev");
+    expect(options[1].textContent).toBe("staging");
+    expect(options[2].textContent).toBe("prod");
   });
 
   it("clicking on options appends them to matcher.values", () => {
-    const tree = MountedLabelValueInput(true);
-    tree.find("input").simulate("change", { target: { value: "f" } });
-    const options = tree.find("div.react-select__option");
-    options.at(0).simulate("click");
-    options.at(1).simulate("click");
+    const { container } = MountedLabelValueInput(true);
+    fireEvent.change(container.querySelector("input")!, {
+      target: { value: "f" },
+    });
+    const options = container.querySelectorAll("div.react-select__option");
+    fireEvent.click(options[0]);
+    fireEvent.click(options[1]);
     expect(matcher.values).toHaveLength(2);
     expect(matcher.values).toContainEqual(StringToOption("dev"));
     expect(matcher.values).toContainEqual(StringToOption("staging"));
   });
 
   it("selecting one option doesn't force matcher.isRegex=true", () => {
-    const tree = MountedLabelValueInput(true);
-    tree.find("input").simulate("change", { target: { value: "f" } });
+    const { container } = MountedLabelValueInput(true);
+    fireEvent.change(container.querySelector("input")!, {
+      target: { value: "f" },
+    });
     expect(matcher.isRegex).toBe(false);
-    const options = tree.find("div.react-select__option");
-    options.at(0).simulate("click");
+    const options = container.querySelectorAll("div.react-select__option");
+    fireEvent.click(options[0]);
     expect(matcher.isRegex).toBe(false);
   });
 
   it("selecting one option when matcher.isRegex=true doesn't change it back to false", () => {
     matcher.isRegex = true;
-    const tree = MountedLabelValueInput(true);
-    tree.find("input").simulate("change", { target: { value: "f" } });
+    const { container } = MountedLabelValueInput(true);
+    fireEvent.change(container.querySelector("input")!, {
+      target: { value: "f" },
+    });
     expect(matcher.isRegex).toBe(true);
-    const options = tree.find("div.react-select__option");
-    options.at(0).simulate("click");
+    const options = container.querySelectorAll("div.react-select__option");
+    fireEvent.click(options[0]);
     expect(matcher.isRegex).toBe(true);
   });
 
   it("selecting multiple options forces matcher.isRegex=true", () => {
-    const tree = MountedLabelValueInput(true);
-    tree.find("input").simulate("change", { target: { value: "f" } });
+    const { container } = MountedLabelValueInput(true);
+    fireEvent.change(container.querySelector("input")!, {
+      target: { value: "f" },
+    });
     expect(matcher.isRegex).toBe(false);
-    const options = tree.find("div.react-select__option");
-    options.at(0).simulate("click");
-    options.at(1).simulate("click");
+    const options = container.querySelectorAll("div.react-select__option");
+    fireEvent.click(options[0]);
+    fireEvent.click(options[1]);
     expect(matcher.isRegex).toBe(true);
   });
 
   it("creating a manual option sets wasCreated=true", () => {
-    const tree = MountedLabelValueInput(true);
-    const input = tree.find("Select").instance();
-    const options: OptionT[] = [
-      { label: "foo", value: "foo", wasCreated: false },
-    ];
-    act(() => {
-      (input.props as any).onChange(options, { action: "create-option" });
-    });
+    const { container } = MountedLabelValueInput(true);
+    // Simulate creating a new option by typing and pressing Enter
+    const input = container.querySelector("input")!;
+    fireEvent.change(input, { target: { value: "foo" } });
+    fireEvent.keyDown(input, { key: "Enter", keyCode: 13 });
     expect(matcher.values[0]).toStrictEqual({
       label: "foo",
       value: "foo",
@@ -142,12 +144,16 @@ describe("<LabelValueInput />", () => {
 
   it("removing last value sets matcher.values to []", () => {
     matcher.values = [StringToOption("dev"), StringToOption("staging")];
-    const tree = MountedLabelValueInput(true);
+    const { container } = MountedLabelValueInput(true);
 
-    tree.find("div.react-select__multi-value__remove").at(0).simulate("click");
+    fireEvent.click(
+      container.querySelectorAll("div.react-select__multi-value__remove")[0],
+    );
     expect(matcher.values).toHaveLength(1);
 
-    tree.find("div.react-select__multi-value__remove").simulate("click");
+    fireEvent.click(
+      container.querySelector("div.react-select__multi-value__remove")!,
+    );
     expect(matcher.values).toHaveLength(0);
     expect(matcher.values).toEqual([]);
   });

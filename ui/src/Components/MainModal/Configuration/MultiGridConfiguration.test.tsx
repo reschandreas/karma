@@ -1,8 +1,6 @@
-import { mount } from "enzyme";
+import { render, fireEvent } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
-
-import toDiffableHtml from "diffable-html";
 
 import { MockThemeContext } from "__fixtures__/Theme";
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
@@ -25,45 +23,58 @@ afterEach(() => {
 });
 
 const FakeConfiguration = () => {
-  return mount(<MultiGridConfiguration settingsStore={settingsStore} />, {
-    wrappingComponent: ThemeContext.Provider,
-    wrappingComponentProps: { value: MockThemeContext },
-  });
+  return render(
+    <ThemeContext.Provider value={MockThemeContext}>
+      <MultiGridConfiguration settingsStore={settingsStore} />
+    </ThemeContext.Provider>,
+  );
 };
 
 const ExpandSortLabelSuggestions = () => {
   settingsStore.gridConfig.setSortOrder("label");
-  const tree = FakeConfiguration();
+  const result = FakeConfiguration();
 
-  tree
-    .find("input#react-select-configuration-grid-label-input")
-    .simulate("change", { target: { value: "a" } });
+  fireEvent.change(
+    result.container.querySelector(
+      "input#react-select-configuration-grid-label-input",
+    )!,
+    { target: { value: "a" } },
+  );
 
-  return tree;
+  return result;
 };
 
 describe("<MultiGridConfiguration />", () => {
   it("matches snapshot with default values", () => {
-    const tree = FakeConfiguration();
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = FakeConfiguration();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("correctly renders default option when multi-grid is disabled", () => {
     settingsStore.multiGridConfig.setGridLabel("");
-    const tree = FakeConfiguration();
-    expect(tree.find("SelectContainer").text()).toBe("Disable multi-grid");
+    const { container } = FakeConfiguration();
+    expect(
+      container.querySelector("div.react-select__value-container")!
+        .textContent,
+    ).toBe("Disable multi-grid");
   });
 
   it("correctly renders default option when multi-grid is set to @auto", () => {
     settingsStore.multiGridConfig.setGridLabel("@auto");
-    const tree = FakeConfiguration();
-    expect(tree.find("SelectContainer").text()).toBe("Automatic selection");
+    const { container } = FakeConfiguration();
+    expect(
+      container.querySelector("div.react-select__value-container")!
+        .textContent,
+    ).toBe("Automatic selection");
   });
 
   it("correctly renders default option when multi-grid is enabled", () => {
     settingsStore.multiGridConfig.setGridLabel("cluster");
-    const tree = FakeConfiguration();
-    expect(tree.find("SelectContainer").text()).toBe("cluster");
+    const { container } = FakeConfiguration();
+    expect(
+      container.querySelector("div.react-select__value-container")!
+        .textContent,
+    ).toBe("cluster");
   });
 
   it("label select handles fetch errors", () => {
@@ -76,30 +87,44 @@ describe("<MultiGridConfiguration />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = ExpandSortLabelSuggestions();
-    const options = tree.find("div.react-select__option");
-    expect(options).toHaveLength(5);
-    expect(options.at(0).text()).toBe("Disable multi-grid");
-    expect(options.at(1).text()).toBe("Automatic selection");
-    expect(options.at(2).text()).toBe("@alertmanager");
-    expect(options.at(3).text()).toBe("@cluster");
-    expect(options.at(4).text()).toBe("@receiver");
+    const { container } = ExpandSortLabelSuggestions();
+    const options = container.querySelectorAll("div.react-select__option");
+    // Filter "a" narrows to options containing "a" + the creatable "New label: a"
+    expect(options).toHaveLength(4);
+    expect(options[0].textContent).toBe("Disable multi-grid");
+    expect(options[1].textContent).toBe("Automatic selection");
+    expect(options[2].textContent).toBe("@alertmanager");
+    expect(options[3].textContent).toBe("New label: a");
   });
 
   it("clicking on a label option updates settingsStore", () => {
-    const tree = ExpandSortLabelSuggestions();
-    const options = tree.find("div.react-select__option");
-    options.at(6).simulate("click");
+    const { container } = FakeConfiguration();
+    // Open the dropdown and click on a specific label option
+    fireEvent.change(
+      container.querySelector(
+        "input#react-select-configuration-grid-label-input",
+      )!,
+      { target: { value: " " } },
+    );
+    const options = container.querySelectorAll("div.react-select__option");
+    // Find the "job" option and click it
+    const jobOption = Array.from(options).find(
+      (o) => o.textContent === "job",
+    );
+    expect(jobOption).toBeDefined();
+    fireEvent.click(jobOption!);
     expect(settingsStore.multiGridConfig.config.gridLabel).toBe("job");
   });
 
   it("clicking on the 'reverse' checkbox updates settingsStore", () => {
     settingsStore.gridConfig.setSortReverse(false);
-    const tree = FakeConfiguration();
-    const checkbox = tree.find("#configuration-multigrid-sort-reverse");
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector(
+      "#configuration-multigrid-sort-reverse",
+    )!;
 
     expect(settingsStore.gridConfig.config.reverseSort).toBe(false);
-    checkbox.simulate("change", { target: { checked: true } });
+    fireEvent.click(checkbox);
     expect(settingsStore.multiGridConfig.config.gridSortReverse).toBe(true);
   });
 });

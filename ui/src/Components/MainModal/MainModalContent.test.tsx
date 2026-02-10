@@ -1,8 +1,6 @@
-import { mount } from "enzyme";
+import { render, fireEvent } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
-
-import toDiffableHtml from "diffable-html";
 
 import { MockThemeContext } from "__fixtures__/Theme";
 import { AlertStore } from "Stores/AlertStore";
@@ -36,7 +34,7 @@ const Wrapped = (component: any) => (
 );
 
 const FakeModal = () => {
-  return mount(
+  return render(
     Wrapped(
       <MainModalContent
         alertStore={alertStore}
@@ -49,19 +47,28 @@ const FakeModal = () => {
 };
 
 const ValidateSetTab = (title: string) => {
-  const component = FakeModal();
+  const { container } = FakeModal();
 
-  const tab = component.find({ title: title });
-  tab.simulate("click");
-  expect(component.find(".nav-link.active").text()).toBe(title);
+  const tab = container.querySelector(
+    `.nav-link[title="${title}"], .nav-item.nav-link`,
+  );
+  // Find the tab by text content
+  const tabs = container.querySelectorAll(".nav-item.nav-link");
+  let targetTab: Element | null = null;
+  tabs.forEach((t) => {
+    if (t.textContent === title) {
+      targetTab = t;
+    }
+  });
+  if (targetTab) {
+    fireEvent.click(targetTab);
+  }
+  expect(container.querySelector(".nav-link.active")!.textContent).toBe(title);
 };
 
 describe("<MainModalContent />", () => {
   it("matches snapshot", () => {
-    // we have multiple fragments and enzyme only renders the first one
-    // in html() and text(), debug() would work but it's noisy
-    // https://github.com/airbnb/enzyme/issues/1213
-    const tree = mount(
+    const { asFragment } = render(
       <span>
         {Wrapped(
           <MainModalContent
@@ -73,13 +80,13 @@ describe("<MainModalContent />", () => {
         )}
       </span>,
     );
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("shows 'Configuration' tab by default", () => {
-    const tree = FakeModal();
-    const activeTab = tree.find(".nav-link.active");
-    expect(activeTab.text()).toBe("Configuration");
+    const { container } = FakeModal();
+    const activeTab = container.querySelector(".nav-link.active");
+    expect(activeTab!.textContent).toBe("Configuration");
   });
 
   // modal makes it tricky to verify re-rendered content, so only check if we
@@ -94,7 +101,7 @@ describe("<MainModalContent />", () => {
 
   it("shows username when alertStore.info.authentication.enabled=true", () => {
     alertStore.info.setAuthentication(true, "me@example.com");
-    const tree = mount(
+    const { container } = render(
       <span>
         {Wrapped(
           <MainModalContent
@@ -106,6 +113,6 @@ describe("<MainModalContent />", () => {
         )}
       </span>,
     );
-    expect(tree.text()).toMatch(/Username: me@example.com/);
+    expect(container.textContent).toMatch(/Username: me@example.com/);
   });
 });

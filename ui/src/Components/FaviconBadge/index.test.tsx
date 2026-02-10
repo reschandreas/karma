@@ -1,4 +1,4 @@
-import { mount } from "enzyme";
+import { render } from "@testing-library/react";
 
 import Favico from "favico.js";
 
@@ -13,7 +13,7 @@ beforeEach(() => {
 });
 
 const MountedFaviconBadge = () => {
-  return mount(<FaviconBadge alertStore={alertStore} />);
+  return render(<FaviconBadge alertStore={alertStore} />);
 };
 
 describe("<FaviconBadge />", () => {

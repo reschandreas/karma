@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent } from "@testing-library/react";
 
 import { AlertStore, NewUnappliedFilter } from "Stores/AlertStore";
 
@@ -20,7 +18,7 @@ const MountedLabelWithPercent = (
   offset: number,
   isActive: boolean,
 ) => {
-  return mount(
+  return render(
     <LabelWithPercent
       alertStore={alertStore}
       name={name}
@@ -34,28 +32,48 @@ const MountedLabelWithPercent = (
 };
 
 const RenderAndClick = (name: string, value: string, clickOptions?: any) => {
-  const tree = MountedLabelWithPercent(name, value, 25, 50, 0, false);
-  tree
-    .find(".components-label")
-    .find("span")
-    .at(2)
-    .simulate("click", clickOptions || {});
+  const { container } = MountedLabelWithPercent(name, value, 25, 50, 0, false);
+  const span = container.querySelector(
+    ".components-label .components-label-value",
+  );
+  fireEvent.click(span!, clickOptions || {});
 };
 
 describe("<LabelWithPercent />", () => {
   it("matches snapshot with offset=0", () => {
-    const tree = MountedLabelWithPercent("foo", "bar", 25, 50, 0, false);
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedLabelWithPercent(
+      "foo",
+      "bar",
+      25,
+      50,
+      0,
+      false,
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("matches snapshot with offset=25", () => {
-    const tree = MountedLabelWithPercent("foo", "bar", 25, 50, 25, false);
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedLabelWithPercent(
+      "foo",
+      "bar",
+      25,
+      50,
+      25,
+      false,
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("matches snapshot with isActive=true", () => {
-    const tree = MountedLabelWithPercent("foo", "bar", 25, 50, 0, true);
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedLabelWithPercent(
+      "foo",
+      "bar",
+      25,
+      50,
+      0,
+      true,
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("calling adds a new filter 'foo=bar'", () => {
@@ -67,8 +85,16 @@ describe("<LabelWithPercent />", () => {
   });
 
   it("clicking the X buttom removes label from filters", () => {
-    const tree = MountedLabelWithPercent("foo", "bar", 25, 50, 0, true);
-    tree.find(".components-label").find("svg").simulate("click");
+    const { container } = MountedLabelWithPercent(
+      "foo",
+      "bar",
+      25,
+      50,
+      0,
+      true,
+    );
+    const svg = container.querySelector(".components-label svg");
+    fireEvent.click(svg!);
     expect(alertStore.filters.values).toHaveLength(0);
     expect(alertStore.filters.values).not.toContainEqual(
       NewUnappliedFilter("foo=bar"),
@@ -84,17 +110,38 @@ describe("<LabelWithPercent />", () => {
   });
 
   it("uses bg-danger when percent is >66", () => {
-    const tree = MountedLabelWithPercent("foo", "bar", 25, 67, 0, false);
-    expect(toDiffableHtml(tree.html())).toMatch(/progress-bar bg-danger/);
+    const { container } = MountedLabelWithPercent(
+      "foo",
+      "bar",
+      25,
+      67,
+      0,
+      false,
+    );
+    expect(container.innerHTML).toMatch(/progress-bar bg-danger/);
   });
 
   it("uses bg-warning when percent is >33", () => {
-    const tree = MountedLabelWithPercent("foo", "bar", 25, 66, 0, false);
-    expect(toDiffableHtml(tree.html())).toMatch(/progress-bar bg-warning/);
+    const { container } = MountedLabelWithPercent(
+      "foo",
+      "bar",
+      25,
+      66,
+      0,
+      false,
+    );
+    expect(container.innerHTML).toMatch(/progress-bar bg-warning/);
   });
 
   it("uses bg-success when percent is <=33", () => {
-    const tree = MountedLabelWithPercent("foo", "bar", 25, 33, 0, false);
-    expect(toDiffableHtml(tree.html())).toMatch(/progress-bar bg-success/);
+    const { container } = MountedLabelWithPercent(
+      "foo",
+      "bar",
+      25,
+      33,
+      0,
+      false,
+    );
+    expect(container.innerHTML).toMatch(/progress-bar bg-success/);
   });
 });

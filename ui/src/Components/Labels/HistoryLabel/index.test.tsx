@@ -1,4 +1,4 @@
-import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
 
 import { AlertStore } from "Stores/AlertStore";
 
@@ -10,8 +10,8 @@ beforeEach(() => {
   alertStore = new AlertStore([]);
 });
 
-const ShallowHistoryLabel = (name: string, matcher: string, value: string) => {
-  return shallow(
+const RenderHistoryLabel = (name: string, matcher: string, value: string) => {
+  return render(
     <HistoryLabel
       alertStore={alertStore}
       name={name}
@@ -23,15 +23,15 @@ const ShallowHistoryLabel = (name: string, matcher: string, value: string) => {
 
 describe("<HistoryLabel />", () => {
   it("renders name, matcher and value if all are set", () => {
-    const tree = ShallowHistoryLabel("foo", "=", "bar");
-    expect(tree.text()).toBe("foo=bar");
+    const { container } = RenderHistoryLabel("foo", "=", "bar");
+    expect(container.textContent).toBe("foo=bar");
   });
 
   it("renders only value if name is falsey", () => {
-    const tree = shallow(
+    const { container } = render(
       <HistoryLabel alertStore={alertStore} name="" matcher="" value="bar" />,
     );
-    expect(tree.text()).toBe("bar");
+    expect(container.textContent).toBe("bar");
   });
 
   it("label with dark background color should have 'components-label-dark' class", () => {
@@ -44,10 +44,12 @@ describe("<HistoryLabel />", () => {
       },
       ...alertStore.data.colors,
     });
-    const tree = ShallowHistoryLabel("foo", "=", "bar").find(
-      ".components-label",
-    );
-    expect(tree.hasClass("components-label-dark")).toBe(true);
+    const { container } = RenderHistoryLabel("foo", "=", "bar");
+    expect(
+      container
+        .querySelector(".components-label")
+        ?.classList.contains("components-label-dark"),
+    ).toBe(true);
   });
 
   it("label with bright background color should have 'components-label-bright' class", () => {
@@ -60,9 +62,11 @@ describe("<HistoryLabel />", () => {
       },
       ...alertStore.data.colors,
     });
-    const tree = ShallowHistoryLabel("foo", "=", "bar").find(
-      ".components-label",
-    );
-    expect(tree.hasClass("components-label-bright")).toBe(true);
+    const { container } = RenderHistoryLabel("foo", "=", "bar");
+    expect(
+      container
+        .querySelector(".components-label")
+        ?.classList.contains("components-label-bright"),
+    ).toBe(true);
   });
 });

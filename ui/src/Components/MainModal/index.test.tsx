@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -31,7 +29,7 @@ afterEach(() => {
 });
 
 const MountedMainModal = () => {
-  return mount(
+  return render(
     <ThemeContext.Provider value={MockThemeContext}>
       <MainModal alertStore={alertStore} settingsStore={settingsStore} />
     </ThemeContext.Provider>,
@@ -40,78 +38,79 @@ const MountedMainModal = () => {
 
 describe("<MainModal />", () => {
   it("only renders FontAwesomeIcon when modal is not shown", () => {
-    const tree = MountedMainModal();
-    expect(tree.find("FontAwesomeIcon")).toHaveLength(1);
-    expect(tree.find("MainModalContent")).toHaveLength(0);
+    const { container } = MountedMainModal();
+    expect(container.querySelectorAll("svg")).toHaveLength(1);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
   it("renders a spinner placeholder while modal content is loading", () => {
-    const tree = MountedMainModal();
-    const toggle = tree.find(".nav-link");
-    toggle.simulate("click");
-    expect(tree.find("FontAwesomeIcon")).not.toHaveLength(0);
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(1);
-    expect(tree.find("MainModalContent")).toHaveLength(0);
+    const { container } = MountedMainModal();
+    const toggle = container.querySelector(".nav-link")!;
+    fireEvent.click(toggle);
+    expect(container.querySelectorAll("svg")).not.toHaveLength(0);
+    expect(
+      document.body.querySelectorAll(".modal-content svg.fa-spinner"),
+    ).toHaveLength(1);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
   });
 
   it("renders modal content if fallback is not used", () => {
-    const tree = MountedMainModal();
-    const toggle = tree.find(".nav-link");
-    toggle.simulate("click");
-    expect(tree.find("FontAwesomeIcon")).not.toHaveLength(0);
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(0);
-    expect(tree.find("MainModalContent")).toHaveLength(1);
+    const { container } = MountedMainModal();
+    const toggle = container.querySelector(".nav-link")!;
+    fireEvent.click(toggle);
+    expect(container.querySelectorAll("svg")).not.toHaveLength(0);
+    expect(
+      document.body.querySelectorAll(".modal-content svg.fa-spinner"),
+    ).toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
   });
 
   it("hides the modal when toggle() is called twice", () => {
-    const tree = MountedMainModal();
-    const toggle = tree.find(".nav-link");
+    const { container } = MountedMainModal();
+    const toggle = container.querySelector(".nav-link")!;
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("MainModalContent")).toHaveLength(1);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("MainModalContent")).toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
   it("hides the modal when button.btn-close is clicked", () => {
-    const tree = MountedMainModal();
-    const toggle = tree.find(".nav-link");
+    const { container } = MountedMainModal();
+    const toggle = container.querySelector(".nav-link")!;
 
-    toggle.simulate("click");
-    expect(tree.find("MainModalContent")).toHaveLength(1);
+    fireEvent.click(toggle);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
 
-    tree.find("button.btn-close").simulate("click");
+    fireEvent.click(document.body.querySelector("button.btn-close")!);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("MainModalContent")).toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
   it("'modal-open' class is appended to body node when modal is visible", () => {
-    const tree = MountedMainModal();
-    const toggle = tree.find(".nav-link");
-    toggle.simulate("click");
+    const { container } = MountedMainModal();
+    const toggle = container.querySelector(".nav-link")!;
+    fireEvent.click(toggle);
     expect(document.body.className.split(" ")).toContain("modal-open");
   });
 
   it("'modal-open' class is removed from body node after modal is hidden", () => {
-    const tree = MountedMainModal();
-    const toggle = tree.find(".nav-link");
+    const { container } = MountedMainModal();
+    const toggle = container.querySelector(".nav-link")!;
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     expect(document.body.className.split(" ")).toContain("modal-open");
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -119,10 +118,10 @@ describe("<MainModal />", () => {
   });
 
   it("'modal-open' class is removed from body node after modal is unmounted", () => {
-    const tree = MountedMainModal();
-    const toggle = tree.find(".nav-link");
-    toggle.simulate("click");
-    tree.unmount();
+    const { container, unmount } = MountedMainModal();
+    const toggle = container.querySelector(".nav-link")!;
+    fireEvent.click(toggle);
+    unmount();
     expect(document.body.className.split(" ")).not.toContain("modal-open");
   });
 });

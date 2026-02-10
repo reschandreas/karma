@@ -1,9 +1,11 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<NoUpstream /> matches snapshot 1`] = `
-"
-<h1 class="display-1 text-placeholder screen-center">
-  No alertmanager server configured
-</h1>
-"
+<DocumentFragment>
+  <h1
+    class="display-1 text-placeholder screen-center"
+  >
+    No alertmanager server configured
+  </h1>
+</DocumentFragment>
 `;

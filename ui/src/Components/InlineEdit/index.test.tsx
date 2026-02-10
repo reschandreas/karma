@@ -1,24 +1,27 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
+import { render, fireEvent, screen, act } from "@testing-library/react";
 
 import { InlineEdit } from ".";
 
 describe("<InlineEdit />", () => {
   it("renders span by default", () => {
-    const tree = mount(<InlineEdit value="foo" onChange={jest.fn()} />);
-    expect(tree.html()).toBe('<span tabindex="0">foo</span>');
+    const { container } = render(
+      <InlineEdit value="foo" onChange={jest.fn()} />,
+    );
+    expect(container.innerHTML).toBe('<span tabindex="0">foo</span>');
   });
 
   it("renders input after click", () => {
-    const tree = mount(<InlineEdit value="foo" onChange={jest.fn()} />);
-    tree.simulate("click");
-    expect(tree.html()).toBe('<input type="text" size="4" value="foo">');
+    const { container } = render(
+      <InlineEdit value="foo" onChange={jest.fn()} />,
+    );
+    fireEvent.click(container.querySelector("span")!);
+    expect(container.querySelector("input")).toBeTruthy();
+    expect(container.querySelector("input")!.value).toBe("foo");
   });
 
   it("edit mode start calls onEnterEditing", () => {
     const onEnterEditing = jest.fn();
-    const tree = mount(
+    const { container } = render(
       <InlineEdit
         value="foo"
         onChange={jest.fn()}
@@ -28,14 +31,14 @@ describe("<InlineEdit />", () => {
 
     expect(onEnterEditing).not.toHaveBeenCalled();
 
-    tree.simulate("click");
-    expect(tree.html()).toBe('<input type="text" size="4" value="foo">');
+    fireEvent.click(container.querySelector("span")!);
+    expect(container.querySelector("input")).toBeTruthy();
     expect(onEnterEditing).toHaveBeenCalled();
   });
 
   it("edit mode finish calls onExitEditing", () => {
     const onExitEditing = jest.fn();
-    const tree = mount(
+    const { container } = render(
       <div id="root">
         <button>click me</button>
         <InlineEdit
@@ -48,97 +51,111 @@ describe("<InlineEdit />", () => {
 
     expect(onExitEditing).not.toHaveBeenCalled();
 
-    tree.find("span").simulate("click");
+    fireEvent.click(container.querySelector("span")!);
     expect(onExitEditing).not.toHaveBeenCalled();
 
     act(() => {
       document.dispatchEvent(
         new Event("mousedown", {
-          target: tree.find("button").getDOMNode(),
-        } as EventInit),
+          bubbles: true,
+        }),
       );
     });
-    expect(tree.html()).not.toMatch(/<input/);
+    expect(container.innerHTML).not.toMatch(/<input/);
     expect(onExitEditing).toHaveBeenCalled();
   });
 
   it("cancels edits after click outside", () => {
-    const tree = mount(
+    const { container } = render(
       <div id="root">
         <button>click me</button>
         <InlineEdit value="foo" onChange={jest.fn()} />
       </div>,
     );
 
-    tree.find("span").simulate("click");
-    expect(tree.html()).toMatch(/<input/);
+    fireEvent.click(container.querySelector("span")!);
+    expect(container.innerHTML).toMatch(/<input/);
 
     act(() => {
       document.dispatchEvent(
         new Event("mousedown", {
-          target: tree.find("button").getDOMNode(),
-        } as EventInit),
+          bubbles: true,
+        }),
       );
     });
-    expect(tree.html()).not.toMatch(/<input/);
+    expect(container.innerHTML).not.toMatch(/<input/);
   });
 
   it("typing in the input changes value", () => {
-    const tree = mount(<InlineEdit value="foo" onChange={jest.fn()} />);
+    const { container } = render(
+      <InlineEdit value="foo" onChange={jest.fn()} />,
+    );
 
-    tree.find("span").simulate("click");
-    expect(tree.html()).toMatch(/<input/);
+    fireEvent.click(container.querySelector("span")!);
+    expect(container.innerHTML).toMatch(/<input/);
 
-    tree.simulate("change", { target: { value: "bar" } });
-    expect(tree.html()).toBe('<input type="text" size="4" value="bar">');
+    fireEvent.change(container.querySelector("input")!, {
+      target: { value: "bar" },
+    });
+    expect(container.querySelector("input")!.value).toBe("bar");
   });
 
   it("enter calls onChange if value was edited", () => {
     const onChange = jest.fn();
-    const tree = mount(<InlineEdit value="foo" onChange={onChange} />);
+    const { container } = render(
+      <InlineEdit value="foo" onChange={onChange} />,
+    );
 
-    tree.find("span").simulate("click");
-    expect(tree.html()).toMatch(/<input/);
+    fireEvent.click(container.querySelector("span")!);
+    expect(container.innerHTML).toMatch(/<input/);
 
-    tree.simulate("change", { target: { value: "bar" } });
-    expect(tree.html()).toBe('<input type="text" size="4" value="bar">');
+    fireEvent.change(container.querySelector("input")!, {
+      target: { value: "bar" },
+    });
+    expect(container.querySelector("input")!.value).toBe("bar");
 
-    tree.simulate("keyDown", { keyCode: 13 });
+    fireEvent.keyDown(container.querySelector("input")!, { keyCode: 13 });
     expect(onChange).toHaveBeenCalledWith("bar");
   });
 
   it("enter doesn't call onChange if value was not edited", () => {
     const onChange = jest.fn();
-    const tree = mount(<InlineEdit value="foo" onChange={onChange} />);
+    const { container } = render(
+      <InlineEdit value="foo" onChange={onChange} />,
+    );
 
-    tree.find("span").simulate("click");
-    expect(tree.html()).toMatch(/<input/);
+    fireEvent.click(container.querySelector("span")!);
+    expect(container.innerHTML).toMatch(/<input/);
 
-    tree.simulate("keyDown", { keyCode: 13 });
+    fireEvent.keyDown(container.querySelector("input")!, { keyCode: 13 });
     expect(onChange).not.toHaveBeenCalled();
   });
 
   it("esc cancels edit mode", () => {
     const onChange = jest.fn();
-    const tree = mount(<InlineEdit value="foo" onChange={onChange} />);
+    const { container } = render(
+      <InlineEdit value="foo" onChange={onChange} />,
+    );
 
-    tree.find("span").simulate("click");
-    expect(tree.html()).toMatch(/<input/);
+    fireEvent.click(container.querySelector("span")!);
+    expect(container.innerHTML).toMatch(/<input/);
 
-    tree.simulate("keyDown", { keyCode: 27 });
-    expect(tree.html()).not.toMatch(/<input/);
+    fireEvent.keyDown(container.querySelector("input")!, { keyCode: 27 });
+    expect(container.innerHTML).not.toMatch(/<input/);
     expect(onChange).not.toHaveBeenCalled();
   });
 
   it("unknown keyDown does nothing", () => {
     const onChange = jest.fn();
-    const tree = mount(<InlineEdit value="foo" onChange={onChange} />);
+    const { container } = render(
+      <InlineEdit value="foo" onChange={onChange} />,
+    );
 
-    tree.find("span").simulate("click");
-    expect(tree.html()).toMatch(/<input/);
+    fireEvent.click(container.querySelector("span")!);
+    expect(container.innerHTML).toMatch(/<input/);
 
-    tree.simulate("keyDown", { keyCode: 45 });
-    expect(tree.html()).toMatch(/<input/);
+    fireEvent.keyDown(container.querySelector("input")!, { keyCode: 45 });
+    expect(container.innerHTML).toMatch(/<input/);
     expect(onChange).not.toHaveBeenCalled();
   });
 });

@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent } from "@testing-library/react";
 
 import copy from "copy-to-clipboard";
 
@@ -15,22 +13,23 @@ beforeEach(() => {
 });
 
 const MountedFilteringLabel = (name: string, value: string) => {
-  return mount(
+  return render(
     <FilteringLabel alertStore={alertStore} name={name} value={value} />,
-  ).find(".components-label");
+  );
 };
 
 const RenderAndClick = (name: string, value: string, clickOptions?: any) => {
-  const tree = MountedFilteringLabel(name, value);
-  tree.find(".components-label").simulate("click", clickOptions || {});
+  const { container } = MountedFilteringLabel(name, value);
+  const label = container.querySelector(".components-label")!;
+  fireEvent.click(label, clickOptions || {});
 };
 
 describe("<FilteringLabel />", () => {
   it("matches snapshot", () => {
-    const tree = mount(
+    const { asFragment } = render(
       <FilteringLabel alertStore={alertStore} name="foo" value="bar" />,
     );
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("calling onClick() adds a new filter 'foo=bar'", () => {
@@ -76,8 +75,9 @@ describe("<FilteringLabel />", () => {
       },
       ...alertStore.data.colors,
     });
-    const tree = MountedFilteringLabel("foo", "bar");
-    expect(tree.hasClass("components-label-dark")).toBe(true);
+    const { container } = MountedFilteringLabel("foo", "bar");
+    const label = container.querySelector(".components-label");
+    expect(label?.classList.contains("components-label-dark")).toBe(true);
   });
 
   it("label with bright background color should have 'components-label-bright' class", () => {
@@ -90,8 +90,9 @@ describe("<FilteringLabel />", () => {
       },
       ...alertStore.data.colors,
     });
-    const tree = MountedFilteringLabel("foo", "bar");
-    expect(tree.hasClass("components-label-bright")).toBe(true);
+    const { container } = MountedFilteringLabel("foo", "bar");
+    const label = container.querySelector(".components-label");
+    expect(label?.classList.contains("components-label-bright")).toBe(true);
   });
 
   it("doesn't render the name if it's included in valueOnlyLabels", () => {
@@ -103,10 +104,10 @@ describe("<FilteringLabel />", () => {
         },
       },
     });
-    const tree = mount(
+    const { container } = render(
       <FilteringLabel alertStore={alertStore} name="foo" value="bar" />,
     );
-    expect(tree.text()).toBe("bar");
+    expect(container.textContent).toBe("bar");
   });
 
   it("renders the name if it's not included in valueOnlyLabels", () => {
@@ -118,9 +119,9 @@ describe("<FilteringLabel />", () => {
         },
       },
     });
-    const tree = mount(
+    const { container } = render(
       <FilteringLabel alertStore={alertStore} name="foo" value="bar" />,
     );
-    expect(tree.text()).toBe("foo: bar");
+    expect(container.textContent).toBe("foo: bar");
   });
 });

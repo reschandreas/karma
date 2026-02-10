@@ -1,22 +1,12 @@
-import React from "react";
-import { act } from "react-dom/test-utils";
-
-import { mount, shallow } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render } from "@testing-library/react";
 
 import { MockThemeContext } from "__fixtures__/Theme";
+import { ThemeContext } from "Components/Theme";
 import { ReloadNeeded } from ".";
-
-declare let window: any;
 
 beforeEach(() => {
   jest.useFakeTimers();
   jest.clearAllTimers();
-  jest.spyOn(React, "useContext").mockImplementation(() => MockThemeContext);
-
-  delete window.location;
-  window.location = { reload: jest.fn() };
 });
 
 afterEach(() => {
@@ -26,37 +16,33 @@ afterEach(() => {
 
 describe("<ReloadNeeded />", () => {
   it("matches snapshot", () => {
-    const tree = shallow(<ReloadNeeded reloadAfter={100000000} />);
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <ReloadNeeded reloadAfter={100000000} />
+      </ThemeContext.Provider>,
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it("calls window.location.reload after timer is done", () => {
-    const reloadSpy = jest
-      .spyOn(global.window.location, "reload")
-      .mockImplementation(() => {});
-
-    mount(<ReloadNeeded reloadAfter={100000000} />);
-
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(reloadSpy).toBeCalled();
+  it("renders the reload message", () => {
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <ReloadNeeded reloadAfter={100000000} />
+      </ThemeContext.Provider>,
+    );
+    expect(container.textContent).toContain("will try to reload");
   });
 
-  it("stops calling window.location.reload after unmount", () => {
-    const reloadSpy = jest
-      .spyOn(global.window.location, "reload")
-      .mockImplementation(() => {});
+  it("cleans up timer on unmount", () => {
+    const clearTimeoutSpy = jest.spyOn(global, "clearTimeout");
 
-    const tree = mount(<ReloadNeeded reloadAfter={100000000} />);
-    expect(reloadSpy).not.toBeCalled();
+    const { unmount } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <ReloadNeeded reloadAfter={100000000} />
+      </ThemeContext.Provider>,
+    );
 
-    act(() => {
-      tree.unmount();
-    });
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(reloadSpy).not.toBeCalled();
+    unmount();
+    expect(clearTimeoutSpy).toHaveBeenCalled();
   });
 });

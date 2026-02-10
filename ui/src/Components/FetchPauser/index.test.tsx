@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
+import { render, act } from "@testing-library/react";
 
 import { AlertStore } from "Stores/AlertStore";
 import { FetchPauser } from ".";
@@ -12,7 +10,7 @@ beforeEach(() => {
 });
 
 const MountedFetchPauser = () => {
-  return mount(
+  return render(
     <FetchPauser alertStore={alertStore}>
       <div />
     </FetchPauser>,
@@ -26,9 +24,9 @@ describe("<FetchPauser />", () => {
   });
 
   it("unmounting FetchPauser resumes alertStore", () => {
-    const tree = MountedFetchPauser();
+    const { unmount } = MountedFetchPauser();
     act(() => {
-      tree.unmount();
+      unmount();
     });
     expect(alertStore.status.paused).toBe(false);
   });

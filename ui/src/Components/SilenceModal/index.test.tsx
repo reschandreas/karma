@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -34,7 +32,7 @@ afterEach(() => {
 });
 
 const MountedSilenceModal = () => {
-  return mount(
+  return render(
     <ThemeContext.Provider value={MockThemeContext}>
       <SilenceModal
         alertStore={alertStore}
@@ -47,27 +45,25 @@ const MountedSilenceModal = () => {
 
 describe("<SilenceModal />", () => {
   it("only renders FontAwesomeIcon when modal is not shown", () => {
-    const tree = MountedSilenceModal();
-    expect(tree.find("FontAwesomeIcon")).toHaveLength(1);
-    expect(tree.find("SilenceModalContent")).toHaveLength(0);
+    const { container } = MountedSilenceModal();
+    expect(container.querySelectorAll("svg")).toHaveLength(1);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
   it("renders a spinner placeholder while modal content is loading", () => {
-    const tree = MountedSilenceModal();
-    const toggle = tree.find(".nav-link");
-    toggle.simulate("click");
-    expect(tree.find("FontAwesomeIcon")).not.toHaveLength(0);
-    expect(tree.find("SilenceModalContent")).toHaveLength(0);
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(1);
+    const { container } = MountedSilenceModal();
+    const toggle = container.querySelector(".nav-link") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(container.querySelectorAll("svg")).not.toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(1);
   });
 
   it("renders a spinner placeholder after modal content load but no upstreams", () => {
-    const tree = MountedSilenceModal();
-    const toggle = tree.find(".nav-link");
-    toggle.simulate("click");
-    expect(tree.find("FontAwesomeIcon")).not.toHaveLength(0);
-    expect(tree.find("SilenceModalContent")).toHaveLength(1);
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(1);
+    const { container } = MountedSilenceModal();
+    const toggle = container.querySelector(".nav-link") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(container.querySelectorAll("svg")).not.toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(1);
   });
 
   it("renders modal content if fallback is not used", () => {
@@ -89,56 +85,51 @@ describe("<SilenceModal />", () => {
       ],
       clusters: { dev: ["dev"] },
     });
-    const tree = MountedSilenceModal();
-    const toggle = tree.find(".nav-link");
-    toggle.simulate("click");
-    expect(tree.find("FontAwesomeIcon")).not.toHaveLength(0);
-    expect(tree.find("SilenceModalContent")).toHaveLength(1);
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(0);
+    const { container } = MountedSilenceModal();
+    const toggle = container.querySelector(".nav-link") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(container.querySelectorAll("svg")).not.toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(0);
   });
 
   it("hides the modal when toggle() is called twice", () => {
-    const tree = MountedSilenceModal();
-    const toggle = tree.find(".nav-link");
+    const { container } = MountedSilenceModal();
+    const toggle = container.querySelector(".nav-link") as HTMLElement;
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("SilenceModalContent")).toHaveLength(1);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("SilenceModalContent")).toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
   it("hides the modal when hide() is called", () => {
-    const tree = MountedSilenceModal();
-    const toggle = tree.find(".nav-link");
+    const { container } = MountedSilenceModal();
+    const toggle = container.querySelector(".nav-link") as HTMLElement;
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("SilenceModalContent")).toHaveLength(1);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
 
     silenceFormStore.toggle.hide();
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("SilenceModalContent")).toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
   it("resets progress on hide", () => {
-    const tree = MountedSilenceModal();
-    const toggle = tree.find(".nav-link");
-    toggle.simulate("click");
+    const { container } = MountedSilenceModal();
+    const toggle = container.querySelector(".nav-link") as HTMLElement;
+    fireEvent.click(toggle);
 
     // mark form as dirty, resetProgress() should change this value to false
     silenceFormStore.data.setWasValidated(true);
@@ -146,12 +137,11 @@ describe("<SilenceModal />", () => {
     silenceFormStore.data.setAutofillMatchers(false);
 
     // click to hide
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     // wait for animation to finish
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
     // form should be reset
     expect(silenceFormStore.data.currentStage).toBe("form");
     expect(silenceFormStore.data.wasValidated).toBe(false);
@@ -159,20 +149,20 @@ describe("<SilenceModal />", () => {
   });
 
   it("'modal-open' class is appended to body node when modal is visible", () => {
-    const tree = MountedSilenceModal();
-    const toggle = tree.find(".nav-link");
-    toggle.simulate("click");
+    const { container } = MountedSilenceModal();
+    const toggle = container.querySelector(".nav-link") as HTMLElement;
+    fireEvent.click(toggle);
     expect(document.body.className.split(" ")).toContain("modal-open");
   });
 
   it("'modal-open' class is removed from body node after modal is hidden", () => {
-    const tree = MountedSilenceModal();
-    const toggle = tree.find(".nav-link");
+    const { container } = MountedSilenceModal();
+    const toggle = container.querySelector(".nav-link") as HTMLElement;
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     expect(document.body.className.split(" ")).toContain("modal-open");
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -180,10 +170,10 @@ describe("<SilenceModal />", () => {
   });
 
   it("'modal-open' class is removed from body node after modal is unmounted", () => {
-    const tree = MountedSilenceModal();
-    const toggle = tree.find(".nav-link");
-    toggle.simulate("click");
-    tree.unmount();
+    const { container, unmount } = MountedSilenceModal();
+    const toggle = container.querySelector(".nav-link") as HTMLElement;
+    fireEvent.click(toggle);
+    unmount();
     expect(document.body.className.split(" ")).not.toContain("modal-open");
   });
 });

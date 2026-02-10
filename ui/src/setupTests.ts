@@ -1,13 +1,7 @@
-import React from "react";
-
-import Enzyme from "enzyme";
-import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
-
 import "@testing-library/jest-dom";
 
-import { useInView } from "react-intersection-observer";
+import ReactDOM from "react-dom";
 
-// react-idle-timer >= 4.6.0
 import "regenerator-runtime/runtime";
 
 import { configure } from "mobx";
@@ -16,6 +10,20 @@ import { FetchRetryConfig } from "Common/Fetch";
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import { useFetchGet } from "Hooks/useFetchGet";
+
+import { useInView } from "react-intersection-observer";
+
+// Polyfill findDOMNode for react-transition-group v4 which uses it,
+// but it was removed in React 19
+if (!(ReactDOM as any).findDOMNode) {
+  (ReactDOM as any).findDOMNode = function (component: any) {
+    if (component == null) return null;
+    if (component.nodeType) return component;
+    return null;
+  };
+}
+
+// react-idle-timer >= 4.6.0
 
 configure({
   enforceActions: "always",
@@ -28,14 +36,8 @@ jest.mock("Hooks/useFetchGet");
 
 jest.mock("react-intersection-observer");
 
-// https://github.com/airbnb/enzyme
-Enzyme.configure({ adapter: new Adapter() });
-
 FetchRetryConfig.minTimeout = 2;
 FetchRetryConfig.maxTimeout = 10;
-
-// floating-ui uses useLayoutEffect but that fails in enzyme
-React.useLayoutEffect = React.useEffect;
 
 beforeEach(() => {
   useFetchGetMock.fetch.reset();

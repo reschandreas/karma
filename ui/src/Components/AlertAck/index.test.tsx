@@ -1,8 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -94,7 +90,7 @@ afterEach(() => {
 });
 
 const MountedAlertAck = () => {
-  return mount(
+  return render(
     <AlertAck
       alertStore={alertStore}
       silenceFormStore={silenceFormStore}
@@ -104,9 +100,9 @@ const MountedAlertAck = () => {
 };
 
 const MountAndClick = async () => {
-  const tree = MountedAlertAck();
-  const button = tree.find("span.badge");
-  button.simulate("click");
+  const { container } = MountedAlertAck();
+  const button = container.querySelector("span.badge");
+  fireEvent.click(button!);
   await act(async () => {
     await fetchMock.flush(true);
   });
@@ -125,70 +121,65 @@ describe("<AlertAck />", () => {
         },
       },
     });
-    const tree = MountedAlertAck();
-    expect(tree.html()).toBeNull();
+    const { container } = MountedAlertAck();
+    expect(container.innerHTML).toBe("");
   });
 
   it("uses faCheck icon when idle", () => {
-    const tree = MountedAlertAck();
-    expect(toDiffableHtml(tree.html())).toMatch(/fa-check/);
+    const { container } = MountedAlertAck();
+    expect(container.innerHTML).toMatch(/fa-check/);
   });
 
   it("uses faExclamationCircle after failed fetch", async () => {
-    fetchMock.mock(
-      "*",
-      {
-        status: 500,
-        body: "error message",
-      },
-      {
-        overwriteRoutes: true,
-      },
-    );
-    const tree = MountedAlertAck();
-    const button = tree.find("span.badge");
-    button.simulate("click");
+    fetchMock.reset();
+    fetchMock.mock("*", {
+      status: 500,
+      body: "error message",
+    });
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
     await act(async () => {
       await fetchMock.flush(true);
     });
-    expect(toDiffableHtml(tree.html())).toMatch(/fa-circle-exclamation/);
+    expect(container.innerHTML).toMatch(
+      /fa-circle-exclamation/,
+    );
   });
 
   it("resets faExclamationCircle after 20s", async () => {
-    fetchMock.mock(
-      "*",
-      {
-        status: 500,
-        body: "error message",
-      },
-      {
-        overwriteRoutes: true,
-      },
-    );
-    const tree = MountedAlertAck();
-    const button = tree.find("span.badge");
-    button.simulate("click");
+    fetchMock.reset();
+    fetchMock.mock("*", {
+      status: 500,
+      body: "error message",
+    });
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
     await act(async () => {
       await fetchMock.flush(true);
     });
-    expect(toDiffableHtml(tree.html())).toMatch(/fa-circle-exclamation/);
+    expect(container.innerHTML).toMatch(
+      /fa-circle-exclamation/,
+    );
 
     act(() => {
       jest.advanceTimersByTime(21 * 1000);
     });
-    tree.update();
-    expect(toDiffableHtml(tree.html())).not.toMatch(/fa-circle-exclamation/);
-    expect(toDiffableHtml(tree.html())).toMatch(/fa-check/);
+    expect(container.innerHTML).not.toMatch(
+      /fa-circle-exclamation/,
+    );
+    expect(container.innerHTML).toMatch(/fa-check/);
   });
 
   it("uses faCheckCircle after successful fetch", async () => {
-    const tree = MountedAlertAck();
-    const button = tree.find("span.badge");
-    button.simulate("click");
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
     await act(async () => {
       await fetchMock.flush(true);
     });
-    expect(toDiffableHtml(tree.html())).toMatch(/fa-circle-check/);
+    expect(container.innerHTML).toMatch(/fa-circle-check/);
   });
 
   it("sends a POST request on click", async () => {
@@ -196,7 +187,7 @@ describe("<AlertAck />", () => {
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.lastOptions()).toMatchObject({
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
     });
   });
 
@@ -214,7 +205,8 @@ describe("<AlertAck />", () => {
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers:
+          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -232,7 +224,7 @@ describe("<AlertAck />", () => {
     expect(fetchMock.calls()[0][1]).toMatchObject({
       method: "POST",
       credentials: "same-origin",
-      headers: { "X-Cluster": "c1" },
+      headers: { "x-cluster": "c1" },
     });
     expect(fetchMock.calls()[1][0]).toBe(
       "http://m3.example.com/api/v2/silences",
@@ -240,7 +232,7 @@ describe("<AlertAck />", () => {
     expect(fetchMock.calls()[1][1]).toMatchObject({
       method: "POST",
       credentials: "include",
-      headers: { "X-Cluster": "c2" },
+      headers: { "x-cluster": "c2" },
     });
   });
 
@@ -254,11 +246,13 @@ describe("<AlertAck />", () => {
         publicURI: `http://${a}.example.com`,
         readonly: a === "m1" || a === "m3" ? true : false,
         headers: { "X-Cluster": a === "m1" || a === "2" ? "c1" : "c2" },
-        corsCredentials: a === "m1" || a === "m2" ? "same-origin" : "include",
+        corsCredentials:
+          a === "m1" || a === "m2" ? "same-origin" : "include",
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers:
+          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -279,16 +273,16 @@ describe("<AlertAck />", () => {
   });
 
   it("doesn't send any request on click when already done", async () => {
-    const tree = MountedAlertAck();
-    const button = tree.find("span.badge");
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
 
-    button.simulate("click");
+    fireEvent.click(button!);
     await act(async () => {
       await fetchMock.flush(true);
     });
     expect(fetchMock.calls()).toHaveLength(1);
 
-    button.simulate("click");
+    fireEvent.click(button!);
     expect(fetchMock.calls()).toHaveLength(1);
   });
 
@@ -392,17 +386,20 @@ describe("<AlertAck />", () => {
           enabled: true,
           durationSeconds: 237,
           author: "me",
-          comment: "ACK! This alert was acknowledged using karma on %NOWLOC%",
+          comment:
+            "ACK! This alert was acknowledged using karma on %NOWLOC%",
         },
       },
     });
     await MountAndClick();
-    const comment = JSON.parse((fetchMock.lastOptions() as any).body).comment;
+    const comment = JSON.parse(
+      (fetchMock.lastOptions() as any).body,
+    ).comment;
     expect(comment).not.toEqual(
       "ACK! This alert was acknowledged using karma on Tue Feb 01 2000 00:00:00 GMT",
     );
     expect(comment).toMatch(
-      /ACK! This alert was acknowledged using karma on (Mon Jan 31 2000 19|Tue Feb 01 2000 00):00:00 GMT([+-]+)[0-9]+ \(.*\)/,
+      /ACK! This alert was acknowledged using karma on (Mon Jan 31|Tue Feb 01) 2000 \d{2}:00:00 GMT([+-]+)\d+ \(.*\)/,
     );
   });
 
@@ -533,11 +530,13 @@ describe("<AlertAck />", () => {
         publicURI: `http://${a}.example.com`,
         readonly: false,
         headers: { "X-Cluster": a === "m1" || a === "2" ? "c1" : "c2" },
-        corsCredentials: a === "m1" || a === "m2" ? "same-origin" : "include",
+        corsCredentials:
+          a === "m1" || a === "m2" ? "same-origin" : "include",
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers:
+          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -547,9 +546,9 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
-    const tree = MountedAlertAck();
-    const button = tree.find("span.badge");
-    button.simulate("click");
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -593,11 +592,13 @@ describe("<AlertAck />", () => {
         publicURI: `http://${a}.example.com`,
         readonly: false,
         headers: { "X-Cluster": a === "m1" || a === "2" ? "c1" : "c2" },
-        corsCredentials: a === "m1" || a === "m2" ? "same-origin" : "include",
+        corsCredentials:
+          a === "m1" || a === "m2" ? "same-origin" : "include",
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers:
+          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -607,9 +608,9 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
-    const tree = MountedAlertAck();
-    const button = tree.find("span.badge");
-    button.simulate("click");
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -654,9 +655,9 @@ describe("<AlertAck />", () => {
       ],
     });
 
-    const tree = MountedAlertAck();
-    const button = tree.find("span.badge");
-    button.simulate("click");
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
     await act(async () => {
       await fetchMock.flush(true);
     });

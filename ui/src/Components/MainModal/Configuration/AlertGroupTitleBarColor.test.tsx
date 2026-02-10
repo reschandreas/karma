@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { Settings } from "Stores/Settings";
 import { AlertGroupTitleBarColor } from "./AlertGroupTitleBarColor";
@@ -11,13 +9,13 @@ beforeEach(() => {
 });
 
 const FakeConfiguration = () => {
-  return mount(<AlertGroupTitleBarColor settingsStore={settingsStore} />);
+  return render(<AlertGroupTitleBarColor settingsStore={settingsStore} />);
 };
 
 describe("<AlertGroupTitleBarColor />", () => {
   it("matches snapshot with default values", () => {
-    const tree = FakeConfiguration();
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = FakeConfiguration();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("colorTitleBar is 'false' by default", () => {
@@ -25,12 +23,15 @@ describe("<AlertGroupTitleBarColor />", () => {
   });
 
   it("unchecking the checkbox sets stored colorTitleBar value to 'false'", (done) => {
-    const tree = FakeConfiguration();
-    const checkbox = tree.find("#configuration-colortitlebar");
-
+    // Set to true before render so checkbox starts checked
     settingsStore.alertGroupConfig.setColorTitleBar(true);
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-colortitlebar")!;
+
     expect(settingsStore.alertGroupConfig.config.colorTitleBar).toBe(true);
-    checkbox.simulate("change", { target: { checked: false } });
+    act(() => {
+      fireEvent.click(checkbox);
+    });
     setTimeout(() => {
       expect(settingsStore.alertGroupConfig.config.colorTitleBar).toBe(false);
       done();
@@ -38,12 +39,14 @@ describe("<AlertGroupTitleBarColor />", () => {
   });
 
   it("checking the checkbox sets stored colorTitleBar value to 'true'", (done) => {
-    const tree = FakeConfiguration();
-    const checkbox = tree.find("#configuration-colortitlebar");
-
     settingsStore.alertGroupConfig.setColorTitleBar(false);
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-colortitlebar")!;
+
     expect(settingsStore.alertGroupConfig.config.colorTitleBar).toBe(false);
-    checkbox.simulate("change", { target: { checked: true } });
+    act(() => {
+      fireEvent.click(checkbox);
+    });
     setTimeout(() => {
       expect(settingsStore.alertGroupConfig.config.colorTitleBar).toBe(true);
       done();

@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { AlertStore } from "Stores/AlertStore";
 import { InhibitedByModal } from ".";
@@ -19,94 +17,90 @@ afterEach(() => {
 
 describe("<InhibitedByModal />", () => {
   it("renders a spinner placeholder while modal content is loading", () => {
-    const tree = mount(
+    const { container } = render(
       <InhibitedByModal alertStore={alertStore} fingerprints={["foo"]} />,
     );
-    const toggle = tree.find("span.badge.bg-light");
-    toggle.simulate("click");
-    expect(tree.find("InhibitedByModalContent")).toHaveLength(0);
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(1);
+    const toggle = container.querySelector("span.badge.bg-light") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(1);
   });
 
   it("renders modal content if fallback is not used", () => {
-    const tree = mount(
+    const { container } = render(
       <InhibitedByModal alertStore={alertStore} fingerprints={["foo"]} />,
     );
-    const toggle = tree.find("span.badge.bg-light");
-    toggle.simulate("click");
-    expect(tree.find(".modal-title").text()).toBe("Inhibiting alerts");
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(0);
+    const toggle = container.querySelector("span.badge.bg-light") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(document.body.querySelector(".modal-title")!.textContent).toBe("Inhibiting alerts");
+    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(0);
   });
 
   it("handles multiple fingerprints", () => {
-    const tree = mount(
+    const { container } = render(
       <InhibitedByModal
         alertStore={alertStore}
         fingerprints={["foo", "bar"]}
       />,
     );
-    const toggle = tree.find("span.badge.bg-light");
-    toggle.simulate("click");
-    expect(tree.find(".modal-title").text()).toBe("Inhibiting alerts");
-    expect(tree.find(".modal-content").find("svg.fa-spinner")).toHaveLength(0);
+    const toggle = container.querySelector("span.badge.bg-light") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(document.body.querySelector(".modal-title")!.textContent).toBe("Inhibiting alerts");
+    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(0);
   });
 
   it("hides the modal when toggle() is called twice", () => {
-    const tree = mount(
+    const { container } = render(
       <InhibitedByModal alertStore={alertStore} fingerprints={["foo"]} />,
     );
-    const toggle = tree.find("span.badge.bg-light");
+    const toggle = container.querySelector("span.badge.bg-light") as HTMLElement;
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find(".modal-title").text()).toBe("Inhibiting alerts");
+    expect(document.body.querySelector(".modal-title")!.textContent).toBe("Inhibiting alerts");
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find(".modal-title")).toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-title")).toHaveLength(0);
   });
 
   it("hides the modal when button.btn-close is clicked", () => {
-    const tree = mount(
+    const { container } = render(
       <InhibitedByModal alertStore={alertStore} fingerprints={["foo"]} />,
     );
-    const toggle = tree.find("span.badge.bg-light");
+    const toggle = container.querySelector("span.badge.bg-light") as HTMLElement;
 
-    toggle.simulate("click");
-    expect(tree.find(".modal-title").text()).toBe("Inhibiting alerts");
+    fireEvent.click(toggle);
+    expect(document.body.querySelector(".modal-title")!.textContent).toBe("Inhibiting alerts");
 
-    tree.find("button.btn-close").simulate("click");
+    fireEvent.click(document.body.querySelector("button.btn-close") as HTMLElement);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("InhibitedByModalContent")).toHaveLength(0);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
   it("'modal-open' class is appended to body node when modal is visible", () => {
-    const tree = mount(
+    const { container } = render(
       <InhibitedByModal alertStore={alertStore} fingerprints={["foo"]} />,
     );
-    const toggle = tree.find("span.badge.bg-light");
-    toggle.simulate("click");
+    const toggle = container.querySelector("span.badge.bg-light") as HTMLElement;
+    fireEvent.click(toggle);
     expect(document.body.className.split(" ")).toContain("modal-open");
   });
 
   it("'modal-open' class is removed from body node after modal is hidden", () => {
-    const tree = mount(
+    const { container } = render(
       <InhibitedByModal alertStore={alertStore} fingerprints={["foo"]} />,
     );
 
-    tree.find("span.badge.bg-light").simulate("click");
+    fireEvent.click(container.querySelector("span.badge.bg-light") as HTMLElement);
     expect(document.body.className.split(" ")).toContain("modal-open");
 
-    tree.find("span.badge.bg-light").simulate("click");
+    fireEvent.click(container.querySelector("span.badge.bg-light") as HTMLElement);
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -114,15 +108,15 @@ describe("<InhibitedByModal />", () => {
   });
 
   it("'modal-open' class is removed from body node after modal is unmounted", () => {
-    const tree = mount(
+    const { container, unmount } = render(
       <InhibitedByModal alertStore={alertStore} fingerprints={["foo"]} />,
     );
 
-    const toggle = tree.find("span.badge.bg-light");
-    toggle.simulate("click");
+    const toggle = container.querySelector("span.badge.bg-light") as HTMLElement;
+    fireEvent.click(toggle);
 
     act(() => {
-      tree.unmount();
+      unmount();
     });
     expect(document.body.className.split(" ")).not.toContain("modal-open");
   });

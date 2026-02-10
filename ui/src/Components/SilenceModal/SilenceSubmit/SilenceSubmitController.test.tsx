@@ -1,4 +1,4 @@
-import { shallow } from "enzyme";
+import { render, fireEvent } from "@testing-library/react";
 
 import { AlertStore } from "Stores/AlertStore";
 import { SilenceFormStore, NewClusterRequest } from "Stores/SilenceFormStore";
@@ -64,14 +64,13 @@ describe("<SilenceSubmitController />", () => {
       single: NewClusterRequest("single", ["single"]),
     });
 
-    const tree = shallow(
+    const { container } = render(
       <SilenceSubmitController
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
       />,
     );
-    expect(tree.find("Memo(MultiClusterStatus)")).toHaveLength(1);
-    expect(tree.find("Memo(SingleClusterStatus)")).toHaveLength(0);
+    expect(container.querySelectorAll("table")).toHaveLength(1);
   });
 
   it("renders SingleClusterStatus when multiple clusters are used", () => {
@@ -79,26 +78,25 @@ describe("<SilenceSubmitController />", () => {
       ha: NewClusterRequest("ha", ["am1", "am2"]),
     });
 
-    const tree = shallow(
+    const { container } = render(
       <SilenceSubmitController
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
       />,
     );
-    expect(tree.find("Memo(MultiClusterStatus)")).toHaveLength(0);
-    expect(tree.find("Memo(SingleClusterStatus)")).toHaveLength(1);
+    expect(container.querySelectorAll("table")).toHaveLength(0);
   });
 
   it("resets the form on 'Back' button click", () => {
     silenceFormStore.data.setStage("submit");
-    const tree = shallow(
+    const { container } = render(
       <SilenceSubmitController
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
       />,
     );
-    const button = tree.find("button");
-    button.simulate("click");
+    const button = container.querySelector("button") as HTMLButtonElement;
+    fireEvent.click(button);
     expect(silenceFormStore.data.currentStage).toBe("form");
   });
 });
@@ -109,28 +107,28 @@ describe("<MultiClusterStatus />", () => {
       ha: NewClusterRequest("ha", ["am1", "am2"]),
       single: NewClusterRequest("single", ["single"]),
     });
-    const tree = shallow(
+    const { container } = render(
       <MultiClusterStatus
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
       />,
     );
-    expect(tree.find("tr")).toHaveLength(2);
+    expect(container.querySelectorAll("tr")).toHaveLength(2);
   });
 
   it("renders spinner for pending requests", () => {
     const single = NewClusterRequest("single", ["single"]);
     silenceFormStore.data.setRequestsByCluster({ single: single });
-    const tree = shallow(
+    const { container } = render(
       <MultiClusterStatus
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
       />,
     );
-    expect(tree.find("tr")).toHaveLength(1);
-    expect(tree.find("td").at(0).html()).toMatch(/fa-circle-notch/);
-    expect(tree.find("td").at(1).text()).toBe("single");
-    expect(tree.find("td").at(2).text()).toBe("");
+    expect(container.querySelectorAll("tr")).toHaveLength(1);
+    expect(container.querySelectorAll("td")[0].innerHTML).toMatch(/fa-circle-notch/);
+    expect(container.querySelectorAll("td")[1].textContent).toBe("single");
+    expect(container.querySelectorAll("td")[2].textContent).toBe("");
   });
 
   it("renders error for failed requests", () => {
@@ -138,16 +136,16 @@ describe("<MultiClusterStatus />", () => {
     single.isDone = true;
     single.error = "fake error";
     silenceFormStore.data.setRequestsByCluster({ single: single });
-    const tree = shallow(
+    const { container } = render(
       <MultiClusterStatus
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
       />,
     );
-    expect(tree.find("tr")).toHaveLength(1);
-    expect(tree.find("td").at(0).html()).toMatch(/fa-circle-exclamation/);
-    expect(tree.find("td").at(1).text()).toBe("single");
-    expect(tree.find("td").at(2).text()).toBe("fake error");
+    expect(container.querySelectorAll("tr")).toHaveLength(1);
+    expect(container.querySelectorAll("td")[0].innerHTML).toMatch(/fa-circle-exclamation/);
+    expect(container.querySelectorAll("td")[1].textContent).toBe("single");
+    expect(container.querySelectorAll("td")[2].textContent).toBe("fake error");
   });
 
   it("renders silence link for completed requests", () => {
@@ -156,18 +154,18 @@ describe("<MultiClusterStatus />", () => {
     single.silenceID = "123456789";
     single.silenceLink = "http://localhost";
     silenceFormStore.data.setRequestsByCluster({ single: single });
-    const tree = shallow(
+    const { container } = render(
       <MultiClusterStatus
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
       />,
     );
-    expect(tree.find("tr")).toHaveLength(1);
-    expect(tree.find("td").at(0).html()).toMatch(/fa-circle-check/);
-    expect(tree.find("td").at(1).text()).toBe("single");
-    expect(tree.find("td").at(2).text()).toBe("123456789");
+    expect(container.querySelectorAll("tr")).toHaveLength(1);
+    expect(container.querySelectorAll("td")[0].innerHTML).toMatch(/fa-circle-check/);
+    expect(container.querySelectorAll("td")[1].textContent).toBe("single");
+    expect(container.querySelectorAll("td")[2].textContent).toBe("123456789");
     expect(
-      tree.find("td").at(2).find('a[href="http://localhost"]'),
+      container.querySelectorAll("td")[2].querySelectorAll('a[href="http://localhost"]'),
     ).toHaveLength(1);
   });
 });
@@ -176,15 +174,15 @@ describe("<SingleClusterStatus />", () => {
   it("renders spinner for pending requests", () => {
     const single = NewClusterRequest("single", ["single"]);
     silenceFormStore.data.setRequestsByCluster({ single: single });
-    const tree = shallow(
+    const { container } = render(
       <SingleClusterStatus
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
       />,
     );
-    expect(tree.find("div.display-1").at(0).html()).toMatch(/fa-circle-notch/);
-    expect(tree.find("div.badge.bg-primary").text()).toBe("single");
-    expect(tree.find("p")).toHaveLength(0);
+    expect(container.querySelectorAll("div.display-1")[0].innerHTML).toMatch(/fa-circle-notch/);
+    expect(container.querySelector("div.badge.bg-primary")!.textContent).toBe("single");
+    expect(container.querySelectorAll("p")).toHaveLength(0);
   });
 
   it("renders error for failed requests", () => {
@@ -192,17 +190,17 @@ describe("<SingleClusterStatus />", () => {
     single.isDone = true;
     single.error = "fake error";
     silenceFormStore.data.setRequestsByCluster({ single: single });
-    const tree = shallow(
+    const { container } = render(
       <SingleClusterStatus
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
       />,
     );
-    expect(tree.find("div.display-1").at(0).html()).toMatch(
+    expect(container.querySelectorAll("div.display-1")[0].innerHTML).toMatch(
       /fa-circle-exclamation/,
     );
-    expect(tree.find("div.badge.bg-primary").text()).toBe("single");
-    expect(tree.find("p").text()).toBe("fake error");
+    expect(container.querySelector("div.badge.bg-primary")!.textContent).toBe("single");
+    expect(container.querySelector("p")!.textContent).toBe("fake error");
   });
 
   it("renders silence link for completed requests", () => {
@@ -211,16 +209,16 @@ describe("<SingleClusterStatus />", () => {
     single.silenceID = "123456789";
     single.silenceLink = "http://localhost";
     silenceFormStore.data.setRequestsByCluster({ single: single });
-    const tree = shallow(
+    const { container } = render(
       <SingleClusterStatus
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
       />,
     );
 
-    expect(tree.find("div.display-1").at(0).html()).toMatch(/fa-circle-check/);
-    expect(tree.find("div.badge.bg-primary").text()).toBe("single");
-    expect(tree.find("p").text()).toBe("123456789");
-    expect(tree.find("p").find('a[href="http://localhost"]')).toHaveLength(1);
+    expect(container.querySelectorAll("div.display-1")[0].innerHTML).toMatch(/fa-circle-check/);
+    expect(container.querySelector("div.badge.bg-primary")!.textContent).toBe("single");
+    expect(container.querySelector("p")!.textContent).toBe("123456789");
+    expect(container.querySelector("p")!.querySelectorAll('a[href="http://localhost"]')).toHaveLength(1);
   });
 });

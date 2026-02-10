@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent } from "@testing-library/react";
 
 import { Settings } from "Stores/Settings";
 import { FilterBarConfiguration } from "./FilterBarConfiguration";
@@ -11,21 +9,21 @@ beforeEach(() => {
 });
 
 const FakeConfiguration = () => {
-  return mount(<FilterBarConfiguration settingsStore={settingsStore} />);
+  return render(<FilterBarConfiguration settingsStore={settingsStore} />);
 };
 
 describe("<FilterBarConfiguration />", () => {
   it("matches snapshot with default values", () => {
-    const tree = FakeConfiguration();
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = FakeConfiguration();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("unchecking the checkbox sets stored autohide value to 'false'", (done) => {
-    const tree = FakeConfiguration();
-    const checkbox = tree.find("#configuration-autohide");
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-autohide")!;
 
     expect(settingsStore.filterBarConfig.config.autohide).toBe(true);
-    checkbox.simulate("change", { target: { checked: false } });
+    fireEvent.click(checkbox); // checked: false } });
     setTimeout(() => {
       expect(settingsStore.filterBarConfig.config.autohide).toBe(false);
       done();
@@ -33,11 +31,11 @@ describe("<FilterBarConfiguration />", () => {
   });
 
   it("checking the checkbox sets stored autohide value to 'true'", (done) => {
-    const tree = FakeConfiguration();
-    const checkbox = tree.find("#configuration-autohide");
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-autohide")!;
 
     expect(settingsStore.filterBarConfig.config.autohide).toBe(false);
-    checkbox.simulate("change", { target: { checked: true } });
+    fireEvent.click(checkbox); // checked: true } });
     setTimeout(() => {
       expect(settingsStore.filterBarConfig.config.autohide).toBe(true);
       done();

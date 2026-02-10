@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent } from "@testing-library/react";
 
 import { MockThemeContext } from "__fixtures__/Theme";
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
@@ -19,27 +17,31 @@ afterEach(() => {
 });
 
 const FakeConfiguration = () => {
-  return mount(<AlertGroupSortConfiguration settingsStore={settingsStore} />, {
-    wrappingComponent: ThemeContext.Provider,
-    wrappingComponentProps: { value: MockThemeContext },
-  });
+  return render(
+    <ThemeContext.Provider value={MockThemeContext}>
+      <AlertGroupSortConfiguration settingsStore={settingsStore} />
+    </ThemeContext.Provider>,
+  );
 };
 
 const ExpandSortLabelSuggestions = () => {
   settingsStore.gridConfig.setSortOrder("label");
-  const tree = FakeConfiguration();
+  const result = FakeConfiguration();
 
-  tree
-    .find("input#react-select-configuration-sort-label-input")
-    .simulate("change", { target: { value: "a" } });
+  fireEvent.change(
+    result.container.querySelector(
+      "input#react-select-configuration-sort-label-input",
+    )!,
+    { target: { value: "a" } },
+  );
 
-  return tree;
+  return result;
 };
 
 describe("<AlertGroupSortConfiguration />", () => {
   it("matches snapshot with default values", () => {
-    const tree = FakeConfiguration();
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = FakeConfiguration();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("invalid sortOrder value is reset on mount", () => {
@@ -65,12 +67,17 @@ describe("<AlertGroupSortConfiguration />", () => {
     expect(settingsStore.gridConfig.config.sortOrder).toBe(
       settingsStore.gridConfig.options.label.value,
     );
-    const tree = FakeConfiguration();
+    const { container } = FakeConfiguration();
 
-    tree
-      .find("input#react-select-configuration-sort-order-input")
-      .simulate("change", { target: { value: " " } });
-    tree.find("div.react-select__option").at(2).simulate("click");
+    fireEvent.change(
+      container.querySelector(
+        "input#react-select-configuration-sort-order-input",
+      )!,
+      { target: { value: " " } },
+    );
+    fireEvent.click(
+      container.querySelectorAll("div.react-select__option")[2],
+    );
 
     expect(settingsStore.gridConfig.config.sortOrder).toBe(
       settingsStore.gridConfig.options.startsAt.value,
@@ -79,53 +86,57 @@ describe("<AlertGroupSortConfiguration />", () => {
 
   it("reverse checkbox is not rendered when sort order is == 'default'", () => {
     settingsStore.gridConfig.setSortOrder("default");
-    const tree = FakeConfiguration();
-    const labelSelect = tree.find("#configuration-sort-reverse");
-    expect(labelSelect).toHaveLength(0);
+    const { container } = FakeConfiguration();
+    const labelSelect = container.querySelector("#configuration-sort-reverse");
+    expect(labelSelect).toBeNull();
   });
 
   it("reverse checkbox is not rendered when sort order is == 'disabled'", () => {
     settingsStore.gridConfig.setSortOrder("disabled");
-    const tree = FakeConfiguration();
-    const labelSelect = tree.find("#configuration-sort-reverse");
-    expect(labelSelect).toHaveLength(0);
+    const { container } = FakeConfiguration();
+    const labelSelect = container.querySelector("#configuration-sort-reverse");
+    expect(labelSelect).toBeNull();
   });
 
   it("reverse checkbox is rendered when sort order is = 'startsAt'", () => {
     settingsStore.gridConfig.setSortOrder("startsAt");
-    const tree = FakeConfiguration();
-    const labelSelect = tree.find("#configuration-sort-reverse");
-    expect(labelSelect).toHaveLength(1);
+    const { container } = FakeConfiguration();
+    const labelSelect = container.querySelector("#configuration-sort-reverse");
+    expect(labelSelect).not.toBeNull();
   });
 
   it("reverse checkbox is rendered when sort order is = 'label'", () => {
     settingsStore.gridConfig.setSortOrder("label");
-    const tree = FakeConfiguration();
-    const labelSelect = tree.find("#configuration-sort-reverse");
-    expect(labelSelect).toHaveLength(1);
+    const { container } = FakeConfiguration();
+    const labelSelect = container.querySelector("#configuration-sort-reverse");
+    expect(labelSelect).not.toBeNull();
   });
 
   it("label select is not rendered when sort order is != 'label'", () => {
     settingsStore.gridConfig.setSortOrder("disabled");
-    const tree = FakeConfiguration();
-    const labelSelect = tree.find("SortLabelName");
-    expect(labelSelect).toHaveLength(0);
+    const { container } = FakeConfiguration();
+    const labelSelect = container.querySelector(
+      "input#react-select-configuration-sort-label-input",
+    );
+    expect(labelSelect).toBeNull();
   });
 
   it("label select is rendered when sort order is == 'label'", () => {
     settingsStore.gridConfig.setSortOrder("label");
-    const tree = FakeConfiguration();
-    const labelSelect = tree.find("SortLabelName");
-    expect(labelSelect).toHaveLength(1);
+    const { container } = FakeConfiguration();
+    const labelSelect = container.querySelector(
+      "input#react-select-configuration-sort-label-input",
+    );
+    expect(labelSelect).not.toBeNull();
   });
 
   it("label select renders suggestions on click", () => {
-    const tree = ExpandSortLabelSuggestions();
-    const options = tree.find("div.react-select__option");
-    expect(options).toHaveLength(3);
-    expect(options.at(0).text()).toBe("cluster");
-    expect(options.at(1).text()).toBe("job");
-    expect(options.at(2).text()).toBe("instance");
+    const { container } = ExpandSortLabelSuggestions();
+    const options = container.querySelectorAll("div.react-select__option");
+    // Filter "a" narrows results to labels containing "a" + creatable "New label: a"
+    expect(options).toHaveLength(2);
+    expect(options[0].textContent).toBe("instance");
+    expect(options[1].textContent).toBe("New label: a");
   });
 
   it("label select handles fetch errors", () => {
@@ -138,27 +149,41 @@ describe("<AlertGroupSortConfiguration />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = ExpandSortLabelSuggestions();
-    const options = tree.find("div.react-select__option");
-    expect(options).toHaveLength(0);
+    const { container } = ExpandSortLabelSuggestions();
+    const options = container.querySelectorAll("div.react-select__option");
+    // With error, no API labels are loaded; filter "a" matches only "New label: a"
+    expect(options).toHaveLength(1);
+    expect(options[0].textContent).toBe("New label: a");
   });
 
   it("clicking on a label option updates settingsStore", () => {
     expect(settingsStore.gridConfig.config.sortLabel).toBeNull();
-    const tree = ExpandSortLabelSuggestions();
-    const options = tree.find("div.react-select__option");
-    options.at(1).simulate("click");
+    settingsStore.gridConfig.setSortOrder("label");
+    const { container } = FakeConfiguration();
+    // Open dropdown with space to show all options (no filter)
+    fireEvent.change(
+      container.querySelector(
+        "input#react-select-configuration-sort-label-input",
+      )!,
+      { target: { value: " " } },
+    );
+    const options = container.querySelectorAll("div.react-select__option");
+    const jobOption = Array.from(options).find(
+      (o) => o.textContent === "job",
+    );
+    expect(jobOption).toBeDefined();
+    fireEvent.click(jobOption!);
     expect(settingsStore.gridConfig.config.sortLabel).toBe("job");
   });
 
   it("clicking on the 'reverse' checkbox updates settingsStore", () => {
     settingsStore.gridConfig.setSortOrder("label");
     settingsStore.gridConfig.setSortReverse(false);
-    const tree = FakeConfiguration();
-    const checkbox = tree.find("#configuration-sort-reverse");
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-sort-reverse")!;
 
     expect(settingsStore.gridConfig.config.reverseSort).toBe(false);
-    checkbox.simulate("change", { target: { checked: true } });
+    fireEvent.click(checkbox);
     expect(settingsStore.gridConfig.config.reverseSort).toBe(true);
   });
 });

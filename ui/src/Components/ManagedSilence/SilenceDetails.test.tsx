@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent } from "@testing-library/react";
 
 import copy from "copy-to-clipboard";
 
@@ -54,7 +52,7 @@ afterEach(() => {
 });
 
 const MountedSilenceDetails = () => {
-  return mount(
+  return render(
     <SilenceDetails
       alertStore={alertStore}
       silenceFormStore={silenceFormStore}
@@ -68,30 +66,30 @@ const MountedSilenceDetails = () => {
 describe("<SilenceDetails />", () => {
   it("unexpired silence endsAt label doesn't use 'danger' class", () => {
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 0, 30, 0)));
-    const tree = MountedSilenceDetails();
-    const endsAt = tree.find("span.badge").at(1);
-    expect(toDiffableHtml(endsAt.html())).not.toMatch(/text-danger/);
+    const { container } = MountedSilenceDetails();
+    const endsAt = container.querySelectorAll("span.badge")[1];
+    expect(endsAt.innerHTML).not.toMatch(/text-danger/);
   });
 
   it("expired silence endsAt label uses 'danger' class", () => {
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 23, 0, 0)));
-    const tree = MountedSilenceDetails();
-    const endsAt = tree.find("span.badge").at(1);
-    expect(toDiffableHtml(endsAt.html())).toMatch(/text-danger/);
+    const { container } = MountedSilenceDetails();
+    const endsAt = container.querySelectorAll("span.badge")[1];
+    expect(endsAt.innerHTML).toMatch(/text-danger/);
   });
 
   it("id links to Alertmanager silence view via alertmanager.publicURI", () => {
-    const tree = MountedSilenceDetails();
-    const link = tree.find("a");
-    expect(link.props().href).toBe(
+    const { container } = MountedSilenceDetails();
+    const link = container.querySelector("a")!;
+    expect(link.href).toBe(
       "http://example.com/#/silences/04d37636-2350-4878-b382-e0b50353230f",
     );
   });
 
   it("clicking on the copy button copies silence ID to the clipboard", () => {
-    const tree = MountedSilenceDetails();
-    const button = tree.find("span.badge.bg-secondary");
-    button.simulate("click");
+    const { container } = MountedSilenceDetails();
+    const button = container.querySelector("span.badge.bg-secondary")!;
+    fireEvent.click(button);
     expect(copy).toHaveBeenCalledTimes(1);
     expect(copy).toHaveBeenCalledWith(silence.id);
   });
@@ -100,10 +98,12 @@ describe("<SilenceDetails />", () => {
     const upstreams = generateUpstreams();
     upstreams.instances[0].readonly = true;
     alertStore.data.setUpstreams(upstreams);
-    const tree = MountedSilenceDetails();
-    expect(tree.find("button").prop("disabled")).toBe(true);
+    const { container } = MountedSilenceDetails();
+    expect(
+      (container.querySelector("button") as HTMLButtonElement).disabled,
+    ).toBe(true);
 
-    tree.find("button").at(0).simulate("click");
-    expect(tree.find(".modal-body")).toHaveLength(0);
+    fireEvent.click(container.querySelectorAll("button")[0]);
+    expect(document.body.querySelectorAll(".modal-body")).toHaveLength(0);
   });
 });

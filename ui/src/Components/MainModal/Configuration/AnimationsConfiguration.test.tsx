@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent } from "@testing-library/react";
 
 import { Settings } from "Stores/Settings";
 import { AnimationsConfiguration } from "./AnimationsConfiguration";
@@ -11,13 +9,13 @@ beforeEach(() => {
 });
 
 const FakeConfiguration = () => {
-  return mount(<AnimationsConfiguration settingsStore={settingsStore} />);
+  return render(<AnimationsConfiguration settingsStore={settingsStore} />);
 };
 
 describe("<AnimationsConfiguration />", () => {
   it("matches snapshot with default values", () => {
-    const tree = FakeConfiguration();
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = FakeConfiguration();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("animations is 'true' by default", () => {
@@ -25,12 +23,12 @@ describe("<AnimationsConfiguration />", () => {
   });
 
   it("unchecking the checkbox sets stored animations value to 'false'", (done) => {
-    const tree = FakeConfiguration();
-    const checkbox = tree.find("#configuration-animations");
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-animations")!;
 
     settingsStore.themeConfig.setAnimations(true);
     expect(settingsStore.themeConfig.config.animations).toBe(true);
-    checkbox.simulate("change", { target: { checked: false } });
+    fireEvent.click(checkbox);
     setTimeout(() => {
       expect(settingsStore.themeConfig.config.animations).toBe(false);
       done();
@@ -38,12 +36,12 @@ describe("<AnimationsConfiguration />", () => {
   });
 
   it("checking the checkbox sets stored animations value to 'true'", (done) => {
-    const tree = FakeConfiguration();
-    const checkbox = tree.find("#configuration-animations");
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-animations")!;
 
     settingsStore.themeConfig.setAnimations(false);
     expect(settingsStore.themeConfig.config.animations).toBe(false);
-    checkbox.simulate("change", { target: { checked: true } });
+    fireEvent.click(checkbox);
     setTimeout(() => {
       expect(settingsStore.themeConfig.config.animations).toBe(true);
       done();

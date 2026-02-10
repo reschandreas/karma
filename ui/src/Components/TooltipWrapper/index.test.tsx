@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { TooltipWrapper } from ".";
 
@@ -9,46 +7,48 @@ describe("TooltipWrapper", () => {
     jest.useFakeTimers();
   });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it("renders only children", () => {
-    const tree = mount(
+    const { container } = render(
       <TooltipWrapper title="my title">
         <span>Hover me</span>
       </TooltipWrapper>,
     );
-    expect(tree.text()).toBe("Hover me");
-    expect(tree.find("div.tooltip")).toHaveLength(0);
+    expect(container.textContent).toBe("Hover me");
+    expect(document.querySelectorAll("div.tooltip")).toHaveLength(0);
   });
 
   it("uses passed className", () => {
-    const tree = mount(
+    const { container } = render(
       <TooltipWrapper title="my title" className="foo">
         <span>Hover me</span>
       </TooltipWrapper>,
     );
-    expect(tree.find("div.foo")).toHaveLength(1);
-    expect(tree.find("div.foo").text()).toBe("Hover me");
+    expect(container.querySelectorAll("div.foo")).toHaveLength(1);
+    expect(container.querySelector("div.foo")!.textContent).toBe("Hover me");
   });
 
   it("on non-touch devices it renders tooltip on mouseOver and hides on mouseLeave", async () => {
-    const tree = mount(
+    const { container } = render(
       <TooltipWrapper title="my title">
         <span>Hover me</span>
       </TooltipWrapper>,
     );
 
-    tree.simulate("mouseOver");
+    fireEvent.mouseOver(container.firstChild!);
     act(() => {
       jest.runAllTimers();
     });
-    tree.update();
-    expect(tree.find("div.tooltip")).toHaveLength(1);
+    expect(document.querySelectorAll("div.tooltip")).toHaveLength(1);
 
-    tree.simulate("mouseLeave");
+    fireEvent.mouseLeave(container.firstChild!);
     act(() => {
       jest.runAllTimers();
     });
-    tree.update();
-    expect(tree.find("div.tooltip")).toHaveLength(0);
+    expect(document.querySelectorAll("div.tooltip")).toHaveLength(0);
 
     await act(async () => {
       jest.runAllTimers();
@@ -56,31 +56,30 @@ describe("TooltipWrapper", () => {
   });
 
   it("on touch devices it renders tooltip on touchStart and hides on touchEnd", async () => {
-    const tree = mount(
+    const { container } = render(
       <TooltipWrapper title="my title">
         <span>Hover me</span>
       </TooltipWrapper>,
     );
 
+    // Enable touch mode by dispatching touchstart on window after render
+    // so the useSupportsTouch hook's listener is active
     act(() => {
       const event = new Event("touchstart");
       global.window.dispatchEvent(event);
     });
-    tree.update();
 
-    tree.simulate("touchStart");
+    fireEvent.touchStart(container.firstChild!);
     act(() => {
       jest.runAllTimers();
     });
-    tree.update();
-    expect(tree.find("div.tooltip")).toHaveLength(1);
+    expect(document.querySelectorAll("div.tooltip")).toHaveLength(1);
 
-    tree.simulate("touchEnd");
+    fireEvent.touchEnd(container.firstChild!);
     act(() => {
       jest.runAllTimers();
     });
-    tree.update();
-    expect(tree.find("div.tooltip")).toHaveLength(0);
+    expect(document.querySelectorAll("div.tooltip")).toHaveLength(0);
 
     await act(async () => {
       jest.runAllTimers();
@@ -88,41 +87,37 @@ describe("TooltipWrapper", () => {
   });
 
   it("hides the tooltip after click and show again on mouseOver", () => {
-    const tree = mount(
+    const { container, unmount } = render(
       <TooltipWrapper title="my title">
         <span>Hover me</span>
       </TooltipWrapper>,
     );
 
-    tree.simulate("mouseOver");
+    fireEvent.mouseOver(container.firstChild!);
     act(() => {
       jest.runAllTimers();
     });
-    tree.update();
-    expect(tree.find("div.tooltip")).toHaveLength(1);
+    expect(document.querySelectorAll("div.tooltip")).toHaveLength(1);
 
-    tree.simulate("click");
+    fireEvent.click(container.firstChild!);
     act(() => {
       jest.runAllTimers();
     });
-    tree.update();
-    expect(tree.find("div.tooltip")).toHaveLength(0);
+    expect(document.querySelectorAll("div.tooltip")).toHaveLength(0);
 
-    tree.simulate("mouseLeave");
+    fireEvent.mouseLeave(container.firstChild!);
     act(() => {
       jest.runAllTimers();
     });
-    tree.update();
-    expect(tree.find("div.tooltip")).toHaveLength(0);
+    expect(document.querySelectorAll("div.tooltip")).toHaveLength(0);
 
-    tree.simulate("mouseOver");
+    fireEvent.mouseOver(container.firstChild!);
     act(() => {
       jest.runAllTimers();
     });
-    tree.update();
-    expect(tree.find("div.tooltip")).toHaveLength(1);
+    expect(document.querySelectorAll("div.tooltip")).toHaveLength(1);
 
-    tree.unmount();
+    unmount();
     act(() => {
       jest.runAllTimers();
     });

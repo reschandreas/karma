@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render } from "@testing-library/react";
 
 import { AlertStore } from "Stores/AlertStore";
 
@@ -13,13 +11,13 @@ beforeEach(() => {
 });
 
 const MountedStaticLabel = () => {
-  return mount(<StaticLabel alertStore={alertStore} name="foo" value="bar" />);
+  return render(<StaticLabel alertStore={alertStore} name="foo" value="bar" />);
 };
 
 describe("<StaticLabel />", () => {
   it("matches snapshot", () => {
-    const tree = MountedStaticLabel();
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedStaticLabel();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("label with dark background color should have 'components-label-dark' class", () => {
@@ -32,9 +30,11 @@ describe("<StaticLabel />", () => {
       },
       ...alertStore.data.colors,
     });
-    const tree = MountedStaticLabel();
+    const { container } = MountedStaticLabel();
     expect(
-      tree.find(".components-label").hasClass("components-label-dark"),
+      container
+        .querySelector(".components-label")
+        ?.classList.contains("components-label-dark"),
     ).toBe(true);
   });
 
@@ -48,9 +48,11 @@ describe("<StaticLabel />", () => {
       },
       ...alertStore.data.colors,
     });
-    const tree = MountedStaticLabel();
+    const { container } = MountedStaticLabel();
     expect(
-      tree.find(".components-label").hasClass("components-label-bright"),
+      container
+        .querySelector(".components-label")
+        ?.classList.contains("components-label-bright"),
     ).toBe(true);
   });
 });

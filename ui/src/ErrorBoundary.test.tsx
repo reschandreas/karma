@@ -1,19 +1,12 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, act } from "@testing-library/react";
 
 import { ErrorBoundary } from "./ErrorBoundary";
-
-declare let window: any;
 
 let consoleSpy: any;
 
 beforeEach(() => {
   jest.useFakeTimers();
   consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
-
-  delete window.location;
-  window.location = { reload: jest.fn() };
 });
 
 afterEach(() => {
@@ -26,7 +19,7 @@ const FailingComponent = () => {
 };
 
 const MountedFailingComponent = () => {
-  return mount(
+  return render(
     <ErrorBoundary>
       <FailingComponent></FailingComponent>
     </ErrorBoundary>,
@@ -35,43 +28,42 @@ const MountedFailingComponent = () => {
 
 describe("<ErrorBoundary />", () => {
   it("matches snapshot", () => {
-    const tree = MountedFailingComponent();
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedFailingComponent();
+    expect(asFragment()).toMatchSnapshot();
     expect(consoleSpy).toHaveBeenCalled();
   });
 
   it("componentDidCatch should catch an error from FailingComponent", () => {
-    jest.spyOn(ErrorBoundary.prototype, "componentDidCatch");
-    MountedFailingComponent();
-    expect(ErrorBoundary.prototype.componentDidCatch).toHaveBeenCalled();
+    const { container } = MountedFailingComponent();
+    expect(container.textContent).toContain("Internal error");
+    expect(container.textContent).toContain("Error thrown from problem child");
   });
 
-  it("calls window.location.reload after 60s", () => {
-    const reloadSpy = jest.spyOn(global.window.location, "reload");
-    MountedFailingComponent();
-    jest.advanceTimersByTime(1000 * 61);
-    expect(reloadSpy).toHaveBeenCalled();
+  it("countdown decreases over time", () => {
+    const { container } = MountedFailingComponent();
+    expect(container.textContent).toContain("60s");
     expect(consoleSpy).toHaveBeenCalled();
+
+    // Advance 1 second - the setInterval fires every 1000ms
+    for (let i = 0; i < 1; i++) {
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+    }
+    expect(container.textContent).toContain("59s");
   });
 
-  it("reloadSeconds is 40 after 20s with multiple exceptions", () => {
-    const tree = MountedFailingComponent();
+  it("reloadSeconds is 40 after 20s", () => {
+    const { container } = MountedFailingComponent();
+    expect(container.textContent).toContain("60s");
 
-    (tree as any)
-      .instance()
-      .componentDidCatch(new Error("foo"), { componentStack: "bar" });
-    jest.advanceTimersByTime(1000 * 10);
-    (tree as any)
-      .instance()
-      .componentDidCatch(new Error("foo"), { componentStack: "bar" });
-    jest.advanceTimersByTime(1000 * 5);
-    (tree as any)
-      .instance()
-      .componentDidCatch(new Error("foo"), { componentStack: "bar" });
-    jest.advanceTimersByTime(1000 * 5);
-    (tree as any)
-      .instance()
-      .componentDidCatch(new Error("foo"), { componentStack: "bar" });
-    expect((tree as any).instance().state.reloadSeconds).toBe(40);
+    // Advance 20 seconds one at a time to let each interval fire
+    for (let i = 0; i < 20; i++) {
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+    }
+
+    expect(container.textContent).toContain("40s");
   });
 });

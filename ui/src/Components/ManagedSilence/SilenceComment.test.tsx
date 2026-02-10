@@ -1,6 +1,4 @@
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent } from "@testing-library/react";
 
 import { MockSilence } from "__fixtures__/Alerts";
 import type { APISilenceT } from "Models/APITypes";
@@ -26,7 +24,7 @@ afterEach(() => {
 const CollapseMock = jest.fn();
 
 const MountedSilenceComment = (collapsed: boolean, cluster?: string) => {
-  return mount(
+  return render(
     <SilenceComment
       alertStore={alertStore}
       alertCount={123}
@@ -85,49 +83,53 @@ const MockMultipleClusters = () => {
 
 describe("<SilenceComment />", () => {
   it("Matches snapshot when collapsed", () => {
-    const tree = MountedSilenceComment(true);
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedSilenceComment(true);
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("Matches snapshot when expanded", () => {
-    const tree = MountedSilenceComment(false);
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedSilenceComment(false);
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("Matches snapshot when collapsed and multiple clusters are present", () => {
     MockMultipleClusters();
-    const tree = MountedSilenceComment(true, "ha");
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedSilenceComment(true, "ha");
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("Matches snapshot when expanded and multiple clusters are present", () => {
     MockMultipleClusters();
-    const tree = MountedSilenceComment(false, "ha");
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    const { asFragment } = MountedSilenceComment(false, "ha");
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("Renders a JIRA link if present", () => {
     silence.ticketURL = "http://localhost/1234";
     silence.ticketID = "1234";
     silence.comment = "Ticket id 1234 and also 1234";
-    const tree = MountedSilenceComment(true);
-    expect(tree.find("a[href='http://localhost/1234']")).toHaveLength(2);
+    const { container } = MountedSilenceComment(true);
+    expect(
+      container.querySelectorAll("a[href='http://localhost/1234']"),
+    ).toHaveLength(2);
   });
 
   it("Renders a JIRA link if present and comment is expanded", () => {
     silence.ticketURL = "http://localhost/1234";
     silence.ticketID = "1234";
     silence.comment = "Ticket id 1234";
-    const tree = MountedSilenceComment(false);
-    expect(tree.find("a[href='http://localhost/1234']")).toHaveLength(1);
+    const { container } = MountedSilenceComment(false);
+    expect(
+      container.querySelectorAll("a[href='http://localhost/1234']"),
+    ).toHaveLength(1);
   });
 
   it("Correctly renders comments with spaces", () => {
     silence.ticketURL = "http://localhost/1234";
     silence.ticketID = "1234";
     silence.comment = "Ticket id 1234 should be linked here";
-    const tree = MountedSilenceComment(false);
-    expect(tree.html()).toContain(
+    const { container } = MountedSilenceComment(false);
+    expect(container.innerHTML).toContain(
       '<div class="components-managed-silence-comment "> Ticket id <a href="http://localhost/1234" target="_blank" rel="noopener noreferrer">1234</a> should be linked here</div>',
     );
   });
@@ -136,43 +138,46 @@ describe("<SilenceComment />", () => {
     silence.ticketURL = "http://localhost/1234";
     silence.ticketID = "1234";
     silence.comment = "1234 is the ticket id.";
-    const tree = MountedSilenceComment(false);
-    expect(tree.html()).toContain(
+    const { container } = MountedSilenceComment(false);
+    expect(container.innerHTML).toContain(
       '<div class="components-managed-silence-comment "><a href="http://localhost/1234" target="_blank" rel="noopener noreferrer">1234</a> is the ticket id.</div>',
     );
   });
 
   it("collapseToggle is called when collapse icon is clicked", () => {
-    const tree = MountedSilenceComment(true);
-    const collapse = tree.find("svg.fa-chevron-down");
-    collapse.simulate("click");
+    const { container } = MountedSilenceComment(true);
+    const collapse = container.querySelector("svg.fa-chevron-down")!;
+    fireEvent.click(collapse);
     expect(CollapseMock).toHaveBeenCalled();
   });
 
   it("Doesn't render cluster badges when collapsed and only a single cluster is present", () => {
-    const tree = MountedSilenceComment(true);
-    const ams = tree.find("span.badge.bg-secondary");
-    expect(ams).toHaveLength(0);
+    const { container } = MountedSilenceComment(true);
+    expect(
+      container.querySelectorAll("span.badge.bg-secondary"),
+    ).toHaveLength(0);
   });
 
   it("Doesn't render cluster badges when expanded and only a single cluster is present", () => {
-    const tree = MountedSilenceComment(false);
-    const ams = tree.find("span.badge.bg-secondary");
-    expect(ams).toHaveLength(0);
+    const { container } = MountedSilenceComment(false);
+    expect(
+      container.querySelectorAll("span.badge.bg-secondary"),
+    ).toHaveLength(0);
   });
 
   it("Renders cluster badge when collapsed and multiple clusters are present", () => {
     MockMultipleClusters();
-    const tree = MountedSilenceComment(true, "single");
-    const ams = tree.find("span.badge.bg-secondary");
+    const { container } = MountedSilenceComment(true, "single");
+    const ams = container.querySelectorAll("span.badge.bg-secondary");
     expect(ams).toHaveLength(1);
-    expect(toDiffableHtml(ams.at(0).html())).toMatch(/single/);
+    expect(ams[0].innerHTML).toMatch(/single/);
   });
 
   it("Doesn't render cluster badge when expanded and multiple clusters are present", () => {
     MockMultipleClusters();
-    const tree = MountedSilenceComment(false, "single");
-    const ams = tree.find("span.badge.bg-secondary");
-    expect(ams).toHaveLength(0);
+    const { container } = MountedSilenceComment(false, "single");
+    expect(
+      container.querySelectorAll("span.badge.bg-secondary"),
+    ).toHaveLength(0);
   });
 });

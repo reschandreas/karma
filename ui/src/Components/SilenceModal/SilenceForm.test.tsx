@@ -1,4 +1,4 @@
-import { mount } from "enzyme";
+import { render, fireEvent } from "@testing-library/react";
 
 import copy from "copy-to-clipboard";
 
@@ -50,24 +50,22 @@ beforeEach(() => {
 });
 
 const MountedSilenceForm = () => {
-  return mount(
-    <SilenceForm
-      alertStore={alertStore}
-      silenceFormStore={silenceFormStore}
-      settingsStore={settingsStore}
-      previewOpen={false}
-    />,
-    {
-      wrappingComponent: ThemeContext.Provider,
-      wrappingComponentProps: { value: MockThemeContext },
-    },
+  return render(
+    <ThemeContext.Provider value={MockThemeContext}>
+      <SilenceForm
+        alertStore={alertStore}
+        silenceFormStore={silenceFormStore}
+        settingsStore={settingsStore}
+        previewOpen={false}
+      />
+    </ThemeContext.Provider>,
   );
 };
 
 describe("<SilenceForm /> matchers", () => {
   it("has an empty matcher selects on default render", () => {
-    const tree = MountedSilenceForm();
-    const matchers = tree.find("Memo(SilenceMatch)");
+    const { container } = MountedSilenceForm();
+    const matchers = container.querySelectorAll(".silence-match");
     expect(matchers).toHaveLength(1);
     expect(silenceFormStore.data.matchers).toHaveLength(1);
   });
@@ -96,8 +94,8 @@ describe("<SilenceForm /> matchers", () => {
       ...filterCombos("foo"),
     ]);
     silenceFormStore.data.setAutofillMatchers(true);
-    const tree = MountedSilenceForm();
-    const matchers = tree.find("Memo(SilenceMatch)");
+    const { container } = MountedSilenceForm();
+    const matchers = container.querySelectorAll(".silence-match");
     expect(matchers).toHaveLength(12);
     expect(silenceFormStore.data.matchers).toHaveLength(12);
     expect(silenceFormStore.data.matchers).toEqual([
@@ -294,8 +292,8 @@ describe("<SilenceForm /> matchers", () => {
       ...filterCombos("foo"),
     ]);
     silenceFormStore.data.setAutofillMatchers(true);
-    const tree = MountedSilenceForm();
-    const matchers = tree.find("Memo(SilenceMatch)");
+    const { container } = MountedSilenceForm();
+    const matchers = container.querySelectorAll(".silence-match");
     expect(matchers).toHaveLength(8);
     expect(silenceFormStore.data.matchers).toHaveLength(8);
     expect(silenceFormStore.data.matchers).toEqual([
@@ -430,8 +428,8 @@ describe("<SilenceForm /> matchers", () => {
       ...filterCombos("foo"),
     ]);
     silenceFormStore.data.setAutofillMatchers(false);
-    const tree = MountedSilenceForm();
-    const matchers = tree.find("Memo(SilenceMatch)");
+    const { container } = MountedSilenceForm();
+    const matchers = container.querySelectorAll(".silence-match");
     expect(matchers).toHaveLength(1);
     expect(silenceFormStore.data.matchers[0]).toMatchObject({
       isRegex: false,
@@ -441,33 +439,36 @@ describe("<SilenceForm /> matchers", () => {
   });
 
   it("clicking 'Add more' button adds another matcher", () => {
-    const tree = MountedSilenceForm();
-    const button = tree.find("button[type='button']");
-    button.simulate("click", { preventDefault: jest.fn() });
-    const matchers = tree.find("Memo(SilenceMatch)");
+    const { container } = MountedSilenceForm();
+    const button = container.querySelector("button[type='button']") as HTMLButtonElement;
+    fireEvent.click(button);
+    const matchers = container.querySelectorAll(".silence-match");
     expect(matchers).toHaveLength(2);
     expect(silenceFormStore.data.matchers).toHaveLength(2);
   });
 
   it("trash icon is not visible when there's only one matcher", () => {
-    const tree = MountedSilenceForm();
+    const { container } = MountedSilenceForm();
     expect(silenceFormStore.data.matchers).toHaveLength(1);
 
-    const matcher = tree.find("Memo(SilenceMatch)");
-    const button = matcher.find("button");
-    expect(button).toHaveLength(0);
+    const matcherEl = container.querySelectorAll(".silence-match")[0];
+    const buttons = matcherEl.querySelectorAll("button");
+    expect(buttons).toHaveLength(0);
   });
 
   it("trash icon is visible when there are two matchers", () => {
     silenceFormStore.data.setAutofillMatchers(false);
     silenceFormStore.data.addEmptyMatcher();
     silenceFormStore.data.addEmptyMatcher();
-    const tree = MountedSilenceForm();
+    const { container } = MountedSilenceForm();
     expect(silenceFormStore.data.matchers).toHaveLength(2);
 
-    const matcher = tree.find("Memo(SilenceMatch)");
-    const button = matcher.find("button");
-    expect(button).toHaveLength(2);
+    const matcherEls = container.querySelectorAll(".silence-match");
+    let buttonCount = 0;
+    matcherEls.forEach((m) => {
+      buttonCount += m.querySelectorAll("button").length;
+    });
+    expect(buttonCount).toBe(2);
   });
 
   it("clicking trash icon on a matcher select removes it", () => {
@@ -475,37 +476,38 @@ describe("<SilenceForm /> matchers", () => {
     silenceFormStore.data.addEmptyMatcher();
     silenceFormStore.data.addEmptyMatcher();
     silenceFormStore.data.addEmptyMatcher();
-    const tree = MountedSilenceForm();
+    const { container } = MountedSilenceForm();
     expect(silenceFormStore.data.matchers).toHaveLength(3);
 
-    const matchers = tree.find("Memo(SilenceMatch)");
-    const toDelete = matchers.at(1);
-    const button = toDelete.find("button");
-    button.simulate("click");
+    const matcherEls = container.querySelectorAll(".silence-match");
+    const toDelete = matcherEls[1];
+    const button = toDelete.querySelector("button") as HTMLButtonElement;
+    fireEvent.click(button);
     expect(silenceFormStore.data.matchers).toHaveLength(2);
   });
 });
 
 describe("<SilenceForm /> preview", () => {
   it("doesn't render PayloadPreview by default", () => {
-    const tree = MountedSilenceForm();
-    expect(tree.find("Memo(PayloadPreview)")).toHaveLength(0);
+    const { container } = MountedSilenceForm();
+    expect(container.querySelectorAll(".card.bg-light")).toHaveLength(0);
   });
 
   it("renders PayloadPreview after clicking the toggle", () => {
-    const tree = MountedSilenceForm();
-    tree.find("span.badge.cursor-pointer.text-muted").simulate("click");
-    expect(tree.find("Memo(PayloadPreview)")).toHaveLength(1);
+    const { container } = MountedSilenceForm();
+    const toggle = container.querySelector("span.badge.cursor-pointer.text-muted") as HTMLElement;
+    fireEvent.click(toggle);
+    expect(container.querySelector("pre")).toBeTruthy();
   });
 
   it("clicking on the toggle icon toggles PayloadPreview", () => {
-    const tree = MountedSilenceForm();
-    const button = tree.find(".badge.cursor-pointer.text-muted");
-    expect(tree.find("Memo(PayloadPreview)")).toHaveLength(0);
-    button.simulate("click");
-    expect(tree.find("Memo(PayloadPreview)")).toHaveLength(1);
-    button.simulate("click");
-    expect(tree.find("Memo(PayloadPreview)")).toHaveLength(0);
+    const { container } = MountedSilenceForm();
+    const button = container.querySelector(".badge.cursor-pointer.text-muted") as HTMLElement;
+    expect(container.querySelector("pre")).toBeFalsy();
+    fireEvent.click(button);
+    expect(container.querySelector("pre")).toBeTruthy();
+    fireEvent.click(button);
+    expect(container.querySelector("pre")).toBeFalsy();
   });
 
   it("clicking on the copy button copies form link to the clipboard", () => {
@@ -520,12 +522,13 @@ describe("<SilenceForm /> preview", () => {
     silenceFormStore.data.setComment("fake silence");
     silenceFormStore.data.setAutofillMatchers(false);
 
-    const tree = MountedSilenceForm();
-    tree.find(".badge.cursor-pointer.text-muted").simulate("click");
+    const { container } = MountedSilenceForm();
+    const toggle = container.querySelector(".badge.cursor-pointer.text-muted") as HTMLElement;
+    fireEvent.click(toggle);
 
-    const button = tree.find("span.input-group-text.cursor-pointer");
-    expect(button.html()).toMatch(/fa-copy/);
-    button.simulate("click");
+    const button = container.querySelector("span.input-group-text.cursor-pointer") as HTMLElement;
+    expect(button.innerHTML).toMatch(/fa-copy/);
+    fireEvent.click(button);
     expect(copy).toHaveBeenCalledTimes(1);
   });
 
@@ -541,63 +544,65 @@ describe("<SilenceForm /> preview", () => {
     silenceFormStore.data.setComment("fake silence");
     silenceFormStore.data.setAutofillMatchers(false);
 
-    const tree = MountedSilenceForm();
-    tree.find(".badge.cursor-pointer.text-muted").simulate("click");
+    const { container } = MountedSilenceForm();
+    const toggle = container.querySelector(".badge.cursor-pointer.text-muted") as HTMLElement;
+    fireEvent.click(toggle);
 
-    const input = tree.find("input.form-control").at(2);
-    expect(input.props().value).toMatch(/http:\/\/localhost\/\?m=/);
-    const link = input.props().value;
+    const input = container.querySelectorAll("input.form-control")[2] as HTMLInputElement;
+    expect(input.value).toMatch(/http:\/\/localhost\/\?m=/);
+    const link = input.value;
 
-    input.simulate("change", { target: { value: "a" } });
-    expect(input.props().value).toBe(link);
+    fireEvent.change(input, { target: { value: "a" } });
+    expect(input.value).toBe(link);
   });
 });
 
 describe("<SilenceForm /> inputs", () => {
   it("author is read-only when info.authentication.enabled is true", () => {
     alertStore.info.setAuthentication(true, "auth@example.com");
-    const tree = MountedSilenceForm();
-    const input = tree.find("input[placeholder='Author']");
-    expect(input.props().readOnly).toBe(true);
-    expect(input.props().value).toBe("auth@example.com");
+    const { container } = MountedSilenceForm();
+    const input = container.querySelector("input[placeholder='Author']") as HTMLInputElement;
+    expect(input.readOnly).toBe(true);
+    expect(input.value).toBe("auth@example.com");
     expect(silenceFormStore.data.author).toBe("auth@example.com");
   });
 
   it("default author value comes from Settings store", () => {
     settingsStore.silenceFormConfig.saveAuthor("foo@example.com");
-    const tree = MountedSilenceForm();
-    const input = tree.find("input[placeholder='Author']");
-    expect(input.props().value).toBe("foo@example.com");
+    const { container } = MountedSilenceForm();
+    const input = container.querySelector("input[placeholder='Author']") as HTMLInputElement;
+    expect(input.value).toBe("foo@example.com");
     expect(silenceFormStore.data.author).toBe("foo@example.com");
   });
 
   it("default author value is empty if nothing is stored in Settings", () => {
     settingsStore.silenceFormConfig.saveAuthor("");
-    const tree = MountedSilenceForm();
-    const input = tree.find("input[placeholder='Author']");
-    expect(input.text()).toBe("");
+    const { container } = MountedSilenceForm();
+    const input = container.querySelector("input[placeholder='Author']") as HTMLInputElement;
+    expect(input.value).toBe("");
     expect(silenceFormStore.data.author).toBe("");
   });
 
   it("changing author input updates SilenceFormStore", () => {
-    const tree = MountedSilenceForm();
-    const input = tree.find("input[placeholder='Author']");
-    input.simulate("change", { target: { value: "me@example.com" } });
+    const { container } = MountedSilenceForm();
+    const input = container.querySelector("input[placeholder='Author']") as HTMLInputElement;
+    fireEvent.change(input, { target: { value: "me@example.com" } });
     expect(silenceFormStore.data.author).toBe("me@example.com");
   });
 
   it("changing comment input updates SilenceFormStore", () => {
-    const tree = MountedSilenceForm();
-    const input = tree.find("input[placeholder='Comment']");
-    input.simulate("change", { target: { value: "fake comment" } });
+    const { container } = MountedSilenceForm();
+    const input = container.querySelector("input[placeholder='Comment']") as HTMLInputElement;
+    fireEvent.change(input, { target: { value: "fake comment" } });
     expect(silenceFormStore.data.comment).toBe("fake comment");
   });
 });
 
 describe("<SilenceForm />", () => {
   it("calling submit doesn't move the form to Preview stage when form is invalid", () => {
-    const tree = MountedSilenceForm();
-    tree.simulate("submit", { preventDefault: jest.fn() });
+    const { container } = MountedSilenceForm();
+    const form = container.querySelector("form") as HTMLFormElement;
+    fireEvent.submit(form);
     expect(silenceFormStore.data.currentStage).toBe("form");
   });
 
@@ -612,15 +617,17 @@ describe("<SilenceForm />", () => {
     silenceFormStore.data.setAuthor("me@example.com");
     silenceFormStore.data.setComment("fake silence");
     silenceFormStore.data.setAutofillMatchers(false);
-    const tree = MountedSilenceForm();
-    tree.simulate("submit", { preventDefault: jest.fn() });
+    const { container } = MountedSilenceForm();
+    const form = container.querySelector("form") as HTMLFormElement;
+    fireEvent.submit(form);
     expect(silenceFormStore.data.currentStage).toBe("preview");
   });
 
   it("calling submit saves author value to the Settings store", () => {
     silenceFormStore.data.setAuthor("user@example.com");
-    const tree = MountedSilenceForm();
-    tree.simulate("submit", { preventDefault: jest.fn() });
+    const { container } = MountedSilenceForm();
+    const form = container.querySelector("form") as HTMLFormElement;
+    fireEvent.submit(form);
     expect(settingsStore.silenceFormConfig.config.author).toBe(
       "user@example.com",
     );
@@ -630,40 +637,40 @@ describe("<SilenceForm />", () => {
 describe("<SilenceForm /> in edit mode", () => {
   it("opening form with silenceID set disables AlertManagerInput", () => {
     silenceFormStore.data.setSilenceID("12345");
-    const tree = MountedSilenceForm();
-    const select = tree.find("SelectContainer").at(0);
-    expect((select.props() as any).isDisabled).toBe(true);
+    const { container } = MountedSilenceForm();
+    // The first react-select should be disabled
+    const select = container.querySelectorAll(".react-select__control")[0];
+    expect(select.classList.contains("react-select__control--is-disabled")).toBe(true);
   });
 
   it("opening form with silenceID shows reset button", () => {
     silenceFormStore.data.setSilenceID("12345");
-    const tree = MountedSilenceForm();
-    const button = tree.find("button.btn-danger");
-    expect(button).toHaveLength(1);
+    const { container } = MountedSilenceForm();
+    expect(container.querySelectorAll("button.btn-danger")).toHaveLength(1);
   });
 
   it("clicking on Reset button unsets silenceFormStore.data.silenceID", () => {
     silenceFormStore.data.setSilenceID("12345");
-    const tree = MountedSilenceForm();
-    const button = tree.find("button.btn-danger");
-    button.simulate("click");
+    const { container } = MountedSilenceForm();
+    const button = container.querySelector("button.btn-danger") as HTMLButtonElement;
+    fireEvent.click(button);
     expect(silenceFormStore.data.silenceID).toBeNull();
   });
 
   it("clicking on Reset button hides it", () => {
     silenceFormStore.data.setSilenceID("12345");
-    const tree = MountedSilenceForm();
-    const button = tree.find("button.btn-danger");
-    button.simulate("click");
-    expect(tree.find("button.btn-danger")).toHaveLength(0);
+    const { container } = MountedSilenceForm();
+    const button = container.querySelector("button.btn-danger") as HTMLButtonElement;
+    fireEvent.click(button);
+    expect(container.querySelectorAll("button.btn-danger")).toHaveLength(0);
   });
 
   it("clicking on Reset button enables AlertManagerInput", () => {
     silenceFormStore.data.setSilenceID("12345");
-    const tree = MountedSilenceForm();
-    const button = tree.find("button.btn-danger");
-    button.simulate("click");
-    const select = tree.find("SelectContainer").at(0);
-    expect((select.props() as any).isDisabled).toBeFalsy();
+    const { container } = MountedSilenceForm();
+    const button = container.querySelector("button.btn-danger") as HTMLButtonElement;
+    fireEvent.click(button);
+    const select = container.querySelectorAll(".react-select__control")[0];
+    expect(select.classList.contains("react-select__control--is-disabled")).toBe(false);
   });
 });

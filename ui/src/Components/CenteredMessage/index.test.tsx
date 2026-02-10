@@ -1,45 +1,44 @@
-import React from "react";
-
-import { shallow } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render } from "@testing-library/react";
 
 import { MockThemeContext } from "__fixtures__/Theme";
+import { ThemeContext } from "Components/Theme";
 import { CenteredMessage } from ".";
-
-beforeEach(() => {
-  jest.spyOn(React, "useContext").mockImplementation(() => MockThemeContext);
-});
 
 describe("<CenteredMessage />", () => {
   const Message = () => <div>Foo</div>;
 
   it("matches snapshot", () => {
-    const tree = shallow(
-      <CenteredMessage>
-        <Message />
-      </CenteredMessage>,
+    const { asFragment } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <CenteredMessage>
+          <Message />
+        </CenteredMessage>
+      </ThemeContext.Provider>,
     );
-    expect(toDiffableHtml(tree.html())).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("uses 'display-1 text-placeholder' className by default", () => {
-    const tree = shallow(
-      <CenteredMessage>
-        <Message />
-      </CenteredMessage>,
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <CenteredMessage>
+          <Message />
+        </CenteredMessage>
+      </ThemeContext.Provider>,
     );
-    expect(toDiffableHtml(tree.html())).toMatch(/display-1 text-placeholder/);
+    expect(container.innerHTML).toMatch(/display-1 text-placeholder/);
   });
 
   it("uses custom className if passed", () => {
-    const tree = shallow(
-      <CenteredMessage className="bar-class">
-        <Message />
-      </CenteredMessage>,
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <CenteredMessage className="bar-class">
+          <Message />
+        </CenteredMessage>
+      </ThemeContext.Provider>,
     );
-    expect(toDiffableHtml(tree.html())).toMatch(/bar-class/);
-    expect(toDiffableHtml(tree.html())).not.toMatch(
+    expect(container.innerHTML).toMatch(/bar-class/);
+    expect(container.innerHTML).not.toMatch(
       /display-1 text-placeholder/,
     );
   });

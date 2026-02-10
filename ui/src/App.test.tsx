@@ -1,5 +1,3 @@
-import { mount } from "enzyme";
-
 import fetchMock from "fetch-mock";
 
 import { mockMatchMedia } from "__fixtures__/matchMedia";

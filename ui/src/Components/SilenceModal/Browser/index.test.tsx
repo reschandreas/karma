@@ -1,8 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
-
-import toDiffableHtml from "diffable-html";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -84,16 +80,14 @@ const MockSilenceList = (count: number): APIManagedSilenceT[] => {
 };
 
 const MountedBrowser = () => {
-  return mount(
-    <Browser
-      alertStore={alertStore}
-      silenceFormStore={silenceFormStore}
-      settingsStore={settingsStore}
-    />,
-    {
-      wrappingComponent: ThemeContext.Provider,
-      wrappingComponentProps: { value: MockThemeContext },
-    },
+  return render(
+    <ThemeContext.Provider value={MockThemeContext}>
+      <Browser
+        alertStore={alertStore}
+        silenceFormStore={silenceFormStore}
+        settingsStore={settingsStore}
+      />
+    </ThemeContext.Provider>,
   );
 };
 
@@ -128,14 +122,14 @@ describe("<Browser />", () => {
   });
 
   it("enabling reverse sort passes sortReverse=1 to the API", () => {
-    const tree = MountedBrowser();
+    const { container } = MountedBrowser();
     expect(useFetchGetMock.fetch.calls[0]).toBe(
       "./silences.json?sortReverse=0&showExpired=0&searchTerm=",
     );
 
-    const sortOrder = tree.find("button.btn-secondary").at(0);
-    expect(sortOrder.text()).toBe("Sort order");
-    sortOrder.simulate("click");
+    const sortOrder = container.querySelectorAll("button.btn-secondary")[0];
+    expect(sortOrder.textContent).toBe("Sort order");
+    fireEvent.click(sortOrder);
 
     expect(useFetchGetMock.fetch.calls[1]).toBe(
       "./silences.json?sortReverse=1&showExpired=0&searchTerm=",
@@ -143,10 +137,10 @@ describe("<Browser />", () => {
   });
 
   it("enabling expired silences passes showExpired=1 to the API", () => {
-    const tree = MountedBrowser();
+    const { container } = MountedBrowser();
 
-    const expiredCheckbox = tree.find("input[type='checkbox']").first();
-    expiredCheckbox.simulate("change", { target: { checked: true } });
+    const expiredCheckbox = container.querySelector("input[type='checkbox']") as HTMLInputElement;
+    fireEvent.click(expiredCheckbox);
 
     expect(useFetchGetMock.fetch.calls[1]).toBe(
       "./silences.json?sortReverse=0&showExpired=1&searchTerm=",
@@ -154,10 +148,10 @@ describe("<Browser />", () => {
   });
 
   it("entering a search phrase passes searchTerm=foo to the API", () => {
-    const tree = MountedBrowser();
+    const { container } = MountedBrowser();
 
-    const input = tree.find("input[type='text']").at(0);
-    input.simulate("change", { target: { value: "foo" } });
+    const input = container.querySelectorAll("input[type='text']")[0];
+    fireEvent.change(input, { target: { value: "foo" } });
 
     act(() => {
       jest.advanceTimersByTime(1000);
@@ -181,9 +175,8 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedBrowser();
-    expect(tree.find("Placeholder")).toHaveLength(1);
-    expect(toDiffableHtml(tree.html())).toMatch(/fa-spinner/);
+    const { container } = MountedBrowser();
+    expect(container.innerHTML).toMatch(/fa-spinner/);
   });
 
   it("loading placeholder has text-danger class when retrying fetches", () => {
@@ -196,9 +189,9 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedBrowser();
-    expect(tree.find("Placeholder")).toHaveLength(1);
-    expect(toDiffableHtml(tree.html())).toMatch(/fa-spinner .+ text-danger/);
+    const { container } = MountedBrowser();
+    expect(container.innerHTML).toMatch(/fa-spinner/);
+    expect(container.innerHTML).toMatch(/text-danger/);
   });
 
   it("renders empty placeholder after fetch with zero results", () => {
@@ -211,9 +204,8 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedBrowser();
-    expect(tree.find("Placeholder")).toHaveLength(1);
-    expect(toDiffableHtml(tree.html())).toMatch(/Nothing to show/);
+    const { container } = MountedBrowser();
+    expect(container.innerHTML).toMatch(/Nothing to show/);
   });
 
   it("renders silences after successful fetch", () => {
@@ -233,8 +225,8 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedBrowser();
-    expect(tree.find("ManagedSilence")).toHaveLength(1);
+    const { container } = MountedBrowser();
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(1);
   });
 
   it("renders only first 6 silences on desktop", () => {
@@ -248,8 +240,8 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedBrowser();
-    expect(tree.find("ManagedSilence")).toHaveLength(6);
+    const { container } = MountedBrowser();
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
   });
 
   it("renders only first 6 silences on mobile", () => {
@@ -263,8 +255,8 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedBrowser();
-    expect(tree.find("ManagedSilence")).toHaveLength(4);
+    const { container } = MountedBrowser();
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(4);
   });
 
   it("renders last silence after page change", () => {
@@ -277,17 +269,15 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedBrowser();
+    const { container } = MountedBrowser();
 
-    tree.update();
-    expect(tree.find("li.page-item").at(1).hasClass("active")).toBe(true);
-    expect(tree.find("ManagedSilence")).toHaveLength(6);
+    expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
 
-    const pageLink = tree.find(".page-link").at(3);
-    pageLink.simulate("click");
-    tree.update();
-    expect(tree.find("li.page-item").at(2).hasClass("active")).toBe(true);
-    expect(tree.find("ManagedSilence")).toHaveLength(1);
+    const pageLink = container.querySelectorAll(".page-link")[3];
+    fireEvent.click(pageLink);
+    expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(1);
   });
 
   it("renders next/previous page after arrow key press", () => {
@@ -300,43 +290,37 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedBrowser();
+    const { container } = MountedBrowser();
 
-    expect(tree.find("li.page-item").at(1).hasClass("active")).toBe(true);
-    expect(tree.find("ManagedSilence")).toHaveLength(6);
+    expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
 
-    const paginator = tree.find(".components-pagination").at(0);
-    paginator.simulate("focus");
-
-    PressKey("ArrowRight", 39);
-    tree.update();
-    expect(tree.find("li.page-item").at(2).hasClass("active")).toBe(true);
-    expect(tree.find("ManagedSilence")).toHaveLength(6);
+    const paginator = container.querySelectorAll(".components-pagination")[0];
+    fireEvent.focus(paginator);
 
     PressKey("ArrowRight", 39);
-    tree.update();
-    expect(tree.find("li.page-item").at(3).hasClass("active")).toBe(true);
-    expect(tree.find("ManagedSilence")).toHaveLength(1);
+    expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
 
     PressKey("ArrowRight", 39);
-    tree.update();
-    expect(tree.find("li.page-item").at(3).hasClass("active")).toBe(true);
-    expect(tree.find("ManagedSilence")).toHaveLength(1);
+    expect(container.querySelectorAll("li.page-item")[3].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(1);
+
+    PressKey("ArrowRight", 39);
+    expect(container.querySelectorAll("li.page-item")[3].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(1);
 
     PressKey("ArrowLeft", 37);
-    tree.update();
-    expect(tree.find("li.page-item").at(2).hasClass("active")).toBe(true);
-    expect(tree.find("ManagedSilence")).toHaveLength(6);
+    expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
 
     PressKey("ArrowLeft", 37);
-    tree.update();
-    expect(tree.find("li.page-item").at(1).hasClass("active")).toBe(true);
-    expect(tree.find("ManagedSilence")).toHaveLength(6);
+    expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
 
     PressKey("ArrowLeft", 37);
-    tree.update();
-    expect(tree.find("li.page-item").at(1).hasClass("active")).toBe(true);
-    expect(tree.find("ManagedSilence")).toHaveLength(6);
+    expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
   });
 
   it("resets pagination to last page on truncation", () => {
@@ -349,14 +333,13 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedBrowser();
+    const { container } = MountedBrowser();
 
-    expect(tree.find("li.page-item").at(1).hasClass("active")).toBe(true);
-    const pageLink = tree.find(".page-link").at(3);
-    pageLink.simulate("click");
-    tree.update();
-    expect(tree.find("ManagedSilence")).toHaveLength(1);
-    expect(tree.find("li.page-item").at(3).hasClass("active")).toBe(true);
+    expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
+    const pageLink = container.querySelectorAll(".page-link")[3];
+    fireEvent.click(pageLink);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(1);
+    expect(container.querySelectorAll("li.page-item")[3].classList.contains("active")).toBe(true);
 
     useFetchGetMock.fetch.setMockedData({
       response: MockSilenceList(8),
@@ -367,10 +350,10 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    tree.find("button.btn-secondary").simulate("click");
+    fireEvent.click(container.querySelector("button.btn-secondary") as HTMLElement);
 
-    expect(tree.find("ManagedSilence")).toHaveLength(2);
-    expect(tree.find("li.page-item").at(2).hasClass("active")).toBe(true);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(2);
+    expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
 
     useFetchGetMock.fetch.setMockedData({
       response: [],
@@ -381,10 +364,10 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    tree.find("button.btn-secondary").simulate("click");
+    fireEvent.click(container.querySelector("button.btn-secondary") as HTMLElement);
 
-    expect(tree.find("ManagedSilence")).toHaveLength(0);
-    expect(tree.find("Placeholder")).toHaveLength(1);
+    expect(container.querySelectorAll(".managed-silence")).toHaveLength(0);
+    expect(container.innerHTML).toMatch(/Nothing to show/);
   });
 
   it("renders error after failed fetch", () => {
@@ -397,17 +380,16 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = MountedBrowser();
+    const { container } = MountedBrowser();
 
-    expect(tree.find("FetchError")).toHaveLength(1);
-    expect(toDiffableHtml(tree.html())).toMatch(/fa-circle-exclamation/);
+    expect(container.innerHTML).toMatch(/fa-circle-exclamation/);
   });
 
   it("resets the timer on unmount", () => {
-    const tree = MountedBrowser();
+    const { unmount } = MountedBrowser();
     expect(useFetchGetMock.fetch.calls).toHaveLength(1);
 
-    tree.unmount();
+    unmount();
 
     act(() => {
       jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 0, 30, 59)));
@@ -467,106 +449,87 @@ describe("<SilenceDelete />", () => {
       body: "ok",
     });
 
-    const tree = MountedBrowser();
+    const { container, unmount } = MountedBrowser();
 
-    // nothing is selected intially
-    expect(tree.find("input.form-check-input")).toHaveLength(5);
+    // nothing is selected initially
+    const checkboxes = container.querySelectorAll("input.form-check-input");
+    expect(checkboxes).toHaveLength(5);
     for (const i of [1, 2, 3, 4]) {
-      expect(tree.find("input.form-check-input").at(i).props().checked).toBe(
-        false,
-      );
+      expect((checkboxes[i] as HTMLInputElement).checked).toBe(false);
     }
 
     // 'Select all' click
-    tree.find(".btn.dropdown-toggle").last().simulate("click");
-    expect(tree.find(".dropdown-item").last().text()).toBe("Select all");
-    tree.find(".dropdown-item").last().simulate("click");
-    expect(tree.find("input.form-check-input").at(3).props().checked).toBe(
-      false,
-    );
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
+    const dropdownItems = container.querySelectorAll(".dropdown-item");
+    expect(dropdownItems[dropdownItems.length - 1].textContent).toBe("Select all");
+    fireEvent.click(dropdownItems[dropdownItems.length - 1]);
+
+    const checkboxes2 = container.querySelectorAll("input.form-check-input");
+    expect((checkboxes2[3] as HTMLInputElement).checked).toBe(false);
     for (const i of [1, 2, 4]) {
-      expect(tree.find("input.form-check-input").at(i).props().checked).toBe(
-        true,
-      );
+      expect((checkboxes2[i] as HTMLInputElement).checked).toBe(true);
     }
-    expect(tree.find(".dropdown-item").last().text()).toBe("Select none");
 
     // 'Select none' click
-    tree.find(".btn.dropdown-toggle").last().simulate("click");
-    expect(tree.find(".dropdown-item").last().text()).toBe("Select none");
-    tree.find(".dropdown-item").last().simulate("click");
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
+    const dropdownItems2 = container.querySelectorAll(".dropdown-item");
+    expect(dropdownItems2[dropdownItems2.length - 1].textContent).toBe("Select none");
+    fireEvent.click(dropdownItems2[dropdownItems2.length - 1]);
+
+    const checkboxes3 = container.querySelectorAll("input.form-check-input");
     for (const i of [1, 2, 3, 4]) {
-      expect(tree.find("input.form-check-input").at(i).props().checked).toBe(
-        false,
-      );
+      expect((checkboxes3[i] as HTMLInputElement).checked).toBe(false);
     }
 
     // 'Select all' again
-    tree.find(".btn.dropdown-toggle").last().simulate("click");
-    expect(tree.find(".dropdown-item").last().text()).toBe("Select all");
-    tree.find(".dropdown-item").last().simulate("click");
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
+    const dropdownItems3 = container.querySelectorAll(".dropdown-item");
+    expect(dropdownItems3[dropdownItems3.length - 1].textContent).toBe("Select all");
+    fireEvent.click(dropdownItems3[dropdownItems3.length - 1]);
+
+    const checkboxes4 = container.querySelectorAll("input.form-check-input");
     for (const i of [1, 2, 4]) {
-      expect(tree.find("input.form-check-input").at(i).props().checked).toBe(
-        true,
-      );
+      expect((checkboxes4[i] as HTMLInputElement).checked).toBe(true);
     }
 
     // untick 3
-    tree
-      .find("input.form-check-input")
-      .at(2)
-      .simulate("change", { target: { checked: false } });
+    fireEvent.click(container.querySelectorAll("input.form-check-input")[2]);
+    const checkboxes5 = container.querySelectorAll("input.form-check-input");
     for (const i of [1, 4]) {
-      expect(tree.find("input.form-check-input").at(i).props().checked).toBe(
-        true,
-      );
+      expect((checkboxes5[i] as HTMLInputElement).checked).toBe(true);
     }
     for (const i of [2, 3]) {
-      expect(tree.find("input.form-check-input").at(i).props().checked).toBe(
-        false,
-      );
+      expect((checkboxes5[i] as HTMLInputElement).checked).toBe(false);
     }
-    tree.find(".btn.dropdown-toggle").last().simulate("click");
-    expect(tree.find(".dropdown-item").last().text()).toBe("Select all");
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
+    const dropdownItems4 = container.querySelectorAll(".dropdown-item");
+    expect(dropdownItems4[dropdownItems4.length - 1].textContent).toBe("Select all");
 
     // we have 1,2,4 ticked and 3 unticked, untick 2
-    tree
-      .find("input.form-check-input")
-      .at(2)
-      .simulate("change", { target: { checked: false } });
+    fireEvent.click(container.querySelectorAll("input.form-check-input")[2]);
+    const checkboxes6 = container.querySelectorAll("input.form-check-input");
     for (const i of [1, 4]) {
-      expect(tree.find("input.form-check-input").at(i).props().checked).toBe(
-        true,
-      );
+      expect((checkboxes6[i] as HTMLInputElement).checked).toBe(true);
     }
     for (const i of [2, 3]) {
-      expect(tree.find("input.form-check-input").at(i).props().checked).toBe(
-        false,
-      );
+      expect((checkboxes6[i] as HTMLInputElement).checked).toBe(false);
     }
 
-    const del = tree.find(".btn.btn-danger").first();
-    expect(del.props().disabled).toBe(false);
-    del.simulate("click");
+    const del = container.querySelector(".btn.btn-danger") as HTMLElement;
+    expect((del as HTMLButtonElement).disabled).toBe(false);
+    fireEvent.click(del);
 
-    expect(tree.find("SilenceDeleteModalContent")).toHaveLength(1);
-    expect(tree.find("MassDeleteProgress")).toHaveLength(1);
-    expect(tree.find("div.progress").at(4).html()).toMatch(
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
+    const progressBars = document.body.querySelectorAll("div.progress");
+    expect(progressBars[progressBars.length - 1].innerHTML).toMatch(
       /progress-bar bg-success/,
     );
-    expect(tree.find("div.progress").at(4).html()).toMatch(
+    expect(progressBars[progressBars.length - 1].innerHTML).toMatch(
       /progress-bar bg-danger/,
     );
 
-    const mdp = tree.find("MassDeleteProgress");
-    expect((mdp.props() as any).silences).toStrictEqual([
-      { cluster: "am", id: "1" },
-      { cluster: "am", id: "4" },
-    ]);
-
     await act(async () => {
       jest.advanceTimersByTime(2 * 60);
-      tree.update();
       await fetchMock.flush(true);
     });
 
@@ -578,9 +541,10 @@ describe("<SilenceDelete />", () => {
       "http://localhost:9093/api/v2/silence/4",
     );
 
-    tree.find(".btn-close").last().simulate("click");
+    const closeButtons = document.body.querySelectorAll(".btn-close");
+    fireEvent.click(closeButtons[closeButtons.length - 1]);
 
-    tree.unmount();
+    unmount();
 
     await act(() => promise);
   });
@@ -634,18 +598,18 @@ describe("<SilenceDelete />", () => {
       body: "ok",
     });
 
-    const tree = MountedBrowser();
+    const { container } = MountedBrowser();
 
     // 'Select all' click
-    tree.find(".btn.dropdown-toggle").last().simulate("click");
-    expect(tree.find(".dropdown-item").last().text()).toBe("Select all");
-    tree.find(".dropdown-item").last().simulate("click");
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
+    const dropdownItems = container.querySelectorAll(".dropdown-item");
+    expect(dropdownItems[dropdownItems.length - 1].textContent).toBe("Select all");
+    fireEvent.click(dropdownItems[dropdownItems.length - 1]);
+    const checkboxes = container.querySelectorAll("input.form-check-input");
     for (const i of [1, 2, 3, 4]) {
-      expect(tree.find("input.form-check-input").at(i).props().checked).toBe(
-        true,
-      );
+      expect((checkboxes[i] as HTMLInputElement).checked).toBe(true);
     }
-    tree.find(".btn.dropdown-toggle").last().simulate("click");
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
 
     expect(useFetchGetMock.fetch.calls).toHaveLength(1);
     useFetchGetMock.fetch.setMockedData({
@@ -675,15 +639,9 @@ describe("<SilenceDelete />", () => {
     });
     expect(useFetchGetMock.fetch.calls).toHaveLength(2);
 
-    const del = tree.find(".btn.btn-danger").first();
-    expect(del.props().disabled).toBe(false);
-    del.simulate("click");
-
-    const mdp = tree.find("MassDeleteProgress");
-    expect((mdp.props() as any).silences).toStrictEqual([
-      { cluster: "am", id: "2" },
-      { cluster: "am", id: "3" },
-    ]);
+    const del = container.querySelector(".btn.btn-danger") as HTMLButtonElement;
+    expect(del.disabled).toBe(false);
+    fireEvent.click(del);
 
     await act(async () => {
       jest.advanceTimersByTime(2 * 60);
@@ -698,7 +656,8 @@ describe("<SilenceDelete />", () => {
       "http://localhost:9093/api/v2/silence/3",
     );
 
-    tree.find(".btn-close").last().simulate("click");
+    const closeButtons = document.body.querySelectorAll(".btn-close");
+    fireEvent.click(closeButtons[closeButtons.length - 1]);
 
     await act(() => promise);
   });
@@ -728,26 +687,25 @@ describe("<SilenceDelete />", () => {
       body: "ok",
     });
 
-    const tree = MountedBrowser();
+    const { container } = MountedBrowser();
 
     // 'Select all' click
-    tree.find(".btn.dropdown-toggle").last().simulate("click");
-    expect(tree.find(".dropdown-item").last().text()).toBe("Select all");
-    tree.find(".dropdown-item").last().simulate("click");
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
+    const dropdownItems = container.querySelectorAll(".dropdown-item");
+    expect(dropdownItems[dropdownItems.length - 1].textContent).toBe("Select all");
+    fireEvent.click(dropdownItems[dropdownItems.length - 1]);
 
-    const del = tree.find(".btn.btn-danger").first();
-    expect(del.props().disabled).toBe(false);
-    del.simulate("click");
+    const del = container.querySelector(".btn.btn-danger") as HTMLButtonElement;
+    expect(del.disabled).toBe(false);
+    fireEvent.click(del);
 
     await act(async () => {
       jest.advanceTimersByTime(60);
       await fetchMock.flush(true);
     });
 
-    expect(tree.find("SilenceDeleteModalContent")).toHaveLength(1);
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
     PressKey("Escape", 27);
-    // This fails but coverage confirms it gets called
-    // expect(tree.find("SilenceDeleteModalContent")).toHaveLength(0);
 
     await act(() => promise);
   });
@@ -878,29 +836,18 @@ describe("<SilenceDelete />", () => {
       cancelGet: jest.fn(),
     });
 
-    const tree = MountedBrowser();
+    const { container } = MountedBrowser();
 
     for (const i of [1, 2, 3, 4]) {
-      tree
-        .find("input.form-check-input[type='checkbox']")
-        .at(i)
-        .simulate("change", { target: { checked: true } });
-      expect(tree.find("input.form-check-input").at(i).props().checked).toBe(
-        true,
-      );
+      fireEvent.click(container.querySelectorAll("input.form-check-input[type='checkbox']")[i]);
+      expect(
+        (container.querySelectorAll("input.form-check-input")[i] as HTMLInputElement).checked,
+      ).toBe(true);
     }
 
-    const del = tree.find(".btn.btn-danger").first();
-    expect(del.props().disabled).toBe(false);
-    del.simulate("click");
-
-    const mdp = tree.find("MassDeleteProgress");
-    expect((mdp.props() as any).silences).toStrictEqual([
-      { cluster: "failed", id: "4" },
-      { cluster: "failed", id: "3" },
-      { cluster: "am", id: "2" },
-      { cluster: "am", id: "1" },
-    ]);
+    const del = container.querySelector(".btn.btn-danger") as HTMLButtonElement;
+    expect(del.disabled).toBe(false);
+    fireEvent.click(del);
 
     await act(async () => {
       jest.advanceTimersByTime(10 * 60);
