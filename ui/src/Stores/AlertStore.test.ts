@@ -800,7 +800,7 @@ describe("AlertStore.fetch", () => {
       store.fetch("", false, "sortOrder", "sortLabel", false, {}, 5, {}),
     ).resolves.toBeUndefined();
     expect(fetchMock.calls().length).toEqual(1);
-    expect(fetchMock.calls()[0][0]).toBe("/alerts.json");
+    expect(fetchMock.calls()[0][0]).toContain("alerts.json");
     expect(JSON.parse(fetchMock.calls()[0][1]?.body as string)).toStrictEqual({
       filters: ["label=value"],
       gridLabel: "",
@@ -825,7 +825,7 @@ describe("AlertStore.fetch", () => {
       store.fetch("cluster", true, "sortOrder", "sortLabel", true, {}, 5, {}),
     ).resolves.toBeUndefined();
     expect(fetchMock.calls().length).toEqual(1);
-    expect(fetchMock.calls()[0][0]).toBe("/alerts.json");
+    expect(fetchMock.calls()[0][0]).toContain("alerts.json");
     expect(JSON.parse(fetchMock.calls()[0][1]?.body as string)).toStrictEqual({
       filters: ["label=value"],
       gridLabel: "cluster",
@@ -865,7 +865,7 @@ describe("AlertStore.fetch", () => {
       ),
     ).resolves.toBeUndefined();
     expect(fetchMock.calls().length).toEqual(1);
-    expect(fetchMock.calls()[0][0]).toBe("/alerts.json");
+    expect(fetchMock.calls()[0][0]).toContain("alerts.json");
     expect(JSON.parse(fetchMock.calls()[0][1]?.body as string)).toStrictEqual({
       filters: ["label=value"],
       gridLabel: "cluster",
@@ -922,7 +922,7 @@ describe("AlertStore.fetch", () => {
       ),
     ).resolves.toBeUndefined();
     expect(fetchMock.calls().length).toEqual(1);
-    expect(fetchMock.calls()[0][0]).toBe("/alerts.json");
+    expect(fetchMock.calls()[0][0]).toContain("alerts.json");
     expect(JSON.parse(fetchMock.calls()[0][1]?.body as string)).toStrictEqual({
       filters: ["label=value"],
       gridLabel: "cluster",

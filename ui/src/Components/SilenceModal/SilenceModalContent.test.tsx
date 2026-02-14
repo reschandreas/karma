@@ -66,20 +66,20 @@ describe("<SilenceModalContent />", () => {
     upstreams.instances[0].readonly = true;
     alertStore.data.setUpstreams(upstreams);
     const { container } = MountedSilenceModalContent();
-    expect(container.querySelectorAll(".display-1")).toHaveLength(1);
+    expect(container.querySelectorAll(".display-5")).toHaveLength(1);
   });
 
   it("Clicking on the Browser tab changes content", () => {
     const { container } = MountedSilenceModalContent();
-    const tabs = container.querySelectorAll("[role='tab']");
+    const tabs = container.querySelectorAll(".nav-link");
     fireEvent.click(tabs[1]);
-    expect(container.querySelectorAll(".silence-browser")).toHaveLength(1);
+    expect(container.querySelectorAll("#silence-show-expired")).toHaveLength(1);
   });
 
   it("Clicking on the Editor tab changes content", () => {
     silenceFormStore.tab.setTab("browser");
     const { container } = MountedSilenceModalContent();
-    const tabs = container.querySelectorAll("[role='tab']");
+    const tabs = container.querySelectorAll(".nav-link");
     fireEvent.click(tabs[0]);
     expect(container.querySelector("form")).toBeTruthy();
   });
@@ -102,28 +102,28 @@ describe("<SilenceModalContent /> Editor", () => {
     silenceFormStore.data.setStage("form");
     silenceFormStore.data.setSilenceID(null);
     const { container } = MountedSilenceModalContent();
-    const tab = container.querySelectorAll("[role='tab']")[0];
+    const tab = container.querySelectorAll(".nav-link")[0];
     expect(tab.textContent).toBe("New silence");
   });
   it("title is 'Editing silence' when editing exiting silence", () => {
     silenceFormStore.data.setStage("form");
     silenceFormStore.data.setSilenceID("1234");
     const { container } = MountedSilenceModalContent();
-    const tab = container.querySelectorAll("[role='tab']")[0];
+    const tab = container.querySelectorAll(".nav-link")[0];
     expect(tab.textContent).toBe("Editing silence");
   });
   it("title is 'Preview silenced alerts' when previewing silenced alerts", () => {
     silenceFormStore.data.setStage("preview");
     silenceFormStore.data.setSilenceID("1234");
     const { container } = MountedSilenceModalContent();
-    const tab = container.querySelectorAll("[role='tab']")[0];
+    const tab = container.querySelectorAll(".nav-link")[0];
     expect(tab.textContent).toBe("Preview silenced alerts");
   });
   it("title is 'Silence submitted' after sending silence to Alertmanager", () => {
     silenceFormStore.data.setStage("submit");
     silenceFormStore.data.setSilenceID("1234");
     const { container } = MountedSilenceModalContent();
-    const tab = container.querySelectorAll("[role='tab']")[0];
+    const tab = container.querySelectorAll(".nav-link")[0];
     expect(tab.textContent).toBe("Silence submitted");
   });
 
@@ -150,6 +150,6 @@ describe("<SilenceModalContent /> Browser", () => {
   it("renders silence browser when tab is set to Browser", () => {
     silenceFormStore.tab.setTab("browser");
     const { container } = MountedSilenceModalContent();
-    expect(container.querySelectorAll(".silence-browser")).toHaveLength(1);
+    expect(container.querySelectorAll("#silence-show-expired")).toHaveLength(1);
   });
 });

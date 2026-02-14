@@ -3,7 +3,7 @@
 exports[`<NoUpstream /> matches snapshot 1`] = `
 <DocumentFragment>
   <h1
-    class="display-1 text-placeholder screen-center"
+    class="display-1 text-placeholder screen-center components-animation-fade-appear components-animation-fade-appear-active"
   >
     No alertmanager server configured
   </h1>

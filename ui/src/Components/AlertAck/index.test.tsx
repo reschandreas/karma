@@ -82,7 +82,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  fetchMock.resetHistory();
+  fetchMock.reset();
   jest.clearAllTimers();
   jest.clearAllMocks();
   jest.restoreAllMocks();
@@ -175,7 +175,12 @@ describe("<AlertAck />", () => {
   it("uses faCheckCircle after successful fetch", async () => {
     const { container } = MountedAlertAck();
     const button = container.querySelector("span.badge");
-    fireEvent.click(button!);
+    await act(async () => {
+      fireEvent.click(button!);
+    });
+    await act(async () => {
+      await fetchMock.flush(true);
+    });
     await act(async () => {
       await fetchMock.flush(true);
     });

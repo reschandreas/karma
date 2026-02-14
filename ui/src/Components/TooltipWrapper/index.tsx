@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode, FC } from "react";
+import { useState, useEffect, useRef, useCallback, ReactNode, FC } from "react";
 import { createPortal } from "react-dom";
 
 import { CSSTransition } from "react-transition-group";
@@ -16,6 +16,16 @@ const TooltipWrapper: FC<{
     placement: "top",
     middleware: [shift(), flip()],
   });
+
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const mergedFloatingRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      refs.setFloating(node);
+      (tooltipRef as React.MutableRefObject<HTMLDivElement | null>).current =
+        node;
+    },
+    [refs],
+  );
 
   const supportsTouch = useSupportsTouch();
   const [isHovering, setIsHovering] = useState<boolean>(false);
@@ -66,6 +76,7 @@ const TooltipWrapper: FC<{
       {isVisible
         ? createPortal(
             <CSSTransition
+              nodeRef={tooltipRef}
               classNames="components-animation-tooltip"
               timeout={200}
               appear
@@ -75,7 +86,7 @@ const TooltipWrapper: FC<{
             >
               <div
                 className="tooltip tooltip-inner"
-                ref={refs.setFloating}
+                ref={mergedFloatingRef}
                 style={{
                   position: strategy,
                   top: y ?? "",

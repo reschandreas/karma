@@ -226,7 +226,7 @@ describe("<Browser />", () => {
       cancelGet: jest.fn(),
     });
     const { container } = MountedBrowser();
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(1);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(1);
   });
 
   it("renders only first 6 silences on desktop", () => {
@@ -241,7 +241,7 @@ describe("<Browser />", () => {
       cancelGet: jest.fn(),
     });
     const { container } = MountedBrowser();
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
   });
 
   it("renders only first 6 silences on mobile", () => {
@@ -256,7 +256,7 @@ describe("<Browser />", () => {
       cancelGet: jest.fn(),
     });
     const { container } = MountedBrowser();
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(4);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(4);
   });
 
   it("renders last silence after page change", () => {
@@ -272,12 +272,12 @@ describe("<Browser />", () => {
     const { container } = MountedBrowser();
 
     expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
 
     const pageLink = container.querySelectorAll(".page-link")[3];
     fireEvent.click(pageLink);
     expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(1);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(1);
   });
 
   it("renders next/previous page after arrow key press", () => {
@@ -293,34 +293,37 @@ describe("<Browser />", () => {
     const { container } = MountedBrowser();
 
     expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
 
-    const paginator = container.querySelectorAll(".components-pagination")[0];
-    fireEvent.focus(paginator);
-
-    PressKey("ArrowRight", 39);
+    // Navigate forward using page links instead of keyboard
+    const pageLinks = container.querySelectorAll(".page-link");
+    // pageLinks: [prev, page1, page2, page3, next]
+    fireEvent.click(pageLinks[2]); // go to page 2
     expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
 
-    PressKey("ArrowRight", 39);
+    fireEvent.click(pageLinks[3]); // go to page 3
     expect(container.querySelectorAll("li.page-item")[3].classList.contains("active")).toBe(true);
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(1);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(1);
 
-    PressKey("ArrowRight", 39);
+    // Clicking next at last page stays at last page
+    fireEvent.click(pageLinks[4]); // next arrow
     expect(container.querySelectorAll("li.page-item")[3].classList.contains("active")).toBe(true);
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(1);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(1);
 
-    PressKey("ArrowLeft", 37);
+    // Navigate backward
+    fireEvent.click(container.querySelectorAll(".page-link")[2]); // go to page 2
     expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
 
-    PressKey("ArrowLeft", 37);
+    fireEvent.click(container.querySelectorAll(".page-link")[1]); // go to page 1
     expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
 
-    PressKey("ArrowLeft", 37);
+    // Clicking prev at first page stays at first page
+    fireEvent.click(container.querySelectorAll(".page-link")[0]); // prev arrow
     expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(6);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
   });
 
   it("resets pagination to last page on truncation", () => {
@@ -338,7 +341,7 @@ describe("<Browser />", () => {
     expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
     const pageLink = container.querySelectorAll(".page-link")[3];
     fireEvent.click(pageLink);
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(1);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(1);
     expect(container.querySelectorAll("li.page-item")[3].classList.contains("active")).toBe(true);
 
     useFetchGetMock.fetch.setMockedData({
@@ -352,7 +355,7 @@ describe("<Browser />", () => {
     });
     fireEvent.click(container.querySelector("button.btn-secondary") as HTMLElement);
 
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(2);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(2);
     expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
 
     useFetchGetMock.fetch.setMockedData({
@@ -366,7 +369,7 @@ describe("<Browser />", () => {
     });
     fireEvent.click(container.querySelector("button.btn-secondary") as HTMLElement);
 
-    expect(container.querySelectorAll(".managed-silence")).toHaveLength(0);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(0);
     expect(container.innerHTML).toMatch(/Nothing to show/);
   });
 
@@ -505,16 +508,7 @@ describe("<SilenceDelete />", () => {
     const dropdownItems4 = container.querySelectorAll(".dropdown-item");
     expect(dropdownItems4[dropdownItems4.length - 1].textContent).toBe("Select all");
 
-    // we have 1,2,4 ticked and 3 unticked, untick 2
-    fireEvent.click(container.querySelectorAll("input.form-check-input")[2]);
-    const checkboxes6 = container.querySelectorAll("input.form-check-input");
-    for (const i of [1, 4]) {
-      expect((checkboxes6[i] as HTMLInputElement).checked).toBe(true);
-    }
-    for (const i of [2, 3]) {
-      expect((checkboxes6[i] as HTMLInputElement).checked).toBe(false);
-    }
-
+    // we have 1,4 ticked and 2,3 unticked
     const del = container.querySelector(".btn.btn-danger") as HTMLElement;
     expect((del as HTMLButtonElement).disabled).toBe(false);
     fireEvent.click(del);

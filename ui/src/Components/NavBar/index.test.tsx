@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
+import { render, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -77,17 +75,15 @@ afterEach(() => {
 });
 
 const MountedNavbar = (fixedTop?: boolean) => {
-  return mount(
-    <NavBar
-      alertStore={alertStore}
-      settingsStore={settingsStore}
-      silenceFormStore={silenceFormStore}
-      fixedTop={fixedTop}
-    />,
-    {
-      wrappingComponent: ThemeContext.Provider,
-      wrappingComponentProps: { value: MockThemeContext },
-    },
+  return render(
+    <ThemeContext.Provider value={MockThemeContext}>
+      <NavBar
+        alertStore={alertStore}
+        settingsStore={settingsStore}
+        silenceFormStore={silenceFormStore}
+        fixedTop={fixedTop}
+      />
+    </ThemeContext.Provider>,
   );
 };
 
@@ -99,45 +95,42 @@ describe("<NavBar />", () => {
       clusters: {},
     });
     alertStore.info.setTimestamp("123");
-    const tree = MountedNavbar();
-    expect(tree.find("span.navbar-brand")).toHaveLength(0);
+    const { container } = MountedNavbar();
+    expect(container.querySelector("span.navbar-brand")).toBeNull();
   });
 
   it("navbar-brand shows 15 alerts with totalAlerts=15", () => {
     alertStore.info.setTotalAlerts(15);
-    const tree = MountedNavbar();
-    const brand = tree.find("span.navbar-brand");
-    expect(brand.text()).toBe("15");
+    const { container } = MountedNavbar();
+    const brand = container.querySelector("span.navbar-brand")!;
+    expect(brand.textContent).toBe("15");
   });
 
   it("navbar includes 'fixed-top' class by default", () => {
-    const tree = MountedNavbar();
-    const nav = tree.find(".navbar");
-    expect((nav.props().className as string).split(" ")).toContain("fixed-top");
+    const { container } = MountedNavbar();
+    const nav = container.querySelector(".navbar")!;
+    expect(nav.classList.contains("fixed-top")).toBe(true);
   });
 
   it("navbar includes 'fixed-top' class with fixedTop=true", () => {
-    const tree = MountedNavbar(true);
-    const nav = tree.find(".navbar");
-    expect((nav.props().className as string).split(" ")).toContain("fixed-top");
-    expect((nav.props().className as string).split(" ")).not.toContain("w-100");
+    const { container } = MountedNavbar(true);
+    const nav = container.querySelector(".navbar")!;
+    expect(nav.classList.contains("fixed-top")).toBe(true);
+    expect(nav.classList.contains("w-100")).toBe(false);
   });
 
   it("navbar doesn't 'fixed-top' class with fixedTop=false", () => {
-    const tree = MountedNavbar(false);
-    const nav = tree.find(".navbar");
-    expect((nav.props().className as string).split(" ")).not.toContain(
-      "fixed-top",
-    );
-    expect((nav.props().className as string).split(" ")).toContain("w-100");
+    const { container } = MountedNavbar(false);
+    const nav = container.querySelector(".navbar")!;
+    expect(nav.classList.contains("fixed-top")).toBe(false);
+    expect(nav.classList.contains("w-100")).toBe(true);
   });
 
   it("body 'padding-top' style is updated after resize", () => {
-    const tree = MountedNavbar();
+    MountedNavbar();
     act(() => {
       resizeCallback([{ contentRect: { width: 100, height: 10 } }]);
     });
-    tree.setProps({});
     expect(
       window
         .getComputedStyle(document.body, null)
@@ -147,7 +140,6 @@ describe("<NavBar />", () => {
     act(() => {
       resizeCallback([{ contentRect: { width: 100, height: 36 } }]);
     });
-    tree.setProps({});
     expect(
       window
         .getComputedStyle(document.body, null)

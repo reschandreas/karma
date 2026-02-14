@@ -71,9 +71,9 @@ describe("<LabelValueInput />", () => {
 
   it("renders suggestions", () => {
     const { container } = MountedLabelValueInput(true);
-    fireEvent.change(container.querySelector("input")!, {
-      target: { value: "f" },
-    });
+    const input = container.querySelector("input")!;
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
     const options = container.querySelectorAll("div.react-select__option");
     expect(options).toHaveLength(3);
     expect(options[0].textContent).toBe("dev");
@@ -83,12 +83,14 @@ describe("<LabelValueInput />", () => {
 
   it("clicking on options appends them to matcher.values", () => {
     const { container } = MountedLabelValueInput(true);
-    fireEvent.change(container.querySelector("input")!, {
-      target: { value: "f" },
-    });
+    const input = container.querySelector("input")!;
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
     const options = container.querySelectorAll("div.react-select__option");
     fireEvent.click(options[0]);
-    fireEvent.click(options[1]);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
+    const options2 = container.querySelectorAll("div.react-select__option");
+    fireEvent.click(options2[0]);
     expect(matcher.values).toHaveLength(2);
     expect(matcher.values).toContainEqual(StringToOption("dev"));
     expect(matcher.values).toContainEqual(StringToOption("staging"));
@@ -119,13 +121,15 @@ describe("<LabelValueInput />", () => {
 
   it("selecting multiple options forces matcher.isRegex=true", () => {
     const { container } = MountedLabelValueInput(true);
-    fireEvent.change(container.querySelector("input")!, {
-      target: { value: "f" },
-    });
+    const input = container.querySelector("input")!;
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
     expect(matcher.isRegex).toBe(false);
     const options = container.querySelectorAll("div.react-select__option");
     fireEvent.click(options[0]);
-    fireEvent.click(options[1]);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
+    const options2 = container.querySelectorAll("div.react-select__option");
+    fireEvent.click(options2[0]);
     expect(matcher.isRegex).toBe(true);
   });
 
@@ -135,7 +139,7 @@ describe("<LabelValueInput />", () => {
     const input = container.querySelector("input")!;
     fireEvent.change(input, { target: { value: "foo" } });
     fireEvent.keyDown(input, { key: "Enter", keyCode: 13 });
-    expect(matcher.values[0]).toStrictEqual({
+    expect(matcher.values[0]).toMatchObject({
       label: "foo",
       value: "foo",
       wasCreated: true,

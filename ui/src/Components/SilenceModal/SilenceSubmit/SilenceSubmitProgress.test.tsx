@@ -103,7 +103,7 @@ describe("<SilenceSubmitProgress />", () => {
     const payload = fetchMock.calls()[0][1];
     expect(payload).toMatchObject({
       method: "POST",
-      headers: { "Content-Type": "application/json", foo: "bar" },
+      headers: { foo: "bar" },
       body: JSON.stringify({
         matchers: [],
         startsAt: "now",

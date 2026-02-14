@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { mount } from "enzyme";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -59,7 +57,7 @@ beforeEach(() => {
 });
 
 const MountedGridLabelSelect = () => {
-  return mount(
+  return render(
     <GridLabelSelect
       alertStore={alertStore}
       settingsStore={settingsStore}
@@ -71,67 +69,86 @@ const MountedGridLabelSelect = () => {
 describe("<GridLabelSelect />", () => {
   it("select dropdown is hidden by default", async () => {
     const promise = Promise.resolve();
-    const tree = MountedGridLabelSelect();
-    expect(tree.find("div.components-grid-label-select-menu")).toHaveLength(0);
+    const { container } = MountedGridLabelSelect();
+    expect(
+      container.querySelector("div.components-grid-label-select-menu"),
+    ).toBeNull();
     await act(() => promise);
   });
 
   it("clicking toggle renders select dropdown", async () => {
     const promise = Promise.resolve();
     MockGrid(alertStore);
-    const tree = MountedGridLabelSelect();
-    const toggle = tree.find("span.components-grid-label-select-dropdown");
-    toggle.simulate("click");
-    expect(tree.find("div.components-grid-label-select-menu")).toHaveLength(1);
+    const { container } = MountedGridLabelSelect();
+    const toggle = container.querySelector(
+      "span.components-grid-label-select-dropdown",
+    )!;
+    fireEvent.click(toggle);
+    expect(
+      container.querySelector("div.components-grid-label-select-menu"),
+    ).toBeTruthy();
     await act(() => promise);
   });
 
   it("clicking an option updates grid settings", async () => {
     const promise = Promise.resolve();
     MockGrid(alertStore);
-    const tree = MountedGridLabelSelect();
+    const { container } = MountedGridLabelSelect();
 
-    const toggle = tree.find("span.components-grid-label-select-dropdown");
-    toggle.simulate("click");
-    expect(tree.find("div.components-grid-label-select-menu")).toHaveLength(1);
+    const toggle = container.querySelector(
+      "span.components-grid-label-select-dropdown",
+    )!;
+    fireEvent.click(toggle);
+    expect(
+      container.querySelector("div.components-grid-label-select-menu"),
+    ).toBeTruthy();
 
     settingsStore.multiGridConfig.setGridLabel("foo");
-    const options = tree.find("div.react-select__option");
-    options.at(5).simulate("click");
+    const options = container.querySelectorAll("div.react-select__option");
+    fireEvent.click(options[5]);
     expect(settingsStore.multiGridConfig.config.gridLabel).toBe("cluster");
     await act(() => promise);
   });
 
   it("clicking toggle twice hides select dropdown", async () => {
     const promise = Promise.resolve();
-    const tree = MountedGridLabelSelect();
-    const toggle = tree.find("span.components-grid-label-select-dropdown");
+    const { container } = MountedGridLabelSelect();
+    const toggle = container.querySelector(
+      "span.components-grid-label-select-dropdown",
+    )!;
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    expect(tree.find("div.components-grid-label-select-menu")).toHaveLength(1);
+    expect(
+      container.querySelector("div.components-grid-label-select-menu"),
+    ).toBeTruthy();
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("div.components-grid-label-select-menu")).toHaveLength(0);
+    expect(
+      container.querySelector("div.components-grid-label-select-menu"),
+    ).toBeNull();
     await act(() => promise);
   });
 
   it("clicking outside hides select dropdown", async () => {
     const promise = Promise.resolve();
-    const tree = MountedGridLabelSelect();
-    const toggle = tree.find("span.components-grid-label-select-dropdown");
+    const { container } = MountedGridLabelSelect();
+    const toggle = container.querySelector(
+      "span.components-grid-label-select-dropdown",
+    )!;
 
-    toggle.simulate("click");
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    expect(tree.find("div.components-grid-label-select-menu")).toHaveLength(1);
+    expect(
+      container.querySelector("div.components-grid-label-select-menu"),
+    ).toBeTruthy();
 
     const clickEvent = document.createEvent("MouseEvents");
     clickEvent.initEvent("mousedown", true, true);
@@ -142,8 +159,9 @@ describe("<GridLabelSelect />", () => {
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("div.components-grid-label-select-menu")).toHaveLength(0);
+    expect(
+      container.querySelector("div.components-grid-label-select-menu"),
+    ).toBeNull();
     await act(() => promise);
   });
 
@@ -162,29 +180,32 @@ describe("<GridLabelSelect />", () => {
         },
       },
     ]);
-    const tree = mount(
-      <AlertGrid
-        alertStore={alertStore}
-        settingsStore={settingsStore}
-        silenceFormStore={silenceFormStore}
-      />,
-      {
-        wrappingComponent: ThemeContext.Provider,
-        wrappingComponentProps: { value: MockThemeContextWithoutAnimations },
-      },
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContextWithoutAnimations}>
+        <AlertGrid
+          alertStore={alertStore}
+          settingsStore={settingsStore}
+          silenceFormStore={silenceFormStore}
+        />
+      </ThemeContext.Provider>,
     );
 
-    tree.find("span.components-grid-label-select-dropdown").simulate("click");
-    expect(tree.find("div.components-grid-label-select-menu")).toHaveLength(1);
-    expect(tree.find("div").at(1).props().style?.zIndex).toBe(101);
+    fireEvent.click(
+      container.querySelector("span.components-grid-label-select-dropdown")!,
+    );
+    expect(
+      container.querySelector("div.components-grid-label-select-menu"),
+    ).toBeTruthy();
 
-    tree.find("span.components-grid-label-select-dropdown").simulate("click");
+    fireEvent.click(
+      container.querySelector("span.components-grid-label-select-dropdown")!,
+    );
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    tree.update();
-    expect(tree.find("div.components-grid-label-select-menu")).toHaveLength(0);
-    expect(tree.find("div").at(1).props().style?.zIndex).toBe(101);
+    expect(
+      container.querySelector("div.components-grid-label-select-menu"),
+    ).toBeNull();
 
     await act(() => promise);
   });

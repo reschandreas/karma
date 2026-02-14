@@ -212,7 +212,7 @@ describe("<TabContentStart />", () => {
       new Date(2060, 1, 1, 0, 0, 0).toISOString(),
     );
     fireEvent.click(
-      container.querySelectorAll("button.rdp-button.rdp-day")[17],
+      container.querySelectorAll("button.rdp-day_button")[17],
     );
     expect(silenceFormStore.data.startsAt.toISOString()).toBe(
       new Date(2060, 1, 18, 0, 0, 0).toISOString(),
@@ -233,7 +233,7 @@ describe("<TabContentStart />", () => {
       "February 2060",
     );
     fireEvent.click(
-      container.querySelector("button.rdp-button.rdp-nav_button_next")!,
+      container.querySelector("button.rdp-button_next")!,
     );
     expect(container.querySelector(".rdp-caption_label")!.textContent).toBe(
       "March 2060",
@@ -373,7 +373,7 @@ describe("<TabContentEnd />", () => {
       new Date(2061, 1, 1, 0, 0, 0).toISOString(),
     );
     fireEvent.click(
-      container.querySelectorAll("button.rdp-button.rdp-day")[23],
+      container.querySelectorAll("button.rdp-day_button")[23],
     );
     expect(silenceFormStore.data.endsAt.toISOString()).toBe(
       new Date(2061, 1, 24, 0, 0, 0).toISOString(),
@@ -394,7 +394,7 @@ describe("<TabContentEnd />", () => {
       "February 2061",
     );
     fireEvent.click(
-      container.querySelector("button.rdp-button.rdp-nav_button_next")!,
+      container.querySelector("button.rdp-button_next")!,
     );
     expect(container.querySelector(".rdp-caption_label")!.textContent).toBe(
       "March 2061",

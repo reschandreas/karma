@@ -75,7 +75,7 @@ describe("<SilenceDetails />", () => {
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 23, 0, 0)));
     const { container } = MountedSilenceDetails();
     const endsAt = container.querySelectorAll("span.badge")[1];
-    expect(endsAt.innerHTML).toMatch(/text-danger/);
+    expect(endsAt.className).toMatch(/text-danger/);
   });
 
   it("id links to Alertmanager silence view via alertmanager.publicURI", () => {

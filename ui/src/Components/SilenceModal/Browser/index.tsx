@@ -40,15 +40,17 @@ const Placeholder: FC<{
   content: ReactNode;
 }> = ({ content }) => {
   const context = React.useContext(ThemeContext);
+  const nodeRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <CSSTransition
+      nodeRef={nodeRef}
       in={true}
       appear={true}
       classNames="components-animation-fade"
       timeout={context.animations.duration}
     >
-      <div className="px-2 py-5 bg-transparent">
+      <div ref={nodeRef} className="px-2 py-5 bg-transparent">
         <h1 className="display-5 text-placeholder text-center">{content}</h1>
       </div>
     </CSSTransition>

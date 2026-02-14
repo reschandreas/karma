@@ -53,9 +53,9 @@ describe("<LabelNameInput />", () => {
 
   it("renders suggestions", () => {
     const { container } = MountedLabelNameInput(true);
-    fireEvent.change(container.querySelector("input")!, {
-      target: { value: "f" },
-    });
+    const input = container.querySelector("input")!;
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
     const options = container.querySelectorAll("div.react-select__option");
     expect(options).toHaveLength(2);
     expect(options[0].textContent).toBe("job");
@@ -64,9 +64,9 @@ describe("<LabelNameInput />", () => {
 
   it("clicking on options updates the matcher", () => {
     const { container } = MountedLabelNameInput(true);
-    fireEvent.change(container.querySelector("input")!, {
-      target: { value: "f" },
-    });
+    const input = container.querySelector("input")!;
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
     const option = container.querySelectorAll("div.react-select__option")[0];
     fireEvent.click(option);
     expect(matcher.name).toBe("job");
@@ -91,10 +91,11 @@ describe("<LabelNameInput />", () => {
       cancelGet: jest.fn(),
     });
     const { container } = MountedLabelNameInput(true);
-    fireEvent.change(container.querySelector("input")!, {
-      target: { value: "f" },
-    });
+    const input = container.querySelector("input")!;
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
     const options = container.querySelectorAll("div.react-select__option");
+    // Creatable shows "New label: " option even with no data
     expect(options).toHaveLength(0);
   });
 });

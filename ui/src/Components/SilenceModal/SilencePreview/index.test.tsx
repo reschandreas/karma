@@ -92,7 +92,7 @@ describe("<SilencePreview />", () => {
     });
     const { container } = MountedSilencePreview();
     expect(
-      container.querySelectorAll(".placeholder"),
+      container.querySelectorAll(".text-placeholder"),
     ).not.toHaveLength(0);
   });
 

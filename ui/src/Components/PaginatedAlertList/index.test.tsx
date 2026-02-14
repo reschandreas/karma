@@ -1,4 +1,4 @@
-import { mount } from "enzyme";
+import { render } from "@testing-library/react";
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import { AlertStore } from "Stores/AlertStore";
@@ -50,10 +50,10 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = mount(
+    const { container } = render(
       <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
     );
-    expect(tree.find("Placeholder")).toHaveLength(1);
+    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 
   it("renders Placeholder while response is empty", () => {
@@ -66,10 +66,10 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = mount(
+    const { container } = render(
       <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
     );
-    expect(tree.find("Placeholder")).toHaveLength(1);
+    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 
   it("renders LabelSetList with StaticLabel on mount", () => {
@@ -90,11 +90,11 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = mount(
+    const { container } = render(
       <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
     );
-    expect(tree.find("LabelSetList")).toHaveLength(1);
-    expect(tree.find("Memo(StaticLabel)")).toHaveLength(3);
+    expect(container.querySelector(".list-group")).toBeInTheDocument();
+    expect(container.querySelectorAll("span.components-label")).toHaveLength(3);
   });
 
   it("renders empty LabelSetList with empty response", () => {
@@ -107,15 +107,17 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = mount(
+    const { container } = render(
       <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
     );
-    expect(tree.find("LabelSetList")).toHaveLength(1);
-    expect(tree.find("Memo(StaticLabel)")).toHaveLength(0);
+    expect(container.textContent).toMatch(/No alerts matched/);
+    expect(container.querySelectorAll("span.components-label")).toHaveLength(0);
   });
 
   it("fetches affected alerts on mount", () => {
-    mount(<PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />);
+    render(
+      <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
+    );
     expect(useFetchGet).toHaveBeenCalled();
   });
 
@@ -137,15 +139,15 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = mount(
+    const { container } = render(
       <PaginatedAlertList
         alertStore={alertStore}
         filters={["foo=bar"]}
         title="Affected alerts"
       />,
     );
-    expect(tree.text()).toMatch(/Affected alerts/);
-    expect(tree.find("Memo(StaticLabel)")).toHaveLength(3);
+    expect(container.textContent).toMatch(/Affected alerts/);
+    expect(container.querySelectorAll("span.components-label")).toHaveLength(3);
   });
 
   it("handles empty grid response correctly", () => {
@@ -158,10 +160,10 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = mount(
+    const { container } = render(
       <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
     );
-    expect(tree.text()).toMatch(/No alerts matched/);
+    expect(container.textContent).toMatch(/No alerts matched/);
   });
 
   it("renders FetchError on failed preview fetch", () => {
@@ -174,9 +176,9 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const tree = mount(
+    const { container } = render(
       <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
     );
-    expect(tree.find("FetchError")).toHaveLength(1);
+    expect(container.textContent).toMatch(/fake error/);
   });
 });

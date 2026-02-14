@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ReactNode } from "react";
+import { useState, useEffect, useRef, useCallback, ReactNode } from "react";
 
 import type { TransitionProps } from "react-transition-group/Transition";
 
@@ -17,9 +17,21 @@ const useFlashTransition = (
   flashOn: ReactNode,
 ): { ref: (node?: Element | null) => void; props: TransitionProps } => {
   const mountRef = useRef<boolean>(false);
-  const [ref, inView] = useInView();
+  const nodeRef = useRef<HTMLElement | null>(null);
+  const [inViewRef, inView] = useInView();
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [props, setProps] = useState<TransitionProps>(defaultProps);
+  const [props, setProps] = useState<TransitionProps>({
+    ...defaultProps,
+    nodeRef: nodeRef as unknown as React.Ref<undefined>,
+  });
+
+  const ref = useCallback(
+    (node?: Element | null) => {
+      inViewRef(node);
+      nodeRef.current = (node as HTMLElement) || null;
+    },
+    [inViewRef],
+  );
 
   useEffect(() => {
     if (mountRef.current) {
@@ -32,6 +44,7 @@ const useFlashTransition = (
   useEffect(() => {
     setProps({
       ...defaultProps,
+      nodeRef: nodeRef as unknown as React.Ref<undefined>,
       in: isPending && inView,
       enter: isPending && inView,
       onEntered: () => setIsPending(false),

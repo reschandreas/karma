@@ -5,136 +5,54 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bcf014e9-6cea-4fcd-8b61-6a59aedb5423" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Accordion/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Accordion/__snapshots__/index.test.tsx.snap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/AlertAck/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/AlertAck/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/AlertHistory/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/AlertHistory/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/AlertHistory/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/AlertHistory/index.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Animations/DropdownSlide/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Animations/DropdownSlide/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/CenteredMessage/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/CenteredMessage/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/CenteredMessage/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/CenteredMessage/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/DateFromNow/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/DateFromNow/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/FaviconBadge/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/FaviconBadge/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/FetchPauser/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/FetchPauser/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Fetcher/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Fetcher/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Fetcher/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Fetcher/index.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/CenteredMessage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/CenteredMessage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Fetcher/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Fetcher/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Alert/AlertMenu.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Alert/AlertMenu.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Alert/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Alert/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Alert/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Alert/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Annotation/__snapshots__/index.test.tsx.snap" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/GroupFooter/__snapshots__/index.test.tsx.snap" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/__snapshots__/Silences.test.tsx.snap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Annotation/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Annotation/index.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/GroupFooter/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/GroupFooter/index.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/GroupHeader/GroupMenu.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/GroupHeader/GroupMenu.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Silences.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/Silences.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/AlertGroup/index.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/Grid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/Grid.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/GridLabelSelect.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/GridLabelSelect.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/AlertGrid/index.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Grid/EmptyGrid/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/EmptyGrid/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/EmptyGrid/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/EmptyGrid/index.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Grid/FatalError/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/FatalError/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/FatalError/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/FatalError/index.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Grid/NoUpstream/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/NoUpstream/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/NoUpstream/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/NoUpstream/index.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Grid/ReloadNeeded/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/ReloadNeeded/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/ReloadNeeded/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/ReloadNeeded/index.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Grid/UpgradeNeeded/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/UpgradeNeeded/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/UpgradeNeeded/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/UpgradeNeeded/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Grid/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Grid/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/InhibitedByModal/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/InhibitedByModal/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/InlineEdit/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/InlineEdit/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/LabelSetList/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/LabelSetList/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/LabelSetList/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/LabelSetList/index.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Labels/FilterInputLabel/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Labels/FilterInputLabel/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Labels/FilteringCounterBadge/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Labels/FilteringCounterBadge/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Labels/FilteringLabel/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Labels/FilteringLabel/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Labels/FilteringLabel/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Labels/FilteringLabel/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Labels/HistoryLabel/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Labels/HistoryLabel/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Labels/LabelWithPercent/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Labels/LabelWithPercent/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Labels/LabelWithPercent/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Labels/LabelWithPercent/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Labels/StaticLabel/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Labels/StaticLabel/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Labels/StaticLabel/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Labels/StaticLabel/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AlertGroupCollapseConfiguration.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AlertGroupCollapseConfiguration.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AlertGroupConfiguration.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AlertGroupConfiguration.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AlertGroupSortConfiguration.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AlertGroupSortConfiguration.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AlertGroupTitleBarColor.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AlertGroupTitleBarColor.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AlertGroupWidthConfiguration.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AlertGroupWidthConfiguration.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AnimationsConfiguration.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/AnimationsConfiguration.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/FetchConfiguration.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/FetchConfiguration.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/FilterBarConfiguration.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/FilterBarConfiguration.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/MultiGridConfiguration.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/MultiGridConfiguration.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/ThemeConfiguration.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/ThemeConfiguration.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AlertGroupCollapseConfiguration.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AlertGroupCollapseConfiguration.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AlertGroupConfiguration.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AlertGroupConfiguration.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AlertGroupSortConfiguration.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AlertGroupSortConfiguration.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AlertGroupTitleBarColor.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AlertGroupTitleBarColor.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AlertGroupWidthConfiguration.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AlertGroupWidthConfiguration.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AnimationsConfiguration.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/AnimationsConfiguration.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/FetchConfiguration.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/FetchConfiguration.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/FilterBarConfiguration.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/FilterBarConfiguration.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/MultiGridConfiguration.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/MultiGridConfiguration.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/ThemeConfiguration.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/ThemeConfiguration.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Configuration/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Configuration/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/Help.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/Help.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/MainModalContent.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/MainModalContent.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/__snapshots__/Help.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/__snapshots__/Help.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/__snapshots__/MainModalContent.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/__snapshots__/MainModalContent.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/MainModal/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/MainModal/index.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/ManagedSilence/DeleteSilence.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ManagedSilence/DeleteSilence.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/ManagedSilence/SilenceComment.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ManagedSilence/SilenceComment.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/ManagedSilence/SilenceDetails.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ManagedSilence/SilenceDetails.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/ManagedSilence/__snapshots__/SilenceComment.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ManagedSilence/__snapshots__/SilenceComment.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/ManagedSilence/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ManagedSilence/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/ManagedSilence/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ManagedSilence/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/NavBar/FilterInput/__snapshots__/index.test.tsx.snap" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/OverviewModal/OverviewModalContent.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/OverviewModal/OverviewModalContent.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/OverviewModal/__snapshots__/OverviewModalContent.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/OverviewModal/__snapshots__/OverviewModalContent.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/OverviewModal/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/OverviewModal/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Pagination/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Pagination/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/AlertManagerInput/__snapshots__/index.test.tsx.snap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Modal/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Modal/index.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Modal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Modal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NavBar/FilterInput/History.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NavBar/FilterInput/History.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NavBar/FilterInput/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NavBar/FilterInput/index.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NavBar/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NavBar/index.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NavBar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NavBar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/PaginatedAlertList/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/PaginatedAlertList/index.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/AlertManagerInput/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/AlertManagerInput/index.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/Browser/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/Browser/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/DateTimeSelect/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/DateTimeSelect/__snapshots__/index.test.tsx.snap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/Browser/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/Browser/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/DateTimeSelect/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/DateTimeSelect/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/PayloadPreview/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/PayloadPreview/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/PayloadPreview/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/PayloadPreview/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceForm.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceForm.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/LabelNameInput.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/LabelNameInput.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/LabelValueInput.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/LabelValueInput.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/MatchCounter.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/MatchCounter.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/__snapshots__/LabelNameInput.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/__snapshots__/LabelNameInput.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/__snapshots__/LabelValueInput.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/__snapshots__/LabelValueInput.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/__snapshots__/MatchCounter.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/__snapshots__/MatchCounter.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/index.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceMatch/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceModalContent.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceModalContent.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilencePreview/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilencePreview/__snapshots__/index.test.tsx.snap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilencePreview/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilencePreview/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceSubmit/SilenceSubmitController.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceSubmit/SilenceSubmitController.test.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceSubmit/SilenceSubmitProgress.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/SilenceSubmit/SilenceSubmitProgress.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/__snapshots__/SilenceModalContent.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/__snapshots__/SilenceModalContent.test.tsx.snap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/SilenceModal/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SilenceModal/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Theme/ReactSelect.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Theme/ReactSelect.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Theme/__snapshots__/ReactSelect.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Theme/__snapshots__/ReactSelect.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Theme/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Theme/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Toast/AppToasts.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Toast/AppToasts.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Toast/ToastMessages.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Toast/ToastMessages.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Toast/__snapshots__/AppToasts.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Toast/__snapshots__/AppToasts.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Toast/__snapshots__/ToastMessages.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Toast/__snapshots__/ToastMessages.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Toast/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Toast/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/ToggleIcon/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ToggleIcon/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/TooltipWrapper/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/TooltipWrapper/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/ValidationError/__snapshots__/index.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ValidationError/__snapshots__/index.test.tsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ErrorBoundary.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ErrorBoundary.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hooks/useFetchAny.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hooks/useFetchAny.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hooks/useFetchDelete.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hooks/useFetchDelete.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hooks/useFetchGet.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hooks/useFetchGet.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hooks/useFlashTransition.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hooks/useFlashTransition.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hooks/useGrid.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hooks/useGrid.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hooks/useOnClickOutside.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hooks/useOnClickOutside.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hooks/useSupportsTouch.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hooks/useSupportsTouch.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Stores/__snapshots__/SilenceFormStore.test.ts.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/Stores/__snapshots__/SilenceFormStore.test.ts.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Styles/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styles/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__fixtures__/PressKey.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/__fixtures__/PressKey.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__snapshots__/ErrorBoundary.test.tsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/src/__snapshots__/ErrorBoundary.test.tsx.snap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Toast/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Toast/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/TooltipWrapper/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/TooltipWrapper/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Hooks/useFlashTransition.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hooks/useFlashTransition.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Stores/AlertStore.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Stores/AlertStore.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/setupTests.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/setupTests.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +82,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "upgrade-to-react-19",
     "javascript.preferred.runtime.type.id": "node",
     "last_opened_file_path": "/Users/andreas/Developer/random_github/karma/ui",
     "node.js.detected.package.eslint": "true",
@@ -263,7 +181,7 @@
       <option name="presentableId" value="Default" />
       <updated>1770407829678</updated>
       <workItem from="1770407830906" duration="3500000" />
-      <workItem from="1770453453838" duration="12308000" />
+      <workItem from="1770453453838" duration="21972000" />
     </task>
     <servers />
   </component>

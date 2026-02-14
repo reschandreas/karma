@@ -119,7 +119,9 @@ describe("<SilenceModal />", () => {
     });
     expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
 
-    silenceFormStore.toggle.hide();
+    act(() => {
+      silenceFormStore.toggle.hide();
+    });
     act(() => {
       jest.runOnlyPendingTimers();
     });

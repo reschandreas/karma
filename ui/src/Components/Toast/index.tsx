@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState, useEffect } from "react";
+import React, { FC, ReactNode, useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
 import TransitionGroup from "react-transition-group/TransitionGroup";
@@ -59,22 +59,35 @@ const Toast: FC<{
 
 const ToastContainer: FC = ({ children }) => {
   const context = React.useContext(ThemeContext);
+  const refsMap = useRef<Map<number, React.RefObject<HTMLDivElement | null>>>(
+    new Map(),
+  );
+
+  const getRef = (key: number) => {
+    if (!refsMap.current.has(key)) {
+      refsMap.current.set(key, React.createRef<HTMLDivElement>());
+    }
+    return refsMap.current.get(key)!;
+  };
 
   return ReactDOM.createPortal(
     <div className="components-toast-container d-flex flex-column">
       <TransitionGroup component={null} appear enter exit>
-        {React.Children.map(children, (toast, i) =>
-          toast ? (
+        {React.Children.map(children, (toast, i) => {
+          if (!toast) return null;
+          const nodeRef = getRef(i);
+          return (
             <CSSTransition
               key={i}
+              nodeRef={nodeRef}
               classNames="components-animation-fade"
               timeout={context.animations.duration}
               unmountOnExit
             >
-              {toast}
+              <div ref={nodeRef}>{toast}</div>
             </CSSTransition>
-          ) : null,
-        )}
+          );
+        })}
       </TransitionGroup>
     </div>,
     document.body,

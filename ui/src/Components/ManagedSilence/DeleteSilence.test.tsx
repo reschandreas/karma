@@ -125,9 +125,18 @@ describe("<DeleteSilence />", () => {
     fireEvent.click(container.querySelector("button.btn-danger")!);
     expect(document.body.querySelectorAll(".modal-body")).toHaveLength(1);
 
-    PressKey("Escape", 27);
     act(() => {
-      jest.runOnlyPendingTimers();
+      const event = new KeyboardEvent("keydown", {
+        key: "Escape",
+        code: "Escape",
+        keyCode: 27,
+        which: 27,
+        bubbles: true,
+      } as KeyboardEventInit);
+      document.dispatchEvent(event);
+    });
+    act(() => {
+      jest.runAllTimers();
     });
     expect(document.body.querySelectorAll(".modal-body")).toHaveLength(0);
   });
@@ -257,7 +266,7 @@ describe("<DeleteSilenceModalContent />", () => {
     const { container } = MountedDeleteSilenceModalContent();
     fireEvent.click(container.querySelector(".btn-danger")!);
 
-    expect(container.querySelectorAll("svg.fa-spinner")).toHaveLength(1);
+    expect(container.querySelectorAll("svg.fa-circle-notch")).toHaveLength(1);
   });
 
   it("renders SuccessMessage on successful response status", () => {

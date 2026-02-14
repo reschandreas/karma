@@ -311,6 +311,6 @@ describe("<MenuContent />", () => {
     const { container } = MountedMenuContent(group);
     const button = container.querySelectorAll(".dropdown-item")[1];
     fireEvent.click(button);
-    expect(copy).toBeCalledWith(JSON.stringify(alertToJSON(group, alert)));
+    expect(copy).toHaveBeenCalledWith(JSON.stringify(alertToJSON(group, alert)));
   });
 });

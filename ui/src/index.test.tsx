@@ -1,3 +1,5 @@
+import { act } from "@testing-library/react";
+
 import fetchMock from "fetch-mock";
 
 import { EmptyAPIResponse } from "__fixtures__/Fetch";
@@ -40,8 +42,10 @@ it("renders without crashing with missing defaults div", async () => {
     body: JSON.stringify(response),
   });
 
-  const Index = require("./index.tsx");
-  expect(Index).toBeTruthy();
+  await act(async () => {
+    const Index = require("./index.tsx");
+    expect(Index).toBeTruthy();
+  });
   expect(root.innerHTML).toMatch(/data-theme="auto"/);
 });
 
