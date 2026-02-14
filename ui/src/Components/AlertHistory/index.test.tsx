@@ -24,6 +24,12 @@ import type {
 } from "Models/APITypes";
 import { AlertHistory } from ".";
 
+// Flush pending microtasks (response body parsing, cascaded state updates)
+// so that all React state updates happen within act() boundaries
+const flushMicrotasks = async () => {
+  for (let i = 0; i < 10; i++) await Promise.resolve();
+};
+
 let group: APIAlertGroupT;
 let grid: APIGridT;
 
@@ -108,6 +114,7 @@ describe("<AlertHistory />", () => {
 >>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.calls()[0][1]?.body).toStrictEqual(
@@ -145,6 +152,7 @@ describe("<AlertHistory />", () => {
 >>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.calls()[0][1]?.body).toStrictEqual(
@@ -184,6 +192,7 @@ describe("<AlertHistory />", () => {
 >>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.calls()[0][1]?.body).toStrictEqual(
@@ -225,6 +234,7 @@ describe("<AlertHistory />", () => {
 >>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.calls()[0][1]?.body).toStrictEqual(
@@ -268,6 +278,7 @@ describe("<AlertHistory />", () => {
 >>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
 <<<<<<< HEAD
@@ -301,6 +312,7 @@ describe("<AlertHistory />", () => {
 >>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
 <<<<<<< HEAD
@@ -339,6 +351,7 @@ describe("<AlertHistory />", () => {
 >>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     unmount();
 
@@ -374,18 +387,21 @@ describe("<AlertHistory />", () => {
 >>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
 
     await act(async () => {
       jest.advanceTimersByTime(1000 * 299);
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
 
     await act(async () => {
       jest.advanceTimersByTime(1000 * 2);
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(2);
 
@@ -415,6 +431,7 @@ describe("<AlertHistory />", () => {
 >>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
 <<<<<<< HEAD
@@ -448,6 +465,7 @@ describe("<AlertHistory />", () => {
 >>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
 <<<<<<< HEAD

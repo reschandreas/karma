@@ -12,6 +12,17 @@ const settingsElement = {
   },
 };
 
+// Flush all pending async work (lazy imports, media hook effects, fetch responses)
+// so that all React state updates happen within act() boundaries.
+// React.lazy uses dynamic import() which resolves on macrotask boundaries,
+// and each resolved lazy component can trigger further effects.
+const flushAsyncWork = async () => {
+  for (let round = 0; round < 5; round++) {
+    for (let i = 0; i < 10; i++) await Promise.resolve();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  }
+};
+
 beforeEach(() => {
   window.matchMedia = mockMatchMedia({});
   jest.resetModules();
@@ -45,6 +56,9 @@ it("renders without crashing with missing defaults div", async () => {
   await act(async () => {
     const Index = require("./index.tsx");
     expect(Index).toBeTruthy();
+    await flushAsyncWork();
+    await fetchMock.flush(true);
+    await flushAsyncWork();
   });
   expect(root.innerHTML).toMatch(/data-theme="auto"/);
 });
@@ -72,6 +86,11 @@ it("renders without crashing with defaults present", async () => {
     body: JSON.stringify(response),
   });
 
-  const Index = require("./index.tsx");
-  expect(Index).toBeTruthy();
+  await act(async () => {
+    const Index = require("./index.tsx");
+    expect(Index).toBeTruthy();
+    await flushAsyncWork();
+    await fetchMock.flush(true);
+    await flushAsyncWork();
+  });
 });
