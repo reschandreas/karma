@@ -96,7 +96,7 @@ describe("<SilenceDetails />", () => {
 =======
     const { container } = MountedSilenceDetails();
     const endsAt = container.querySelectorAll("span.badge")[1];
-    expect(endsAt.innerHTML).toMatch(/text-danger/);
+    expect(endsAt.className).toMatch(/text-danger/);
   });
 
   it("id links to Alertmanager silence view via alertmanager.publicURI", () => {

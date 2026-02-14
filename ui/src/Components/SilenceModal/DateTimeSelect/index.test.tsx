@@ -320,7 +320,7 @@ describe("<TabContentStart />", () => {
       new Date(2060, 1, 1, 0, 0, 0).toISOString(),
     );
     fireEvent.click(
-      container.querySelectorAll("button.rdp-button.rdp-day")[17],
+      container.querySelectorAll("button.rdp-day_button")[17],
     );
 >>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.data.startsAt.toISOString()).toBe(
@@ -354,7 +354,7 @@ describe("<TabContentStart />", () => {
       "February 2060",
     );
     fireEvent.click(
-      container.querySelector("button.rdp-button.rdp-nav_button_next")!,
+      container.querySelector("button.rdp-button_next")!,
     );
 <<<<<<< HEAD
     expect(container.querySelector(".rdp-caption_label")?.textContent).toBe(
@@ -559,7 +559,7 @@ describe("<TabContentEnd />", () => {
       new Date(2061, 1, 1, 0, 0, 0).toISOString(),
     );
     fireEvent.click(
-      container.querySelectorAll("button.rdp-button.rdp-day")[23],
+      container.querySelectorAll("button.rdp-day_button")[23],
     );
 >>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.data.endsAt.toISOString()).toBe(
@@ -593,7 +593,7 @@ describe("<TabContentEnd />", () => {
       "February 2061",
     );
     fireEvent.click(
-      container.querySelector("button.rdp-button.rdp-nav_button_next")!,
+      container.querySelector("button.rdp-button_next")!,
     );
 <<<<<<< HEAD
     expect(container.querySelector(".rdp-caption_label")?.textContent).toBe(

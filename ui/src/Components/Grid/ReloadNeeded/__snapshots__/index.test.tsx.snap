@@ -3,11 +3,7 @@
 exports[`<ReloadNeeded /> matches snapshot 1`] = `
 <DocumentFragment>
   <h1
-<<<<<<< HEAD
     class="display-1 text-placeholder screen-center components-animation-fade-appear components-animation-fade-appear-active"
-=======
-    class="display-1 text-placeholder screen-center"
->>>>>>> f2d4110a (upgrading to react 19)
   >
     <div
       class="container-fluid text-center"
@@ -30,11 +26,7 @@ exports[`<ReloadNeeded /> matches snapshot 1`] = `
       >
         <svg
           aria-hidden="true"
-<<<<<<< HEAD
-          class="svg-inline--fa fa-spinner fa-spin me-2"
-=======
           class="svg-inline--fa fa-spinner me-2 fa-spin"
->>>>>>> f2d4110a (upgrading to react 19)
           data-icon="spinner"
           data-prefix="fas"
           role="img"

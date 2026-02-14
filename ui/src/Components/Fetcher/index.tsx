@@ -19,20 +19,24 @@ import { TooltipWrapper } from "Components/TooltipWrapper";
 
 const PauseButton: FC<{ alertStore: AlertStore }> = ({ alertStore }) => {
   const context = React.useContext(ThemeContext);
+  const nodeRef = useRef<HTMLSpanElement>(null);
   return (
     <TooltipWrapper title="Click to resume updates">
       <CSSTransition
+        nodeRef={nodeRef}
         in={true}
         appear={true}
         classNames="components-animation-fade"
         timeout={context.animations.duration}
       >
-        <FontAwesomeIcon
-          className="cursor-pointer text-muted components-fetcher-icon mx-2"
-          icon={faPause}
-          fixedWidth
-          onClick={alertStore.status.resume}
-        />
+        <span ref={nodeRef}>
+          <FontAwesomeIcon
+            className="cursor-pointer text-muted components-fetcher-icon mx-2"
+            icon={faPause}
+            fixedWidth
+            onClick={alertStore.status.resume}
+          />
+        </span>
       </CSSTransition>
     </TooltipWrapper>
   );
@@ -40,20 +44,24 @@ const PauseButton: FC<{ alertStore: AlertStore }> = ({ alertStore }) => {
 
 const PlayButton: FC<{ alertStore: AlertStore }> = ({ alertStore }) => {
   const context = React.useContext(ThemeContext);
+  const nodeRef = useRef<HTMLSpanElement>(null);
   return (
     <TooltipWrapper title="Click to pause updates">
       <CSSTransition
+        nodeRef={nodeRef}
         in={true}
         appear={true}
         classNames="components-animation-fade"
         timeout={context.animations.duration}
       >
-        <FontAwesomeIcon
-          className="cursor-pointer text-muted components-fetcher-icon mx-2"
-          icon={faPlay}
-          fixedWidth
-          onClick={alertStore.status.pause}
-        />
+        <span ref={nodeRef}>
+          <FontAwesomeIcon
+            className="cursor-pointer text-muted components-fetcher-icon mx-2"
+            icon={faPlay}
+            fixedWidth
+            onClick={alertStore.status.pause}
+          />
+        </span>
       </CSSTransition>
     </TooltipWrapper>
   );

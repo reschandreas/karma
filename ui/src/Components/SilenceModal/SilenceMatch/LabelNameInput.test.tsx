@@ -86,9 +86,9 @@ describe("<LabelNameInput />", () => {
     fireEvent.click(options[0]);
 =======
     const { container } = MountedLabelNameInput(true);
-    fireEvent.change(container.querySelector("input")!, {
-      target: { value: "f" },
-    });
+    const input = container.querySelector("input")!;
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
     const options = container.querySelectorAll("div.react-select__option");
     expect(options).toHaveLength(2);
     expect(options[0].textContent).toBe("job");
@@ -97,9 +97,9 @@ describe("<LabelNameInput />", () => {
 
   it("clicking on options updates the matcher", () => {
     const { container } = MountedLabelNameInput(true);
-    fireEvent.change(container.querySelector("input")!, {
-      target: { value: "f" },
-    });
+    const input = container.querySelector("input")!;
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
     const option = container.querySelectorAll("div.react-select__option")[0];
     fireEvent.click(option);
 >>>>>>> f2d4110a (upgrading to react 19)
@@ -133,10 +133,11 @@ describe("<LabelNameInput />", () => {
     expect(options[0].textContent).toBe("New label: j");
 =======
     const { container } = MountedLabelNameInput(true);
-    fireEvent.change(container.querySelector("input")!, {
-      target: { value: "f" },
-    });
+    const input = container.querySelector("input")!;
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: "ArrowDown", keyCode: 40 });
     const options = container.querySelectorAll("div.react-select__option");
+    // Creatable shows "New label: " option even with no data
     expect(options).toHaveLength(0);
 >>>>>>> f2d4110a (upgrading to react 19)
   });

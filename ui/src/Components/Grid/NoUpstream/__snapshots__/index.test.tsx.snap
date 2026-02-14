@@ -3,11 +3,7 @@
 exports[`<NoUpstream /> matches snapshot 1`] = `
 <DocumentFragment>
   <h1
-<<<<<<< HEAD
     class="display-1 text-placeholder screen-center components-animation-fade-appear components-animation-fade-appear-active"
-=======
-    class="display-1 text-placeholder screen-center"
->>>>>>> f2d4110a (upgrading to react 19)
   >
     No alertmanager server configured
   </h1>

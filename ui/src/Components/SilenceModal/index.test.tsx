@@ -191,7 +191,9 @@ describe("<SilenceModal />", () => {
     expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
 >>>>>>> f2d4110a (upgrading to react 19)
 
-    silenceFormStore.toggle.hide();
+    act(() => {
+      silenceFormStore.toggle.hide();
+    });
     act(() => {
       jest.runOnlyPendingTimers();
     });

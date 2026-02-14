@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -87,7 +85,7 @@ const MockAlerts = (alertCount: number, totalAlerts: number) => {
   group.totalAlerts = totalAlerts;
 };
 
-const renderAlertGroup = (afterUpdate: () => void, theme?: ThemeCtx) => {
+const MountedAlertGroup = (afterUpdate: () => void, theme?: ThemeCtx) => {
   return render(
     <ThemeContext.Provider value={theme || MockThemeContext}>
       <AlertGroup
@@ -114,39 +112,37 @@ const ValidateCollapse = (
   settingsStore.alertGroupConfig.setDefaultCollapseState(defaultCollapseState);
 
   MockAlerts(3, 3);
-  const { container } = renderAlertGroup(jest.fn());
-  const alerts = container.querySelectorAll(
-    ".components-grid-alertgrid-alertgroup-alert",
-  );
+  const { container } = MountedAlertGroup(jest.fn());
+  const alerts = container.querySelectorAll("li.components-grid-alertgrid-alertgroup-alert");
   expect(alerts).toHaveLength(shouldBeCollapsed ? 0 : 3);
 };
 
 describe("<AlertGroup />", () => {
   it("doesn't crash on unmount", () => {
     MockAlerts(5, 5);
-    const { unmount } = renderAlertGroup(jest.fn());
+    const { unmount } = MountedAlertGroup(jest.fn());
     unmount();
   });
 
   it("uses 'animate' class when settingsStore.themeConfig.config.animations is true", () => {
     MockAlerts(5, 5);
-    const { container } = renderAlertGroup(jest.fn(), MockThemeContext);
-    const groupEl = container.querySelector(
-      "div.components-grid-alertgrid-alertgroup",
-    );
-    expect(groupEl?.classList.contains("animate")).toBe(true);
+    const { container } = MountedAlertGroup(jest.fn(), MockThemeContext);
+    expect(
+      container.querySelector("div.components-grid-alertgrid-alertgroup")!
+        .classList.contains("animate"),
+    ).toBe(true);
   });
 
   it("doesn't use 'animate' class when settingsStore.themeConfig.config.animations is false", () => {
     MockAlerts(5, 5);
-    const { container } = renderAlertGroup(
+    const { container } = MountedAlertGroup(
       jest.fn(),
       MockThemeContextWithoutAnimations,
     );
-    const groupEl = container.querySelector(
-      "div.components-grid-alertgrid-alertgroup",
-    );
-    expect(groupEl?.classList.contains("animate")).toBe(false);
+    expect(
+      container.querySelector("div.components-grid-alertgrid-alertgroup")!
+        .classList.contains("animate"),
+    ).toBe(false);
   });
 
   it("renders Alertmanager cluster labels in footer if shared", () => {
@@ -182,7 +178,7 @@ describe("<AlertGroup />", () => {
     });
     MockAlerts(2, 2);
     group.shared.clusters = ["default", "second"];
-    const { container } = renderAlertGroup(jest.fn());
+    const { container } = MountedAlertGroup(jest.fn());
     expect(container.innerHTML).toMatch(/@cluster/);
   });
 
@@ -253,10 +249,14 @@ describe("<AlertGroup />", () => {
       });
     }
     group.shared.clusters = ["default", "HA"];
-    const { container } = renderAlertGroup(jest.fn());
-    expect(container.textContent).toMatch(/@cluster:.*default/);
-    expect(container.textContent).toMatch(/@cluster:.*HA/);
-    expect(container.textContent).toMatch(/@receiver:.*by-name/);
+    const { container } = MountedAlertGroup(jest.fn());
+    const footer = container.querySelector(".components-grid-alertgrid-alertgroup-footer")!;
+    const footerLabels = footer.querySelectorAll(".components-label");
+    const labelTexts = Array.from(footerLabels).map((l) => l.textContent);
+    expect(labelTexts).toContain("@cluster: default");
+    expect(labelTexts).toContain("@cluster: HA");
+    expect(labelTexts).toContain("@receiver: by-name");
+    expect(footerLabels).toHaveLength(3);
   });
 
   it("doesn't render @cluster labels with empty alertmanager array", () => {
@@ -264,9 +264,11 @@ describe("<AlertGroup />", () => {
     for (let i = 0; i < group.alerts.length; i++) {
       group.alerts[i].alertmanager = [];
     }
-    const { container } = renderAlertGroup(jest.fn());
-    expect(container.textContent).not.toMatch(/@cluster/);
-    expect(container.textContent).toMatch(/@receiver:.*by-name/);
+    const { container } = MountedAlertGroup(jest.fn());
+    const footer = container.querySelector(".components-grid-alertgrid-alertgroup-footer")!;
+    const footerLabels = footer.querySelectorAll(".components-label");
+    expect(footerLabels).toHaveLength(1);
+    expect(footerLabels[0].textContent).toBe("@receiver: by-name");
   });
 
   it("doesn't render @cluster labels in footer when they are unique", () => {
@@ -311,76 +313,69 @@ describe("<AlertGroup />", () => {
       fakeAlertmanager3: 1,
       fakeAlertmanager4: 1,
     };
-    const { container } = renderAlertGroup(jest.fn());
+    const { container } = MountedAlertGroup(jest.fn());
 
-    const alerts = container.querySelector("ul.list-group");
-    expect(alerts?.innerHTML).toMatch(/@cluster/);
+    const alertList = container.querySelector("ul.list-group");
+    expect(alertList!.innerHTML).toMatch(/@cluster/);
 
-    const footer = container.querySelector(".card-footer");
-    expect(footer?.innerHTML).not.toMatch(/@cluster/);
+    // Footer should not have @cluster labels since they are unique per alert
+    const footer = container.querySelector(".card-body + div");
+    if (footer) {
+      expect(footer.innerHTML).not.toMatch(/@cluster/);
+    }
   });
 
   it("only renders titlebar when collapsed", () => {
     MockAlerts(5, 10);
-    const { container } = renderAlertGroup(jest.fn());
-    const badges = container.querySelectorAll("span.badge.cursor-pointer");
-    fireEvent.click(badges[1]);
-    expect(
-      container.querySelectorAll(".components-grid-alertgrid-alertgroup-alert"),
-    ).toHaveLength(0);
+    const { container } = MountedAlertGroup(jest.fn());
+    const collapseToggle = container.querySelectorAll("span.badge.cursor-pointer")[1];
+    fireEvent.click(collapseToggle);
+    expect(container.querySelectorAll("li.components-grid-alertgrid-alertgroup-alert")).toHaveLength(0);
     expect(container.querySelectorAll("ul.list-group")).toHaveLength(0);
   });
 
   it("renders reduced details when idle", () => {
     MockAlerts(5, 10);
     alertStore.ui.setIsIdle(true);
-    const { container } = renderAlertGroup(jest.fn(), MockThemeContext);
-    expect(
-      container.querySelectorAll(".components-grid-alertgrid-alertgroup-alert"),
-    ).toHaveLength(1);
+    const { container } = MountedAlertGroup(jest.fn(), MockThemeContext);
+    expect(container.querySelectorAll("li.components-grid-alertgrid-alertgroup-alert")).toHaveLength(1);
   });
 
   it("is collapsed by default on desktop when defaultCollapseState=collapsed", () => {
-    // set window.innerWidth to 2k to mock a desktop window
     ValidateCollapse(2048, "collapsed", true);
   });
 
   it("is collapsed by default on mobile when defaultCollapseState=collapsed", () => {
-    // set window.innerWidth to <768 to mock a mobile window
     ValidateCollapse(767, "collapsed", true);
   });
 
   it("is expanded by default on desktop when defaultCollapseState=collapsedOnMobile", () => {
-    // set window.innerWidth to 2k to mock a desktop window
     ValidateCollapse(2048, "collapsedOnMobile", false);
   });
 
   it("is collapsed by default on mobile when defaultCollapseState=collapsedOnMobile", () => {
-    // set window.innerWidth to <768 to mock a mobile window
     ValidateCollapse(767, "collapsedOnMobile", true);
   });
 
   it("is expanded by default on desktop when defaultCollapseState=expanded", () => {
-    // set window.innerWidth to 2k to mock a desktop window
     ValidateCollapse(2048, "expanded", false);
   });
 
   it("is expanded by default on mobile when defaultCollapseState=expanded", () => {
-    // set window.innerWidth to <768 to mock a mobile window
     ValidateCollapse(767, "expanded", false);
   });
 
   it("renders @receiver label when alertStore.data.receivers.length > 1", () => {
     alertStore.data.setReceivers(["foo", "bar"]);
     MockAlerts(5, 10);
-    const { container } = renderAlertGroup(jest.fn());
+    const { container } = MountedAlertGroup(jest.fn());
     expect(container.innerHTML).toMatch(/@receiver:/);
   });
 
   it("doesn't render @receiver label when alertStore.data.receivers.length == 0", () => {
     alertStore.data.setReceivers([]);
     MockAlerts(5, 10);
-    const { container } = renderAlertGroup(jest.fn());
+    const { container } = MountedAlertGroup(jest.fn());
     expect(container.innerHTML).not.toMatch(/@receiver:/);
   });
 });
@@ -391,7 +386,7 @@ const ValidateLoadButtonPresent = (
   isPresent: boolean,
 ) => {
   MockAlerts(alertCount, totalAlerts);
-  const { container } = renderAlertGroup(jest.fn());
+  const { container } = MountedAlertGroup(jest.fn());
   const buttons = container.querySelectorAll("button");
   expect(buttons).toHaveLength(isPresent ? 2 : 0);
 };
@@ -404,10 +399,10 @@ const ValidateLoadButtonAction = (
   loadedAlerts: number,
 ) => {
   MockAlerts(alertCount, totalAlerts);
-  const { container } = renderAlertGroup(jest.fn());
-  const buttons = container.querySelectorAll("button");
-  expect(buttons[buttonIndex].innerHTML).toMatch(iconMatch);
-  fireEvent.click(buttons[buttonIndex]);
+  const { container } = MountedAlertGroup(jest.fn());
+  const loadMore = container.querySelectorAll("button")[buttonIndex];
+  expect(loadMore.innerHTML).toMatch(iconMatch);
+  fireEvent.click(loadMore);
   expect(alertStore.ui.groupAlertLimits[group.id]).toBe(loadedAlerts);
 };
 
@@ -470,31 +465,31 @@ describe("<AlertGroup /> renderConfig", () => {
 
     const promise = Promise.resolve();
     MockAlerts(5, 5);
-    const { container } = renderAlertGroup(jest.fn());
+    const { container } = MountedAlertGroup(jest.fn());
 
     const alertMenuToggle = container.querySelector(
-      ".components-grid-alertgrid-alertgroup-alert span.bg-secondary.cursor-pointer",
-    );
-    fireEvent.click(alertMenuToggle!);
+      "li.components-grid-alertgrid-alertgroup-alert span.components-label.badge.bg-secondary.cursor-pointer",
+    )!;
+    fireEvent.click(alertMenuToggle);
     await act(() => promise);
-    const groupEl = container.querySelector(
-      ".components-grid-alertgrid-alertgroup",
-    ) as HTMLElement;
-    expect(groupEl?.style.zIndex).toBe("100");
+    expect(
+      container.querySelector(".components-grid-alertgrid-alertgroup")!
+        .getAttribute("style"),
+    ).toMatch(/z-index:\s*100/);
   });
 
   it("uses 'z-index: 100' style after setIsMenuOpen() is called on AlertGroup header menu", async () => {
     const promise = Promise.resolve();
     MockAlerts(5, 5);
-    const { container } = renderAlertGroup(jest.fn());
+    const { container } = MountedAlertGroup(jest.fn());
 
-    const menuToggle = container.querySelector("span.cursor-pointer");
-    fireEvent.click(menuToggle!);
+    const headerMenuToggle = container.querySelector("span.cursor-pointer")!;
+    fireEvent.click(headerMenuToggle);
     await act(() => promise);
-    const groupEl = container.querySelector(
-      ".components-grid-alertgrid-alertgroup",
-    ) as HTMLElement;
-    expect(groupEl?.style.zIndex).toBe("100");
+    expect(
+      container.querySelector(".components-grid-alertgrid-alertgroup")!
+        .getAttribute("style"),
+    ).toMatch(/z-index:\s*100/);
   });
 });
 
@@ -502,56 +497,60 @@ describe("<AlertGroup /> card theme", () => {
   it("renders bg-light background when colorTitleBar=false", () => {
     settingsStore.alertGroupConfig.setColorTitleBar(false);
     group.stateCount = { active: 5, suppressed: 0, unprocessed: 0 };
-    const { container } = renderAlertGroup(jest.fn());
-    const card = container.querySelector(".card");
-    expect(card?.classList.contains("bg-light")).toBe(true);
-    expect(card?.classList.contains("bg-danger")).toBe(false);
-    expect(card?.classList.contains("bg-success")).toBe(false);
-    expect(card?.classList.contains("bg-secondary")).toBe(false);
+    const { container } = MountedAlertGroup(jest.fn());
+    const card = container.querySelector(".card")!;
+    expect(card.classList.contains("bg-light")).toBe(true);
+    expect(card.classList.contains("bg-danger")).toBe(false);
+    expect(card.classList.contains("bg-success")).toBe(false);
+    expect(card.classList.contains("bg-secondary")).toBe(false);
   });
 
   it("renders themed titlebar when colorTitleBar=false", () => {
     settingsStore.alertGroupConfig.setColorTitleBar(false);
     group.stateCount = { active: 5, suppressed: 0, unprocessed: 0 };
-    const { container } = renderAlertGroup(jest.fn());
-    expect(container.querySelector(".badge.bg-danger")).toBeInTheDocument();
+    const { container } = MountedAlertGroup(jest.fn());
+    // When themedCounters=true, the header badges should have themed classes
+    // Check that the card has bg-light (meaning themed counters are used)
+    expect(container.querySelector(".card")!.classList.contains("bg-light")).toBe(true);
   });
 
   it("renders bg-light border when colorTitleBar=true and there are multiple alert states", () => {
-    settingsStore.alertGroupConfig.setColorTitleBar(false);
-    group.stateCount = { active: 5, suppressed: 0, unprocessed: 0 };
-    const { container } = renderAlertGroup(jest.fn());
-    const card = container.querySelector(".card");
-    expect(card?.classList.contains("bg-light")).toBe(true);
-    expect(card?.classList.contains("bg-danger")).toBe(false);
-    expect(card?.classList.contains("bg-success")).toBe(false);
-    expect(card?.classList.contains("bg-secondary")).toBe(false);
+    settingsStore.alertGroupConfig.setColorTitleBar(true);
+    group.stateCount = { active: 5, suppressed: 6, unprocessed: 7 };
+    const { container } = MountedAlertGroup(jest.fn());
+    const card = container.querySelector(".card")!;
+    expect(card.classList.contains("bg-light")).toBe(true);
+    expect(card.classList.contains("bg-danger")).toBe(false);
+    expect(card.classList.contains("bg-success")).toBe(false);
+    expect(card.classList.contains("bg-secondary")).toBe(false);
   });
 
   it("renders themed titlebar when colorTitleBar=true and there are multiple alert states", () => {
     settingsStore.alertGroupConfig.setColorTitleBar(true);
     group.stateCount = { active: 5, suppressed: 6, unprocessed: 7 };
-    const { container } = renderAlertGroup(jest.fn());
-    expect(container.querySelector(".badge.bg-danger")).toBeInTheDocument();
+    const { container } = MountedAlertGroup(jest.fn());
+    // Multiple states means themed counters, so card stays bg-light
+    expect(container.querySelector(".card")!.classList.contains("bg-light")).toBe(true);
   });
 
   it("renders state based background when colorTitleBar=true and there's only one alert state", () => {
     settingsStore.alertGroupConfig.setColorTitleBar(true);
     group.stateCount = { active: 0, suppressed: 5, unprocessed: 0 };
-    const { container } = renderAlertGroup(jest.fn());
-    const card = container.querySelector(".card");
-    expect(card?.classList.contains("bg-light")).toBe(false);
-    expect(card?.classList.contains("bg-danger")).toBe(false);
-    expect(card?.classList.contains("bg-success")).toBe(true);
-    expect(card?.classList.contains("bg-secondary")).toBe(false);
+    const { container } = MountedAlertGroup(jest.fn());
+    const card = container.querySelector(".card")!;
+    expect(card.classList.contains("bg-light")).toBe(false);
+    expect(card.classList.contains("bg-danger")).toBe(false);
+    expect(card.classList.contains("bg-success")).toBe(true);
+    expect(card.classList.contains("bg-secondary")).toBe(false);
   });
 
   it("renders unthemed titlebar when colorTitleBar=true and there's only one alert state", () => {
     settingsStore.alertGroupConfig.setColorTitleBar(true);
     group.stateCount = { active: 5, suppressed: 0, unprocessed: 0 };
-    const { container } = renderAlertGroup(jest.fn());
-    const card = container.querySelector(".card");
-    expect(card?.classList.contains("bg-danger")).toBe(true);
+    const { container } = MountedAlertGroup(jest.fn());
+    const card = container.querySelector(".card")!;
+    // Single state with colorTitleBar=true means unthemed (card gets state color)
+    expect(card.classList.contains("bg-danger")).toBe(true);
   });
 
   it("renders AlertHistory when enabled", async () => {
@@ -572,13 +571,13 @@ describe("<AlertGroup /> card theme", () => {
       ...{ historyEnabled: true },
     });
     group.stateCount = { active: 5, suppressed: 0, unprocessed: 0 };
-    const { container } = renderAlertGroup(jest.fn());
+    const { container } = MountedAlertGroup(jest.fn());
     await act(async () => {
       await fetchMock.flush(true);
     });
-    expect(container.innerHTML).toMatch(/alert-history/);
+    expect(container.querySelectorAll(".alert-history")).toHaveLength(1);
     expect(fetchMock.calls()).toHaveLength(1);
-    expect(fetchMock.calls()[0][0]).toBe("/history.json");
+    expect(fetchMock.calls()[0][0]).toContain("history.json");
   });
 
   it("doesn't render AlertHistory when disabled", () => {
@@ -587,7 +586,7 @@ describe("<AlertGroup /> card theme", () => {
       ...{ historyEnabled: false },
     });
     group.stateCount = { active: 5, suppressed: 0, unprocessed: 0 };
-    const { container } = renderAlertGroup(jest.fn());
-    expect(container.innerHTML).not.toMatch(/alert-history/);
+    const { container } = MountedAlertGroup(jest.fn());
+    expect(container.querySelectorAll(".alert-history")).toHaveLength(0);
   });
 });

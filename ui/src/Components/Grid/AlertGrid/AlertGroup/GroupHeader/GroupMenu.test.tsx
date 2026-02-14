@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import copy from "copy-to-clipboard";
 
@@ -88,7 +86,7 @@ beforeEach(() => {
   };
 });
 
-const renderGroupMenu = (group: APIAlertGroupT, themed: boolean) => {
+const MountedGroupMenu = (group: APIAlertGroupT, themed: boolean) => {
   return render(
     <GroupMenu
       grid={grid}
@@ -110,7 +108,7 @@ describe("<GroupMenu />", () => {
       [],
       {},
     );
-    const { container } = renderGroupMenu(group, true);
+    const { container } = MountedGroupMenu(group, true);
     expect(container.querySelector("div.dropdown-menu")).toBeNull();
     expect(MockSetIsMenuOpen).not.toHaveBeenCalled();
   });
@@ -124,11 +122,11 @@ describe("<GroupMenu />", () => {
       [],
       {},
     );
-    const { container } = renderGroupMenu(group, true);
-    const toggle = container.querySelector("span.cursor-pointer");
-    fireEvent.click(toggle!);
+    const { container } = MountedGroupMenu(group, true);
+    const toggle = container.querySelector("span.cursor-pointer")!;
+    fireEvent.click(toggle);
     expect(MockSetIsMenuOpen).toHaveBeenCalledTimes(1);
-    expect(container.querySelector("div.dropdown-menu")).toBeInTheDocument();
+    expect(container.querySelector("div.dropdown-menu")).toBeTruthy();
     await act(() => promise);
   });
 
@@ -141,17 +139,17 @@ describe("<GroupMenu />", () => {
       [],
       {},
     );
-    const { container } = renderGroupMenu(group, true);
-    const toggle = container.querySelector("span.cursor-pointer");
+    const { container } = MountedGroupMenu(group, true);
+    const toggle = container.querySelector("span.cursor-pointer")!;
 
-    fireEvent.click(toggle!);
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
     expect(MockSetIsMenuOpen).toHaveBeenCalledTimes(1);
-    expect(container.querySelector("div.dropdown-menu")).toBeInTheDocument();
+    expect(container.querySelector("div.dropdown-menu")).toBeTruthy();
 
-    fireEvent.click(toggle!);
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -169,15 +167,15 @@ describe("<GroupMenu />", () => {
       [],
       {},
     );
-    const { container } = renderGroupMenu(group, true);
-    const toggle = container.querySelector("span.cursor-pointer");
+    const { container } = MountedGroupMenu(group, true);
+    const toggle = container.querySelector("span.cursor-pointer")!;
 
-    fireEvent.click(toggle!);
+    fireEvent.click(toggle);
     expect(MockSetIsMenuOpen).toHaveBeenCalledTimes(1);
-    expect(container.querySelector("div.dropdown-menu")).toBeInTheDocument();
+    expect(container.querySelector("div.dropdown-menu")).toBeTruthy();
 
-    const menuItem = container.querySelector("div.dropdown-item");
-    fireEvent.click(menuItem!);
+    const menuItem = container.querySelectorAll("div.dropdown-item")[0];
+    fireEvent.click(menuItem);
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -187,7 +185,7 @@ describe("<GroupMenu />", () => {
   });
 });
 
-const renderMenuContent = (group: APIAlertGroupT) => {
+const MountedMenuContent = (group: APIAlertGroupT) => {
   return render(
     <MenuContent
       x={0}
@@ -211,9 +209,9 @@ describe("<MenuContent />", () => {
       [],
       {},
     );
-    const { container } = renderMenuContent(group);
-    const buttons = container.querySelectorAll(".dropdown-item");
-    fireEvent.click(buttons[0]);
+    const { container } = MountedMenuContent(group);
+    const button = container.querySelectorAll(".dropdown-item")[0];
+    fireEvent.click(button);
     expect(copy).toHaveBeenCalledTimes(1);
   });
 
@@ -226,9 +224,9 @@ describe("<MenuContent />", () => {
       {},
     );
     group.alertmanagerCount = { am1: 1, ro: 1 };
-    const { container } = renderMenuContent(group);
-    const buttons = container.querySelectorAll(".dropdown-item");
-    fireEvent.click(buttons[1]);
+    const { container } = MountedMenuContent(group);
+    const button = container.querySelectorAll(".dropdown-item")[1];
+    fireEvent.click(button);
     expect(silenceFormStore.toggle.visible).toBe(true);
     expect(silenceFormStore.data.alertmanagers).toMatchObject([
       { label: "am1", value: ["am1"] },
@@ -248,10 +246,10 @@ describe("<MenuContent />", () => {
       [],
       {},
     );
-    const { container } = renderMenuContent(group);
-    const buttons = container.querySelectorAll(".dropdown-item");
-    expect(buttons[1].classList.contains("disabled")).toBe(true);
-    fireEvent.click(buttons[1]);
+    const { container } = MountedMenuContent(group);
+    const button = container.querySelectorAll(".dropdown-item")[1];
+    expect(button.classList.contains("disabled")).toBe(true);
+    fireEvent.click(button);
     expect(silenceFormStore.toggle.visible).toBe(false);
   });
 
@@ -286,11 +284,12 @@ describe("<MenuContent />", () => {
       {},
     );
 
-    const { container } = renderMenuContent(group);
+    const { container } = MountedMenuContent(group);
     expect(container.querySelectorAll("a.dropdown-item")).toHaveLength(1);
 
     const link = container.querySelector("a.dropdown-item[href='linkAction']");
-    expect(link?.textContent).toBe("linkAction");
+    expect(link).toBeTruthy();
+    expect(link!.textContent).toBe("linkAction");
 
     expect(
       container.querySelector("a.dropdown-item[href='nonLinkNonAction']"),

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { render, screen, fireEvent } from "@testing-library/react";
-=======
 import { render, fireEvent } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import { AlertStore } from "Stores/AlertStore";
 import { SilenceFormStore, NewEmptyMatcher } from "Stores/SilenceFormStore";
@@ -30,11 +26,7 @@ afterEach(() => {
   (useFetchGet as jest.MockedFunction<typeof useFetchGetMock>).mockReset();
 });
 
-<<<<<<< HEAD
-const renderSilencePreview = () => {
-=======
 const MountedSilencePreview = () => {
->>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <SilencePreview
       alertStore={alertStore}
@@ -45,7 +37,7 @@ const MountedSilencePreview = () => {
 
 describe("<SilencePreview />", () => {
   it("fetches matching alerts on mount", () => {
-    renderSilencePreview();
+    MountedSilencePreview();
     expect(useFetchGet).toHaveBeenCalled();
   });
 
@@ -53,7 +45,7 @@ describe("<SilencePreview />", () => {
     silenceFormStore.data.setAlertmanagers([
       { label: "amName", value: ["amValue"] },
     ]);
-    renderSilencePreview();
+    MountedSilencePreview();
     expect(useFetchGet).toHaveBeenCalledWith(
       "./alertList.json?q=foo%3Dbar&q=%40alertmanager%3D~%5E%28amValue%29%24",
     );
@@ -63,7 +55,7 @@ describe("<SilencePreview />", () => {
     silenceFormStore.data.setAlertmanagers([
       { label: "cluster", value: ["am1", "am2"] },
     ]);
-    renderSilencePreview();
+    MountedSilencePreview();
     expect(useFetchGet).toHaveBeenCalledWith(
       "./alertList.json?q=foo%3Dbar&q=%40alertmanager%3D~%5E%28am1%7Cam2%29%24",
     );
@@ -84,11 +76,7 @@ describe("<SilencePreview />", () => {
       cancelGet: jest.fn(),
     });
 
-<<<<<<< HEAD
-    const { asFragment } = renderSilencePreview();
-=======
     const { asFragment } = MountedSilencePreview();
->>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -102,15 +90,9 @@ describe("<SilencePreview />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-<<<<<<< HEAD
-    renderSilencePreview();
-    expect(
-      document.body.querySelectorAll(".text-placeholder"),
-=======
     const { container } = MountedSilencePreview();
     expect(
-      container.querySelectorAll(".placeholder"),
->>>>>>> f2d4110a (upgrading to react 19)
+      container.querySelectorAll(".text-placeholder"),
     ).not.toHaveLength(0);
   });
 
@@ -132,16 +114,11 @@ describe("<SilencePreview />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-<<<<<<< HEAD
-    renderSilencePreview();
-    expect(screen.getByText(/Affected alerts/)).toBeInTheDocument();
-=======
     const { container } = MountedSilencePreview();
     expect(container.textContent).toMatch(/Affected alerts/);
     expect(
       container.querySelectorAll("span.components-label"),
     ).toHaveLength(3);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("handles empty grid response correctly", () => {
@@ -155,13 +132,8 @@ describe("<SilencePreview />", () => {
       cancelGet: jest.fn(),
     });
 
-<<<<<<< HEAD
-    renderSilencePreview();
-    expect(screen.getByText(/No alerts matched/)).toBeInTheDocument();
-=======
     const { container } = MountedSilencePreview();
     expect(container.textContent).toMatch(/No alerts matched/);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders FetchError on failed fetch", () => {
@@ -175,21 +147,6 @@ describe("<SilencePreview />", () => {
       cancelGet: jest.fn(),
     });
 
-<<<<<<< HEAD
-    const { container } = renderSilencePreview();
-    expect(container.innerHTML).toMatch(/Fetch error/);
-  });
-
-  it("renders LabelSetList on successful fetch", () => {
-    const { container } = renderSilencePreview();
-    expect(container.innerHTML).not.toMatch(/Fetch error/);
-  });
-
-  it("clicking on the submit button moves form to the 'Submit' stage", () => {
-    const { container } = renderSilencePreview();
-    const button = container.querySelector(".btn-primary");
-    fireEvent.click(button!);
-=======
     const { container } = MountedSilencePreview();
     expect(
       container.querySelectorAll("svg.fa-circle-exclamation"),
@@ -207,7 +164,6 @@ describe("<SilencePreview />", () => {
     const { container } = MountedSilencePreview();
     const button = container.querySelector(".btn-primary")!;
     fireEvent.click(button);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.data.currentStage).toBe("submit");
   });
 });

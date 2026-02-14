@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent } from "@testing-library/react";
-=======
 import { act, render, fireEvent } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import copy from "copy-to-clipboard";
 
@@ -104,11 +98,7 @@ beforeEach(() => {
   alertStore.data.setUpstreams(generateUpstreams());
 });
 
-<<<<<<< HEAD
-const renderAlertMenu = (group: APIAlertGroupT) => {
-=======
 const MountedAlertMenu = (group: APIAlertGroupT) => {
->>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <AlertMenu
       grid={grid}
@@ -123,85 +113,44 @@ const MountedAlertMenu = (group: APIAlertGroupT) => {
 
 describe("<AlertMenu />", () => {
   it("menu content is hidden by default", () => {
-<<<<<<< HEAD
-    const { container } = renderAlertMenu(group);
-    expect(container.querySelector("div.dropdown-menu")).toBeNull();
-=======
     const { container } = MountedAlertMenu(group);
     expect(container.querySelectorAll("div.dropdown-menu")).toHaveLength(0);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(MockSetIsMenuOpen).not.toHaveBeenCalled();
   });
 
   it("clicking toggle renders menu content", async () => {
     const promise = Promise.resolve();
-<<<<<<< HEAD
-    const { container } = renderAlertMenu(group);
-    const toggle = container.querySelector("span.cursor-pointer");
-    fireEvent.click(toggle!);
-    expect(MockSetIsMenuOpen).toHaveBeenCalledTimes(1);
-    expect(container.querySelector("div.dropdown-menu")).toBeInTheDocument();
-=======
     const { container } = MountedAlertMenu(group);
     const toggle = container.querySelector("span.cursor-pointer")!;
     fireEvent.click(toggle);
     expect(MockSetIsMenuOpen).toHaveBeenCalledTimes(1);
     expect(container.querySelectorAll("div.dropdown-menu")).toHaveLength(1);
->>>>>>> f2d4110a (upgrading to react 19)
     await act(() => promise);
   });
 
   it("clicking toggle twice hides menu content", async () => {
     const promise = Promise.resolve();
-<<<<<<< HEAD
-    const { container } = renderAlertMenu(group);
-    const toggle = container.querySelector("span.cursor-pointer");
-
-    fireEvent.click(toggle!);
-=======
     const { container } = MountedAlertMenu(group);
     const toggle = container.querySelector("span.cursor-pointer")!;
 
     fireEvent.click(toggle);
->>>>>>> f2d4110a (upgrading to react 19)
     act(() => {
       jest.runOnlyPendingTimers();
     });
     expect(MockSetIsMenuOpen).toHaveBeenCalledTimes(1);
-<<<<<<< HEAD
-    expect(container.querySelector("div.dropdown-menu")).toBeInTheDocument();
-
-    fireEvent.click(toggle!);
-=======
     expect(container.querySelectorAll("div.dropdown-menu")).toHaveLength(1);
 
     fireEvent.click(toggle);
->>>>>>> f2d4110a (upgrading to react 19)
     act(() => {
       jest.runOnlyPendingTimers();
     });
     expect(MockSetIsMenuOpen).toHaveBeenCalledTimes(2);
-<<<<<<< HEAD
-    expect(container.querySelector("div.dropdown-menu")).toBeNull();
-=======
     expect(container.querySelectorAll("div.dropdown-menu")).toHaveLength(0);
->>>>>>> f2d4110a (upgrading to react 19)
     await act(() => promise);
   });
 
   it("clicking menu item hides menu content", async () => {
     const promise = Promise.resolve();
-<<<<<<< HEAD
-    const { container } = renderAlertMenu(group);
-    const toggle = container.querySelector("span.cursor-pointer");
-
-    fireEvent.click(toggle!);
-    expect(MockSetIsMenuOpen).toHaveBeenCalledTimes(1);
-    expect(container.querySelector("div.dropdown-menu")).toBeInTheDocument();
-
-    const menuItem = container.querySelector("a.dropdown-item");
-    fireEvent.click(menuItem!);
-=======
     const { container } = MountedAlertMenu(group);
     const toggle = container.querySelector("span.cursor-pointer")!;
 
@@ -211,25 +160,16 @@ describe("<AlertMenu />", () => {
 
     const menuItems = container.querySelectorAll("a.dropdown-item");
     fireEvent.click(menuItems[0]);
->>>>>>> f2d4110a (upgrading to react 19)
     act(() => {
       jest.runOnlyPendingTimers();
     });
     expect(MockSetIsMenuOpen).toHaveBeenCalledTimes(2);
-<<<<<<< HEAD
-    expect(container.querySelector("div.dropdown-menu")).toBeNull();
-=======
     expect(container.querySelectorAll("div.dropdown-menu")).toHaveLength(0);
->>>>>>> f2d4110a (upgrading to react 19)
     await act(() => promise);
   });
 });
 
-<<<<<<< HEAD
-const renderMenuContent = (group: APIAlertGroupT) => {
-=======
 const MountedMenuContent = (group: APIAlertGroupT) => {
->>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <MenuContent
       x={0}
@@ -248,11 +188,7 @@ const MountedMenuContent = (group: APIAlertGroupT) => {
 describe("<MenuContent />", () => {
   it("clicking on 'Silence' icon opens the silence form modal", () => {
     group.alertmanagerCount = { am1: 1, ro: 1 };
-<<<<<<< HEAD
-    const { container } = renderMenuContent(group);
-=======
     const { container } = MountedMenuContent(group);
->>>>>>> f2d4110a (upgrading to react 19)
     const buttons = container.querySelectorAll(".dropdown-item");
     fireEvent.click(buttons[2]);
     expect(silenceFormStore.toggle.visible).toBe(true);
@@ -266,34 +202,19 @@ describe("<MenuContent />", () => {
     upstreams.instances[0].readonly = true;
     upstreams.instances[2].readonly = true;
     alertStore.data.setUpstreams(upstreams);
-<<<<<<< HEAD
-    const { container } = renderMenuContent(group);
-    const buttons = container.querySelectorAll(".dropdown-item");
-    expect(buttons[2].classList.contains("disabled")).toBe(true);
-    fireEvent.click(buttons[2]);
-=======
     const { container } = MountedMenuContent(group);
     const button = container.querySelectorAll(".dropdown-item")[2];
     expect(button.classList.contains("disabled")).toBe(true);
     fireEvent.click(button);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.toggle.visible).toBe(false);
   });
 
   it("source link points at alert source", () => {
-<<<<<<< HEAD
-    const { container } = renderMenuContent(group);
-    const link = container.querySelector(
-      "a.dropdown-item[href='localhost/graph']",
-    );
-    expect(link?.textContent).toBe("default");
-=======
     const { container } = MountedMenuContent(group);
     const link = container.querySelector(
       "a.dropdown-item[href='localhost/graph']",
     )!;
     expect(link.textContent).toBe("default");
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders action annotations when present", () => {
@@ -354,25 +275,6 @@ describe("<MenuContent />", () => {
       {},
     );
 
-<<<<<<< HEAD
-    const { container } = renderMenuContent(group);
-    expect(container.querySelectorAll("a.dropdown-item")).toHaveLength(3);
-
-    const link1 = container.querySelector("a.dropdown-item[href='linkAction']");
-    expect(link1?.textContent).toBe("linkAction");
-
-    const link2 = container.querySelector(
-      "a.dropdown-item[href='linkActionShared']",
-    );
-    expect(link2?.textContent).toBe("linkActionShared");
-
-    expect(
-      container.querySelector("a.dropdown-item[href='nonLinkNonAction']"),
-    ).toBeNull();
-    expect(
-      container.querySelector("a.dropdown-item[href='nonLinkNonActionShared']"),
-    ).toBeNull();
-=======
     const { container } = MountedMenuContent(group);
     expect(container.querySelectorAll("a.dropdown-item")).toHaveLength(3);
 
@@ -402,20 +304,13 @@ describe("<MenuContent />", () => {
         "a.dropdown-item[href='nonLinkNonActionShared']",
       ),
     ).toHaveLength(0);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("clicking on 'Copy' icon copies alert data to clipboard", async () => {
     group.alertmanagerCount = { am1: 1, ro: 1 };
-<<<<<<< HEAD
-    const { container } = renderMenuContent(group);
-    const buttons = container.querySelectorAll(".dropdown-item");
-    fireEvent.click(buttons[1]);
-=======
     const { container } = MountedMenuContent(group);
     const button = container.querySelectorAll(".dropdown-item")[1];
     fireEvent.click(button);
->>>>>>> f2d4110a (upgrading to react 19)
-    expect(copy).toBeCalledWith(JSON.stringify(alertToJSON(group, alert)));
+    expect(copy).toHaveBeenCalledWith(JSON.stringify(alertToJSON(group, alert)));
   });
 });
