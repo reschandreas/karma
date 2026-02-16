@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, PropsWithChildren, ReactNode, useState } from "react";
 
 export const AccordionItem: FC<{
   text: string;
@@ -25,6 +25,6 @@ export const AccordionItem: FC<{
   );
 };
 
-export const Accordion: FC = ({ children }) => {
+export const Accordion: FC<PropsWithChildren> = ({ children }) => {
   return <div className="accordion">{children}</div>;
 };

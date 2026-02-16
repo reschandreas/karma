@@ -88,7 +88,7 @@ const MountedNavbar = (fixedTop?: boolean) => {
 };
 
 describe("<NavBar />", () => {
-  it("renders null with no upstreams", () => {
+  it("renders null with no upstreams", async () => {
     alertStore.data.setUpstreams({
       counters: { total: 0, healthy: 0, failed: 0 },
       instances: [],
@@ -96,38 +96,44 @@ describe("<NavBar />", () => {
     });
     alertStore.info.setTimestamp("123");
     const { container } = MountedNavbar();
+    await act(async () => {});
     expect(container.querySelector("span.navbar-brand")).toBeNull();
   });
 
-  it("navbar-brand shows 15 alerts with totalAlerts=15", () => {
+  it("navbar-brand shows 15 alerts with totalAlerts=15", async () => {
     alertStore.info.setTotalAlerts(15);
     const { container } = MountedNavbar();
+    await act(async () => {});
     const brand = container.querySelector("span.navbar-brand")!;
     expect(brand.textContent).toBe("15");
   });
 
-  it("navbar includes 'fixed-top' class by default", () => {
+  it("navbar includes 'fixed-top' class by default", async () => {
     const { container } = MountedNavbar();
+    await act(async () => {});
     const nav = container.querySelector(".navbar")!;
     expect(nav.classList.contains("fixed-top")).toBe(true);
   });
 
-  it("navbar includes 'fixed-top' class with fixedTop=true", () => {
+  it("navbar includes 'fixed-top' class with fixedTop=true", async () => {
     const { container } = MountedNavbar(true);
+    await act(async () => {});
     const nav = container.querySelector(".navbar")!;
     expect(nav.classList.contains("fixed-top")).toBe(true);
     expect(nav.classList.contains("w-100")).toBe(false);
   });
 
-  it("navbar doesn't 'fixed-top' class with fixedTop=false", () => {
+  it("navbar doesn't 'fixed-top' class with fixedTop=false", async () => {
     const { container } = MountedNavbar(false);
+    await act(async () => {});
     const nav = container.querySelector(".navbar")!;
     expect(nav.classList.contains("fixed-top")).toBe(false);
     expect(nav.classList.contains("w-100")).toBe(true);
   });
 
-  it("body 'padding-top' style is updated after resize", () => {
+  it("body 'padding-top' style is updated after resize", async () => {
     MountedNavbar();
+    await act(async () => {});
     act(() => {
       resizeCallback([{ contentRect: { width: 100, height: 10 } }]);
     });

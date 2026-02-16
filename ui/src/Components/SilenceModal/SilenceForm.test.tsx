@@ -49,11 +49,7 @@ beforeEach(() => {
   alertStore.data.setUpstreams(generateUpstreams());
 });
 
-<<<<<<< HEAD
-const renderSilenceForm = () => {
-=======
 const MountedSilenceForm = () => {
->>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <ThemeContext.Provider value={MockThemeContext}>
       <SilenceForm
@@ -68,13 +64,8 @@ const MountedSilenceForm = () => {
 
 describe("<SilenceForm /> matchers", () => {
   it("has an empty matcher selects on default render", () => {
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const matchers = container.querySelectorAll("input[id^='isEqual-']");
-=======
     const { container } = MountedSilenceForm();
     const matchers = container.querySelectorAll(".silence-match");
->>>>>>> f2d4110a (upgrading to react 19)
     expect(matchers).toHaveLength(1);
     expect(silenceFormStore.data.matchers).toHaveLength(1);
   });
@@ -103,13 +94,8 @@ describe("<SilenceForm /> matchers", () => {
       ...filterCombos("foo"),
     ]);
     silenceFormStore.data.setAutofillMatchers(true);
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const matchers = container.querySelectorAll("input[id^='isEqual-']");
-=======
     const { container } = MountedSilenceForm();
     const matchers = container.querySelectorAll(".silence-match");
->>>>>>> f2d4110a (upgrading to react 19)
     expect(matchers).toHaveLength(12);
     expect(silenceFormStore.data.matchers).toHaveLength(12);
     expect(silenceFormStore.data.matchers).toEqual([
@@ -306,13 +292,8 @@ describe("<SilenceForm /> matchers", () => {
       ...filterCombos("foo"),
     ]);
     silenceFormStore.data.setAutofillMatchers(true);
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const matchers = container.querySelectorAll("input[id^='isEqual-']");
-=======
     const { container } = MountedSilenceForm();
     const matchers = container.querySelectorAll(".silence-match");
->>>>>>> f2d4110a (upgrading to react 19)
     expect(matchers).toHaveLength(8);
     expect(silenceFormStore.data.matchers).toHaveLength(8);
     expect(silenceFormStore.data.matchers).toEqual([
@@ -447,13 +428,8 @@ describe("<SilenceForm /> matchers", () => {
       ...filterCombos("foo"),
     ]);
     silenceFormStore.data.setAutofillMatchers(false);
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const matchers = container.querySelectorAll("input[id^='isEqual-']");
-=======
     const { container } = MountedSilenceForm();
     const matchers = container.querySelectorAll(".silence-match");
->>>>>>> f2d4110a (upgrading to react 19)
     expect(matchers).toHaveLength(1);
     expect(silenceFormStore.data.matchers[0]).toMatchObject({
       isRegex: false,
@@ -463,35 +439,20 @@ describe("<SilenceForm /> matchers", () => {
   });
 
   it("clicking 'Add more' button adds another matcher", () => {
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const button = container.querySelector("button[type='button']");
-    fireEvent.click(button!);
-    const matchers = container.querySelectorAll("input[id^='isEqual-']");
-=======
     const { container } = MountedSilenceForm();
     const button = container.querySelector("button[type='button']") as HTMLButtonElement;
     fireEvent.click(button);
     const matchers = container.querySelectorAll(".silence-match");
->>>>>>> f2d4110a (upgrading to react 19)
     expect(matchers).toHaveLength(2);
     expect(silenceFormStore.data.matchers).toHaveLength(2);
   });
 
   it("trash icon is not visible when there's only one matcher", () => {
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    expect(silenceFormStore.data.matchers).toHaveLength(1);
-
-    const matchers = container.querySelectorAll("input[id^='isEqual-']");
-    const buttons = matchers[0].querySelectorAll("button");
-=======
     const { container } = MountedSilenceForm();
     expect(silenceFormStore.data.matchers).toHaveLength(1);
 
     const matcherEl = container.querySelectorAll(".silence-match")[0];
     const buttons = matcherEl.querySelectorAll("button");
->>>>>>> f2d4110a (upgrading to react 19)
     expect(buttons).toHaveLength(0);
   });
 
@@ -499,15 +460,6 @@ describe("<SilenceForm /> matchers", () => {
     silenceFormStore.data.setAutofillMatchers(false);
     silenceFormStore.data.addEmptyMatcher();
     silenceFormStore.data.addEmptyMatcher();
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    expect(silenceFormStore.data.matchers).toHaveLength(2);
-
-    const deleteButtons = container.querySelectorAll(
-      "button.btn-outline-danger",
-    );
-    expect(deleteButtons).toHaveLength(2);
-=======
     const { container } = MountedSilenceForm();
     expect(silenceFormStore.data.matchers).toHaveLength(2);
 
@@ -517,7 +469,6 @@ describe("<SilenceForm /> matchers", () => {
       buttonCount += m.querySelectorAll("button").length;
     });
     expect(buttonCount).toBe(2);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("clicking trash icon on a matcher select removes it", () => {
@@ -525,15 +476,6 @@ describe("<SilenceForm /> matchers", () => {
     silenceFormStore.data.addEmptyMatcher();
     silenceFormStore.data.addEmptyMatcher();
     silenceFormStore.data.addEmptyMatcher();
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    expect(silenceFormStore.data.matchers).toHaveLength(3);
-
-    const deleteButtons = container.querySelectorAll(
-      "button.btn-outline-danger",
-    );
-    fireEvent.click(deleteButtons[1]);
-=======
     const { container } = MountedSilenceForm();
     expect(silenceFormStore.data.matchers).toHaveLength(3);
 
@@ -541,36 +483,12 @@ describe("<SilenceForm /> matchers", () => {
     const toDelete = matcherEls[1];
     const button = toDelete.querySelector("button") as HTMLButtonElement;
     fireEvent.click(button);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.data.matchers).toHaveLength(2);
   });
 });
 
 describe("<SilenceForm /> preview", () => {
   it("doesn't render PayloadPreview by default", () => {
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    expect(container.querySelector(".mt-4")).toBeNull();
-  });
-
-  it("renders PayloadPreview after clicking the toggle", () => {
-    const { container } = renderSilenceForm();
-    const toggle = container.querySelector(
-      "span.badge.cursor-pointer.text-muted",
-    );
-    fireEvent.click(toggle!);
-    expect(container.querySelector(".mt-4")).toBeInTheDocument();
-  });
-
-  it("clicking on the toggle icon toggles PayloadPreview", () => {
-    const { container } = renderSilenceForm();
-    const toggle = container.querySelector(".badge.cursor-pointer.text-muted");
-    expect(container.querySelector(".mt-4")).toBeNull();
-    fireEvent.click(toggle!);
-    expect(container.querySelector(".mt-4")).toBeInTheDocument();
-    fireEvent.click(toggle!);
-    expect(container.querySelector(".mt-4")).toBeNull();
-=======
     const { container } = MountedSilenceForm();
     expect(container.querySelectorAll(".card.bg-light")).toHaveLength(0);
   });
@@ -590,7 +508,6 @@ describe("<SilenceForm /> preview", () => {
     expect(container.querySelector("pre")).toBeTruthy();
     fireEvent.click(button);
     expect(container.querySelector("pre")).toBeFalsy();
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("clicking on the copy button copies form link to the clipboard", () => {
@@ -605,17 +522,6 @@ describe("<SilenceForm /> preview", () => {
     silenceFormStore.data.setComment("fake silence");
     silenceFormStore.data.setAutofillMatchers(false);
 
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const toggle = container.querySelector(".badge.cursor-pointer.text-muted");
-    fireEvent.click(toggle!);
-
-    const button = container.querySelector(
-      "span.input-group-text.cursor-pointer",
-    );
-    expect(button?.innerHTML).toMatch(/fa-copy/);
-    fireEvent.click(button!);
-=======
     const { container } = MountedSilenceForm();
     const toggle = container.querySelector(".badge.cursor-pointer.text-muted") as HTMLElement;
     fireEvent.click(toggle);
@@ -623,7 +529,6 @@ describe("<SilenceForm /> preview", () => {
     const button = container.querySelector("span.input-group-text.cursor-pointer") as HTMLElement;
     expect(button.innerHTML).toMatch(/fa-copy/);
     fireEvent.click(button);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(copy).toHaveBeenCalledTimes(1);
   });
 
@@ -639,20 +544,11 @@ describe("<SilenceForm /> preview", () => {
     silenceFormStore.data.setComment("fake silence");
     silenceFormStore.data.setAutofillMatchers(false);
 
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const toggle = container.querySelector(".badge.cursor-pointer.text-muted");
-    fireEvent.click(toggle!);
-
-    const inputs = container.querySelectorAll("input.form-control");
-    const input = inputs[2] as HTMLInputElement;
-=======
     const { container } = MountedSilenceForm();
     const toggle = container.querySelector(".badge.cursor-pointer.text-muted") as HTMLElement;
     fireEvent.click(toggle);
 
     const input = container.querySelectorAll("input.form-control")[2] as HTMLInputElement;
->>>>>>> f2d4110a (upgrading to react 19)
     expect(input.value).toMatch(/http:\/\/localhost\/\?m=/);
     const link = input.value;
 
@@ -664,15 +560,8 @@ describe("<SilenceForm /> preview", () => {
 describe("<SilenceForm /> inputs", () => {
   it("author is read-only when info.authentication.enabled is true", () => {
     alertStore.info.setAuthentication(true, "auth@example.com");
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const input = container.querySelector(
-      "input[placeholder='Author']",
-    ) as HTMLInputElement;
-=======
     const { container } = MountedSilenceForm();
     const input = container.querySelector("input[placeholder='Author']") as HTMLInputElement;
->>>>>>> f2d4110a (upgrading to react 19)
     expect(input.readOnly).toBe(true);
     expect(input.value).toBe("auth@example.com");
     expect(silenceFormStore.data.author).toBe("auth@example.com");
@@ -680,72 +569,40 @@ describe("<SilenceForm /> inputs", () => {
 
   it("default author value comes from Settings store", () => {
     settingsStore.silenceFormConfig.saveAuthor("foo@example.com");
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const input = container.querySelector(
-      "input[placeholder='Author']",
-    ) as HTMLInputElement;
-=======
     const { container } = MountedSilenceForm();
     const input = container.querySelector("input[placeholder='Author']") as HTMLInputElement;
->>>>>>> f2d4110a (upgrading to react 19)
     expect(input.value).toBe("foo@example.com");
     expect(silenceFormStore.data.author).toBe("foo@example.com");
   });
 
   it("default author value is empty if nothing is stored in Settings", () => {
     settingsStore.silenceFormConfig.saveAuthor("");
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const input = container.querySelector(
-      "input[placeholder='Author']",
-    ) as HTMLInputElement;
-=======
     const { container } = MountedSilenceForm();
     const input = container.querySelector("input[placeholder='Author']") as HTMLInputElement;
->>>>>>> f2d4110a (upgrading to react 19)
     expect(input.value).toBe("");
     expect(silenceFormStore.data.author).toBe("");
   });
 
   it("changing author input updates SilenceFormStore", () => {
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const input = container.querySelector("input[placeholder='Author']");
-    fireEvent.change(input!, { target: { value: "me@example.com" } });
-=======
     const { container } = MountedSilenceForm();
     const input = container.querySelector("input[placeholder='Author']") as HTMLInputElement;
     fireEvent.change(input, { target: { value: "me@example.com" } });
->>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.data.author).toBe("me@example.com");
   });
 
   it("changing comment input updates SilenceFormStore", () => {
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const input = container.querySelector("input[placeholder='Comment']");
-    fireEvent.change(input!, { target: { value: "fake comment" } });
-=======
     const { container } = MountedSilenceForm();
     const input = container.querySelector("input[placeholder='Comment']") as HTMLInputElement;
     fireEvent.change(input, { target: { value: "fake comment" } });
->>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.data.comment).toBe("fake comment");
   });
 });
 
 describe("<SilenceForm />", () => {
   it("calling submit doesn't move the form to Preview stage when form is invalid", () => {
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const form = container.querySelector("form");
-    fireEvent.submit(form!);
-=======
     const { container } = MountedSilenceForm();
     const form = container.querySelector("form") as HTMLFormElement;
     fireEvent.submit(form);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.data.currentStage).toBe("form");
   });
 
@@ -760,29 +617,17 @@ describe("<SilenceForm />", () => {
     silenceFormStore.data.setAuthor("me@example.com");
     silenceFormStore.data.setComment("fake silence");
     silenceFormStore.data.setAutofillMatchers(false);
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const form = container.querySelector("form");
-    fireEvent.submit(form!);
-=======
     const { container } = MountedSilenceForm();
     const form = container.querySelector("form") as HTMLFormElement;
     fireEvent.submit(form);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.data.currentStage).toBe("preview");
   });
 
   it("calling submit saves author value to the Settings store", () => {
     silenceFormStore.data.setAuthor("user@example.com");
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const form = container.querySelector("form");
-    fireEvent.submit(form!);
-=======
     const { container } = MountedSilenceForm();
     const form = container.querySelector("form") as HTMLFormElement;
     fireEvent.submit(form);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(settingsStore.silenceFormConfig.config.author).toBe(
       "user@example.com",
     );
@@ -792,73 +637,40 @@ describe("<SilenceForm />", () => {
 describe("<SilenceForm /> in edit mode", () => {
   it("opening form with silenceID set disables AlertManagerInput", () => {
     silenceFormStore.data.setSilenceID("12345");
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    expect(
-      container.querySelector(".react-select--is-disabled"),
-    ).toBeInTheDocument();
-=======
     const { container } = MountedSilenceForm();
     // The first react-select should be disabled
     const select = container.querySelectorAll(".react-select__control")[0];
     expect(select.classList.contains("react-select__control--is-disabled")).toBe(true);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("opening form with silenceID shows reset button", () => {
     silenceFormStore.data.setSilenceID("12345");
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const button = container.querySelector("button.btn-danger");
-    expect(button).toBeInTheDocument();
-=======
     const { container } = MountedSilenceForm();
     expect(container.querySelectorAll("button.btn-danger")).toHaveLength(1);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("clicking on Reset button unsets silenceFormStore.data.silenceID", () => {
     silenceFormStore.data.setSilenceID("12345");
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const button = container.querySelector("button.btn-danger");
-    fireEvent.click(button!);
-=======
     const { container } = MountedSilenceForm();
     const button = container.querySelector("button.btn-danger") as HTMLButtonElement;
     fireEvent.click(button);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(silenceFormStore.data.silenceID).toBeNull();
   });
 
   it("clicking on Reset button hides it", () => {
     silenceFormStore.data.setSilenceID("12345");
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const button = container.querySelector("button.btn-danger");
-    fireEvent.click(button!);
-    expect(container.querySelector("button.btn-danger")).toBeNull();
-=======
     const { container } = MountedSilenceForm();
     const button = container.querySelector("button.btn-danger") as HTMLButtonElement;
     fireEvent.click(button);
     expect(container.querySelectorAll("button.btn-danger")).toHaveLength(0);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("clicking on Reset button enables AlertManagerInput", () => {
     silenceFormStore.data.setSilenceID("12345");
-<<<<<<< HEAD
-    const { container } = renderSilenceForm();
-    const button = container.querySelector("button.btn-danger");
-    fireEvent.click(button!);
-    expect(container.querySelector(".react-select--is-disabled")).toBeNull();
-=======
     const { container } = MountedSilenceForm();
     const button = container.querySelector("button.btn-danger") as HTMLButtonElement;
     fireEvent.click(button);
     const select = container.querySelectorAll(".react-select__control")[0];
     expect(select.classList.contains("react-select__control--is-disabled")).toBe(false);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 });

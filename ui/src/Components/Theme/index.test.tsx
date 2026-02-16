@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render } from "@testing-library/react";
+import { render, act } from "@testing-library/react";
 
 import { BodyTheme } from ".";
 
@@ -22,28 +22,38 @@ afterEach(() => {
 });
 
 describe("<BodyTheme />", () => {
-  it("uses light theme when ThemeContext->isDark is false", () => {
+  it("uses light theme when ThemeContext->isDark is false", async () => {
     context.isDark = false;
-    render(<BodyTheme />);
+    await act(async () => {
+      render(<BodyTheme />);
+    });
     expect(document.body.classList.contains("theme-light")).toEqual(true);
   });
 
-  it("uses dark theme when ThemeContext->isDark is true", () => {
+  it("uses dark theme when ThemeContext->isDark is true", async () => {
     context.isDark = true;
-    render(<BodyTheme />);
+    await act(async () => {
+      render(<BodyTheme />);
+    });
     expect(document.body.classList.contains("theme-dark")).toEqual(true);
   });
 
-  it("updates theme when ThemeContext->isDark is updated", () => {
+  it("updates theme when ThemeContext->isDark is updated", async () => {
     context.isDark = true;
-    const { rerender } = render(<BodyTheme />);
+    let rerender: ReturnType<typeof render>["rerender"];
+    await act(async () => {
+      const result = render(<BodyTheme />);
+      rerender = result.rerender;
+    });
     expect(document.body.classList.contains("theme-dark")).toEqual(true);
 
     document.body.classList.remove("theme-light");
     document.body.classList.remove("theme-dark");
 
     context.isDark = false;
-    rerender(<BodyTheme />);
+    await act(async () => {
+      rerender!(<BodyTheme />);
+    });
 
     expect(document.body.classList.contains("theme-light")).toEqual(true);
   });

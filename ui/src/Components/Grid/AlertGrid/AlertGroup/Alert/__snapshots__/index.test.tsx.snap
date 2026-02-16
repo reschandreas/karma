@@ -155,11 +155,7 @@ exports[`<Alert /> matches snapshot when inhibited 1`] = `
     >
       <svg
         aria-hidden="true"
-<<<<<<< HEAD
-        class="svg-inline--fa fa-up-right-from-square "
-=======
         class="svg-inline--fa fa-up-right-from-square"
->>>>>>> f2d4110a (upgrading to react 19)
         data-icon="up-right-from-square"
         data-prefix="fas"
         role="img"
@@ -310,11 +306,7 @@ exports[`<Alert /> matches snapshot with showAlertmanagers=false showReceiver=fa
     >
       <svg
         aria-hidden="true"
-<<<<<<< HEAD
-        class="svg-inline--fa fa-up-right-from-square "
-=======
         class="svg-inline--fa fa-up-right-from-square"
->>>>>>> f2d4110a (upgrading to react 19)
         data-icon="up-right-from-square"
         data-prefix="fas"
         role="img"

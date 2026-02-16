@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-import { act } from "react-dom/test-utils";
-
-import { renderHook } from "@testing-library/react-hooks";
-import { render } from "@testing-library/react";
-=======
-import { act, renderHook, waitFor, render } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
+import { renderHook, waitFor, render } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -49,7 +42,7 @@ describe("useFetchAny", () => {
 
   it("sends a GET request by default", async () => {
     const upstreams = [{ uri: "http://localhost/ok", options: {} }];
-    const { result } = renderHook(() => useFetchAny(upstreams));
+    renderHook(() => useFetchAny(upstreams));
 
     await waitFor(() => {
       expect(fetchMock.calls()).toHaveLength(1);
@@ -71,7 +64,7 @@ describe("useFetchAny", () => {
         options: { method: "POST", credentials: "same-origin" },
       },
     ];
-    const { result } = renderHook(() => useFetchAny(upstreams));
+    renderHook(() => useFetchAny(upstreams));
 
     await waitFor(() => {
       expect(fetchMock.calls()).toHaveLength(1);
@@ -88,7 +81,7 @@ describe("useFetchAny", () => {
 
   it("sends correct headers", async () => {
     const upstreams = [{ uri: "http://localhost/ok", options: {} }];
-    const { result } = renderHook(() => useFetchAny(upstreams));
+    renderHook(() => useFetchAny(upstreams));
 
     await waitFor(() => {
       expect(fetchMock.calls()).toHaveLength(1);
@@ -265,15 +258,8 @@ describe("useFetchAny", () => {
       );
     };
 
-<<<<<<< HEAD
-    act(() => {
-      const { unmount } = render(<Component />);
-      unmount();
-    });
-=======
     const { unmount } = render(<Component />);
     unmount();
->>>>>>> f2d4110a (upgrading to react 19)
 
     await fetchMock.flush(true);
   });
@@ -296,15 +282,8 @@ describe("useFetchAny", () => {
       );
     };
 
-<<<<<<< HEAD
-    act(() => {
-      const { unmount } = render(<Component />);
-      unmount();
-    });
-=======
     const { unmount } = render(<Component />);
     unmount();
->>>>>>> f2d4110a (upgrading to react 19)
 
     await fetchMock.flush(true);
   });

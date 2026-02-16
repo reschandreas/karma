@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, PropsWithChildren, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
 import { CSSTransition } from "react-transition-group";
@@ -9,11 +9,13 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 import { ThemeContext } from "Components/Theme";
 
-const ModalInner: FC<{
-  size: "modal-lg" | "modal-xl";
-  isUpper: boolean;
-  toggleOpen: () => void;
-}> = ({ size, isUpper, toggleOpen, children }) => {
+const ModalInner: FC<
+  PropsWithChildren<{
+    size: "modal-lg" | "modal-xl";
+    isUpper: boolean;
+    toggleOpen: () => void;
+  }>
+> = ({ size, isUpper, toggleOpen, children }) => {
   // needed for tests to spy on useRef
   const ref = React.useRef<HTMLDivElement | null>(null);
 
@@ -48,13 +50,15 @@ const ModalInner: FC<{
   );
 };
 
-const Modal: FC<{
-  size?: "modal-lg" | "modal-xl";
-  isOpen: boolean;
-  isUpper?: boolean;
-  toggleOpen: () => void;
-  onExited?: () => void;
-}> = ({
+const Modal: FC<
+  PropsWithChildren<{
+    size?: "modal-lg" | "modal-xl";
+    isOpen: boolean;
+    isUpper?: boolean;
+    toggleOpen: () => void;
+    onExited?: () => void;
+  }>
+> = ({
   size = "modal-lg",
   isOpen,
   isUpper = false,

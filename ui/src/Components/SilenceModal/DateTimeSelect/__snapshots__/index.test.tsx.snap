@@ -80,11 +80,7 @@ exports[`<DateTimeSelect /> 'Duration' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-up"
                     data-prefix="fas"
                     role="img"
@@ -126,11 +122,7 @@ exports[`<DateTimeSelect /> 'Duration' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-down"
                     data-prefix="fas"
                     role="img"
@@ -164,11 +156,7 @@ exports[`<DateTimeSelect /> 'Duration' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-up"
                     data-prefix="fas"
                     role="img"
@@ -210,11 +198,7 @@ exports[`<DateTimeSelect /> 'Duration' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-down"
                     data-prefix="fas"
                     role="img"
@@ -248,11 +232,7 @@ exports[`<DateTimeSelect /> 'Duration' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-up"
                     data-prefix="fas"
                     role="img"
@@ -294,11 +274,7 @@ exports[`<DateTimeSelect /> 'Duration' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-down"
                     data-prefix="fas"
                     role="img"
@@ -393,88 +369,12 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
         class="d-flex justify-content-center align-items-center"
       >
         <div
-<<<<<<< HEAD
-          class="rdp components-date-range"
-=======
           class="rdp-root components-date-range"
           data-mode="range"
->>>>>>> f2d4110a (upgrading to react 19)
         >
           <div
             class="rdp-months"
           >
-<<<<<<< HEAD
-            <div
-              class="rdp-month rdp-caption_start rdp-caption_end"
-            >
-              <div
-                class="rdp-caption"
-              >
-                <div
-                  aria-live="polite"
-                  class="rdp-caption_label"
-                  id="react-day-picker-6"
-                  role="presentation"
-                >
-                  February 2061
-                </div>
-                <div
-                  class="rdp-nav"
-                >
-                  <button
-                    aria-label="Go to previous month"
-                    class="rdp-button_reset rdp-button rdp-nav_button rdp-nav_button_previous"
-                    name="previous-month"
-                    type="button"
-                  >
-                    <svg
-                      class="rdp-nav_icon"
-                      height="16px"
-                      viewBox="0 0 120 120"
-                      width="16px"
-                    >
-                      <path
-                        d="M69.490332,3.34314575 C72.6145263,0.218951416 77.6798462,0.218951416 80.8040405,3.34314575 C83.8617626,6.40086786 83.9268205,11.3179931 80.9992143,14.4548388 L80.8040405,14.6568542 L35.461,60 L80.8040405,105.343146 C83.8617626,108.400868 83.9268205,113.317993 80.9992143,116.454839 L80.8040405,116.656854 C77.7463184,119.714576 72.8291931,119.779634 69.6923475,116.852028 L69.490332,116.656854 L18.490332,65.6568542 C15.4326099,62.5991321 15.367552,57.6820069 18.2951583,54.5451612 L18.490332,54.3431458 L69.490332,3.34314575 Z"
-                        fill="currentColor"
-                        fill-rule="nonzero"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    aria-label="Go to next month"
-                    class="rdp-button_reset rdp-button rdp-nav_button rdp-nav_button_next"
-                    name="next-month"
-                    type="button"
-                  >
-                    <svg
-                      class="rdp-nav_icon"
-                      height="16px"
-                      viewBox="0 0 120 120"
-                      width="16px"
-                    >
-                      <path
-                        d="M49.8040405,3.34314575 C46.6798462,0.218951416 41.6145263,0.218951416 38.490332,3.34314575 C35.4326099,6.40086786 35.367552,11.3179931 38.2951583,14.4548388 L38.490332,14.6568542 L83.8333725,60 L38.490332,105.343146 C35.4326099,108.400868 35.367552,113.317993 38.2951583,116.454839 L38.490332,116.656854 C41.5480541,119.714576 46.4651794,119.779634 49.602025,116.852028 L49.8040405,116.656854 L100.804041,65.6568542 C103.861763,62.5991321 103.926821,57.6820069 100.999214,54.5451612 L100.804041,54.3431458 L49.8040405,3.34314575 Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <table
-                aria-labelledby="react-day-picker-6"
-                class="rdp-table"
-                role="grid"
-              >
-                <thead
-                  class="rdp-head"
-                >
-                  <tr
-                    class="rdp-head_row"
-                  >
-                    <th
-                      aria-label="Sunday"
-                      class="rdp-head_cell"
-=======
             <nav
               aria-label="Navigation bar"
               class="rdp-nav"
@@ -541,88 +441,12 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                     <th
                       aria-label="Sunday"
                       class="rdp-weekday"
->>>>>>> f2d4110a (upgrading to react 19)
                       scope="col"
                     >
                       Su
                     </th>
                     <th
                       aria-label="Monday"
-<<<<<<< HEAD
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Mo
-                    </th>
-                    <th
-                      aria-label="Tuesday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Tu
-                    </th>
-                    <th
-                      aria-label="Wednesday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      We
-                    </th>
-                    <th
-                      aria-label="Thursday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Th
-                    </th>
-                    <th
-                      aria-label="Friday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Fr
-                    </th>
-                    <th
-                      aria-label="Saturday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Sa
-                    </th>
-                  </tr>
-                </thead>
-                <tbody
-                  class="rdp-tbody"
-                >
-                  <tr
-                    class="rdp-row"
-                  >
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_end"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-weekday"
                       scope="col"
                     >
@@ -701,7 +525,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Tuesday, February 1st, 2061, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="0"
                         type="button"
                       >
@@ -709,15 +532,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-02"
                       role="gridcell"
@@ -725,7 +539,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Wednesday, February 2nd, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -733,15 +546,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-03"
                       role="gridcell"
@@ -749,7 +553,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Thursday, February 3rd, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -757,15 +560,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-04"
                       role="gridcell"
@@ -773,7 +567,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Friday, February 4th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -781,15 +574,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-05"
                       role="gridcell"
@@ -797,7 +581,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Saturday, February 5th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -806,18 +589,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                     </td>
                   </tr>
                   <tr
-<<<<<<< HEAD
-                    class="rdp-row"
-                  >
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                     class="rdp-week"
                   >
                     <td
@@ -828,7 +599,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Sunday, February 6th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -836,15 +606,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-07"
                       role="gridcell"
@@ -852,7 +613,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Monday, February 7th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -860,15 +620,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-08"
                       role="gridcell"
@@ -876,7 +627,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Tuesday, February 8th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -884,15 +634,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-09"
                       role="gridcell"
@@ -900,7 +641,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Wednesday, February 9th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -908,15 +648,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-10"
                       role="gridcell"
@@ -924,7 +655,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Thursday, February 10th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -932,15 +662,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-11"
                       role="gridcell"
@@ -948,7 +669,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Friday, February 11th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -956,15 +676,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-12"
                       role="gridcell"
@@ -972,7 +683,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Saturday, February 12th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -981,18 +691,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                     </td>
                   </tr>
                   <tr
-<<<<<<< HEAD
-                    class="rdp-row"
-                  >
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                     class="rdp-week"
                   >
                     <td
@@ -1003,7 +701,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Sunday, February 13th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1011,15 +708,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-14"
                       role="gridcell"
@@ -1027,7 +715,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Monday, February 14th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1035,15 +722,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-15"
                       role="gridcell"
@@ -1051,7 +729,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Tuesday, February 15th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1059,15 +736,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-16"
                       role="gridcell"
@@ -1075,7 +743,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Wednesday, February 16th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1083,15 +750,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-17"
                       role="gridcell"
@@ -1099,7 +757,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Thursday, February 17th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1107,15 +764,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-18"
                       role="gridcell"
@@ -1123,7 +771,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Friday, February 18th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1131,15 +778,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-19"
                       role="gridcell"
@@ -1147,7 +785,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Saturday, February 19th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1156,18 +793,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                     </td>
                   </tr>
                   <tr
-<<<<<<< HEAD
-                    class="rdp-row"
-                  >
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                     class="rdp-week"
                   >
                     <td
@@ -1178,7 +803,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Sunday, February 20th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1186,15 +810,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-21"
                       role="gridcell"
@@ -1202,7 +817,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Monday, February 21st, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1210,15 +824,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-22"
                       role="gridcell"
@@ -1226,7 +831,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Tuesday, February 22nd, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1234,15 +838,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-23"
                       role="gridcell"
@@ -1250,7 +845,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Wednesday, February 23rd, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1258,15 +852,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-24"
                       role="gridcell"
@@ -1274,7 +859,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Thursday, February 24th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1282,15 +866,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-25"
                       role="gridcell"
@@ -1298,7 +873,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Friday, February 25th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1306,15 +880,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-26"
                       role="gridcell"
@@ -1322,7 +887,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Saturday, February 26th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1331,18 +895,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                     </td>
                   </tr>
                   <tr
-<<<<<<< HEAD
-                    class="rdp-row"
-                  >
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                     class="rdp-week"
                   >
                     <td
@@ -1353,7 +905,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Sunday, February 27th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1361,15 +912,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        class="rdp-button_reset rdp-button rdp-day"
-                        name="day"
-                        role="gridcell"
-=======
                       class="rdp-day"
                       data-day="2061-02-28"
                       role="gridcell"
@@ -1377,7 +919,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       <button
                         aria-label="Monday, February 28th, 2061"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -1385,83 +926,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-                <tfoot
-                  class="rdp-tfoot"
-                >
-                  <tr>
-                    <td
-                      colspan="8"
-                    >
-                      <div
-                        class="d-flex justify-content-around mt-3"
-                      >
-                        <button
-                          class="btn btn-light btn-sm"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="svg-inline--fa fa-calendar-day fa-fw me-1"
-                            data-icon="calendar-day"
-                            data-prefix="fas"
-                            role="img"
-                            viewBox="0 0 448 512"
-                          >
-                            <path
-                              d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 32 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l32 0 0-32c0-17.7 14.3-32 32-32zm0 256c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-64 0z"
-                              fill="currentColor"
-                            />
-                          </svg>
-                          Today
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-=======
                       class="rdp-day rdp-hidden rdp-outside"
                       data-day="2061-03-01"
                       data-hidden="true"
@@ -1533,7 +997,6 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                 Today
               </button>
             </div>
->>>>>>> f2d4110a (upgrading to react 19)
           </div>
         </div>
       </div>
@@ -1551,11 +1014,7 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-up"
                     data-prefix="fas"
                     role="img"
@@ -1575,11 +1034,7 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-up"
                     data-prefix="fas"
                     role="img"
@@ -1623,11 +1078,7 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-down"
                     data-prefix="fas"
                     role="img"
@@ -1647,11 +1098,7 @@ exports[`<DateTimeSelect /> 'Ends' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-down"
                     data-prefix="fas"
                     role="img"
@@ -1743,151 +1190,12 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
         class="d-flex justify-content-center align-items-center"
       >
         <div
-<<<<<<< HEAD
-          class="rdp components-date-range"
-=======
           class="rdp-root components-date-range"
           data-mode="range"
->>>>>>> f2d4110a (upgrading to react 19)
         >
           <div
             class="rdp-months"
           >
-<<<<<<< HEAD
-            <div
-              class="rdp-month rdp-caption_start rdp-caption_end"
-            >
-              <div
-                class="rdp-caption"
-              >
-                <div
-                  aria-live="polite"
-                  class="rdp-caption_label"
-                  id="react-day-picker-3"
-                  role="presentation"
-                >
-                  February 2060
-                </div>
-                <div
-                  class="rdp-nav"
-                >
-                  <button
-                    aria-label="Go to previous month"
-                    class="rdp-button_reset rdp-button rdp-nav_button rdp-nav_button_previous"
-                    name="previous-month"
-                    type="button"
-                  >
-                    <svg
-                      class="rdp-nav_icon"
-                      height="16px"
-                      viewBox="0 0 120 120"
-                      width="16px"
-                    >
-                      <path
-                        d="M69.490332,3.34314575 C72.6145263,0.218951416 77.6798462,0.218951416 80.8040405,3.34314575 C83.8617626,6.40086786 83.9268205,11.3179931 80.9992143,14.4548388 L80.8040405,14.6568542 L35.461,60 L80.8040405,105.343146 C83.8617626,108.400868 83.9268205,113.317993 80.9992143,116.454839 L80.8040405,116.656854 C77.7463184,119.714576 72.8291931,119.779634 69.6923475,116.852028 L69.490332,116.656854 L18.490332,65.6568542 C15.4326099,62.5991321 15.367552,57.6820069 18.2951583,54.5451612 L18.490332,54.3431458 L69.490332,3.34314575 Z"
-                        fill="currentColor"
-                        fill-rule="nonzero"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    aria-label="Go to next month"
-                    class="rdp-button_reset rdp-button rdp-nav_button rdp-nav_button_next"
-                    name="next-month"
-                    type="button"
-                  >
-                    <svg
-                      class="rdp-nav_icon"
-                      height="16px"
-                      viewBox="0 0 120 120"
-                      width="16px"
-                    >
-                      <path
-                        d="M49.8040405,3.34314575 C46.6798462,0.218951416 41.6145263,0.218951416 38.490332,3.34314575 C35.4326099,6.40086786 35.367552,11.3179931 38.2951583,14.4548388 L38.490332,14.6568542 L83.8333725,60 L38.490332,105.343146 C35.4326099,108.400868 35.367552,113.317993 38.2951583,116.454839 L38.490332,116.656854 C41.5480541,119.714576 46.4651794,119.779634 49.602025,116.852028 L49.8040405,116.656854 L100.804041,65.6568542 C103.861763,62.5991321 103.926821,57.6820069 100.999214,54.5451612 L100.804041,54.3431458 L49.8040405,3.34314575 Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <table
-                aria-labelledby="react-day-picker-3"
-                class="rdp-table"
-                role="grid"
-              >
-                <thead
-                  class="rdp-head"
-                >
-                  <tr
-                    class="rdp-head_row"
-                  >
-                    <th
-                      aria-label="Sunday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Su
-                    </th>
-                    <th
-                      aria-label="Monday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Mo
-                    </th>
-                    <th
-                      aria-label="Tuesday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Tu
-                    </th>
-                    <th
-                      aria-label="Wednesday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      We
-                    </th>
-                    <th
-                      aria-label="Thursday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Th
-                    </th>
-                    <th
-                      aria-label="Friday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Fr
-                    </th>
-                    <th
-                      aria-label="Saturday"
-                      class="rdp-head_cell"
-                      scope="col"
-                    >
-                      Sa
-                    </th>
-                  </tr>
-                </thead>
-                <tbody
-                  class="rdp-tbody"
-                >
-                  <tr
-                    class="rdp-row"
-                  >
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_today rdp-day_range_start"
-                        name="day"
-                        role="gridcell"
-=======
             <nav
               aria-label="Navigation bar"
               class="rdp-nav"
@@ -2019,7 +1327,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Today, Sunday, February 1st, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="0"
                         type="button"
                       >
@@ -2027,16 +1334,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-02"
@@ -2046,7 +1343,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Monday, February 2nd, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2054,16 +1350,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-03"
@@ -2073,7 +1359,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Tuesday, February 3rd, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2081,16 +1366,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-04"
@@ -2100,7 +1375,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Wednesday, February 4th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2108,16 +1382,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-05"
@@ -2127,7 +1391,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Thursday, February 5th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2135,16 +1398,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-06"
@@ -2154,7 +1407,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Friday, February 6th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2162,16 +1414,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-07"
@@ -2181,7 +1423,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Saturday, February 7th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2190,19 +1431,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                     </td>
                   </tr>
                   <tr
-<<<<<<< HEAD
-                    class="rdp-row"
-                  >
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                     class="rdp-week"
                   >
                     <td
@@ -2215,7 +1443,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Sunday, February 8th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2223,16 +1450,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-09"
@@ -2242,7 +1459,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Monday, February 9th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2250,16 +1466,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-10"
@@ -2269,7 +1475,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Tuesday, February 10th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2277,16 +1482,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-11"
@@ -2296,7 +1491,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Wednesday, February 11th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2304,16 +1498,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-12"
@@ -2323,7 +1507,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Thursday, February 12th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2331,16 +1514,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-13"
@@ -2350,7 +1523,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Friday, February 13th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2358,16 +1530,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-14"
@@ -2377,7 +1539,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Saturday, February 14th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2386,19 +1547,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                     </td>
                   </tr>
                   <tr
-<<<<<<< HEAD
-                    class="rdp-row"
-                  >
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                     class="rdp-week"
                   >
                     <td
@@ -2411,7 +1559,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Sunday, February 15th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2419,16 +1566,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-16"
@@ -2438,7 +1575,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Monday, February 16th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2446,16 +1582,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-17"
@@ -2465,7 +1591,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Tuesday, February 17th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2473,16 +1598,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-18"
@@ -2492,7 +1607,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Wednesday, February 18th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2500,16 +1614,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-19"
@@ -2519,7 +1623,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Thursday, February 19th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2527,16 +1630,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-20"
@@ -2546,7 +1639,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Friday, February 20th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2554,16 +1646,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-21"
@@ -2573,7 +1655,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Saturday, February 21st, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2582,19 +1663,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                     </td>
                   </tr>
                   <tr
-<<<<<<< HEAD
-                    class="rdp-row"
-                  >
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                     class="rdp-week"
                   >
                     <td
@@ -2607,7 +1675,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Sunday, February 22nd, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2615,16 +1682,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-23"
@@ -2634,7 +1691,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Monday, February 23rd, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2642,16 +1698,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-24"
@@ -2661,7 +1707,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Tuesday, February 24th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2669,16 +1714,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-25"
@@ -2688,7 +1723,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Wednesday, February 25th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2696,16 +1730,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-26"
@@ -2715,7 +1739,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Thursday, February 26th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2723,16 +1746,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-27"
@@ -2742,7 +1755,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Friday, February 27th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2750,16 +1762,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                       aria-selected="true"
                       class="rdp-day rdp-selected rdp-range_middle"
                       data-day="2060-02-28"
@@ -2769,7 +1771,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Saturday, February 28th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2778,19 +1779,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                     </td>
                   </tr>
                   <tr
-<<<<<<< HEAD
-                    class="rdp-row"
-                  >
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <button
-                        aria-selected="true"
-                        class="rdp-button_reset rdp-button rdp-day rdp-day_selected rdp-day_range_middle"
-                        name="day"
-                        role="gridcell"
-=======
                     class="rdp-week"
                   >
                     <td
@@ -2803,7 +1791,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       <button
                         aria-label="Sunday, February 29th, 2060, selected"
                         class="rdp-day_button"
->>>>>>> f2d4110a (upgrading to react 19)
                         tabindex="-1"
                         type="button"
                       >
@@ -2811,92 +1798,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                       </button>
                     </td>
                     <td
-<<<<<<< HEAD
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                    <td
-                      class="rdp-cell"
-                      role="presentation"
-                    >
-                      <div
-                        role="gridcell"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-                <tfoot
-                  class="rdp-tfoot"
-                >
-                  <tr>
-                    <td
-                      colspan="8"
-                    >
-                      <div
-                        class="d-flex justify-content-around mt-3"
-                      >
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="svg-inline--fa fa-calendar-day fa-fw me-1"
-                            data-icon="calendar-day"
-                            data-prefix="fas"
-                            role="img"
-                            viewBox="0 0 448 512"
-                          >
-                            <path
-                              d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 32 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l32 0 0-32c0-17.7 14.3-32 32-32zm0 256c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-64 0z"
-                              fill="currentColor"
-                            />
-                          </svg>
-                          Today
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-=======
                       aria-selected="true"
                       class="rdp-day rdp-hidden rdp-outside rdp-selected rdp-range_middle"
                       data-day="2060-03-01"
@@ -2989,7 +1890,6 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                 Today
               </button>
             </div>
->>>>>>> f2d4110a (upgrading to react 19)
           </div>
         </div>
       </div>
@@ -3007,11 +1907,7 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-up"
                     data-prefix="fas"
                     role="img"
@@ -3031,11 +1927,7 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-up fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-up text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-up"
                     data-prefix="fas"
                     role="img"
@@ -3079,11 +1971,7 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-down"
                     data-prefix="fas"
                     role="img"
@@ -3103,11 +1991,7 @@ exports[`<DateTimeSelect /> 'Starts' tab matches snapshot 1`] = `
                 <span>
                   <svg
                     aria-hidden="true"
-<<<<<<< HEAD
-                    class="svg-inline--fa fa-angle-down fa-2x text-muted cursor-pointer"
-=======
                     class="svg-inline--fa fa-angle-down text-muted cursor-pointer fa-2x"
->>>>>>> f2d4110a (upgrading to react 19)
                     data-icon="angle-down"
                     data-prefix="fas"
                     role="img"

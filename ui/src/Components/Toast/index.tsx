@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState, useEffect, useRef } from "react";
+import React, { FC, PropsWithChildren, ReactNode, useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
 import TransitionGroup from "react-transition-group/TransitionGroup";
@@ -57,7 +57,7 @@ const Toast: FC<{
   );
 };
 
-const ToastContainer: FC = ({ children }) => {
+const ToastContainer: FC<PropsWithChildren> = ({ children }) => {
   const context = React.useContext(ThemeContext);
   const refsMap = useRef<Map<number, React.RefObject<HTMLDivElement | null>>>(
     new Map(),

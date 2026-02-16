@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent } from "@testing-library/react";
-=======
 import { render, fireEvent, act } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import fetchMock from "fetch-mock";
 
@@ -123,16 +117,8 @@ describe("<Fetcher />", () => {
   it("calls alertStore.fetchWithThrottle again after filter change", () => {
     MockEmptyAPIResponseWithoutFilters();
     const fetchSpy = jest.spyOn(alertStore, "fetchWithThrottle");
-<<<<<<< HEAD
-    const { rerender } = render(
-      <Fetcher alertStore={alertStore} settingsStore={settingsStore} />,
-    );
-    alertStore.filters.setFilterValues([]);
-    rerender(<Fetcher alertStore={alertStore} settingsStore={settingsStore} />);
-=======
     render(<Fetcher alertStore={alertStore} settingsStore={settingsStore} />);
     alertStore.filters.setFilterValues([]);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(fetchSpy).toHaveBeenCalledTimes(2);
   });
 
@@ -412,7 +398,9 @@ describe("<Fetcher />", () => {
   it("fetches on update when resumed", () => {
     alertStore.status.pause();
     render(<Fetcher alertStore={alertStore} settingsStore={settingsStore} />);
-    alertStore.status.resume();
+    act(() => {
+      alertStore.status.resume();
+    });
     settingsStore.gridConfig.setSortReverse(
       !settingsStore.gridConfig.config.reverseSort,
     );
@@ -425,7 +413,9 @@ describe("<Fetcher />", () => {
   it("fetches on resume", () => {
     alertStore.status.pause();
     render(<Fetcher alertStore={alertStore} settingsStore={settingsStore} />);
-    alertStore.status.resume();
+    act(() => {
+      alertStore.status.resume();
+    });
     jest.setSystemTime(
       new Date(Date.UTC(2000, 1, 1, 0, 0, 0)).getTime() + 2 * 1000,
     );
@@ -441,13 +431,7 @@ describe("<Fetcher /> children", () => {
     const { container } = render(
       <Fetcher alertStore={alertStore} settingsStore={settingsStore} />,
     );
-<<<<<<< HEAD
-    expect(container.querySelectorAll("div.components-fetcher")).toHaveLength(
-      1,
-    );
-=======
     expect(container.querySelector("div.components-fetcher")).toBeTruthy();
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("doesn't render any children when upgrade is needed", () => {
@@ -457,14 +441,8 @@ describe("<Fetcher /> children", () => {
     const { container } = render(
       <Fetcher alertStore={alertStore} settingsStore={settingsStore} />,
     );
-<<<<<<< HEAD
-    expect(container.querySelector("div.navbar-brand")?.children).toHaveLength(
-      0,
-    );
-=======
     const brand = container.querySelector("div.navbar-brand");
     expect(brand ? brand.children.length : 0).toBe(0);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders PauseButton when paused", () => {
@@ -484,18 +462,10 @@ describe("<Fetcher /> children", () => {
     act(() => {
       alertStore.status.pause();
     });
-<<<<<<< HEAD
-    const navbarBrand = container.querySelector(".navbar-brand");
-    fireEvent.mouseEnter(navbarBrand!);
-    expect(container.innerHTML).toMatch(/fa-pause/);
-
-    fireEvent.mouseLeave(navbarBrand!);
-=======
     fireEvent.mouseEnter(container.querySelector(".navbar-brand")!);
     expect(container.innerHTML).toMatch(/fa-pause/);
 
     fireEvent.mouseLeave(container.querySelector(".navbar-brand")!);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(container.innerHTML).toMatch(/fa-pause/);
   });
 
@@ -503,57 +473,29 @@ describe("<Fetcher /> children", () => {
     const { container } = render(
       <Fetcher alertStore={alertStore} settingsStore={settingsStore} />,
     );
-<<<<<<< HEAD
-    const navbarBrand = container.querySelector(".navbar-brand");
-    fireEvent.mouseEnter(navbarBrand!);
-    expect(container.innerHTML).toMatch(/fa-play/);
-
-    fireEvent.mouseLeave(navbarBrand!);
-    expect(container.querySelectorAll("div.components-fetcher")).toHaveLength(
-      1,
-    );
-=======
     fireEvent.mouseEnter(container.querySelector(".navbar-brand")!);
     expect(container.innerHTML).toMatch(/fa-play/);
 
     fireEvent.mouseLeave(container.querySelector(".navbar-brand")!);
     expect(container.querySelector("div.components-fetcher")).toBeTruthy();
->>>>>>> f2d4110a (upgrading to react 19)
   });
 });
 
 describe("<Dots />", () => {
   it("matches snapshot", () => {
-<<<<<<< HEAD
-    const { asFragment } = render(<Dots alertStore={alertStore} dots={8} />);
-    expect(asFragment()).toMatchSnapshot();
-=======
-    const { container } = render(
-      <Dots alertStore={alertStore} dots={8} />,
-    );
+    const { container } = render(<Dots alertStore={alertStore} dots={8} />);
     expect(container.innerHTML).toMatchSnapshot();
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("adds 'fetching' class when fetching data", () => {
     act(() => {
       alertStore.status.setFetching();
     });
-<<<<<<< HEAD
     const { container } = render(<Dots alertStore={alertStore} dots={8} />);
-    expect(
-      container
-        .querySelector("div.components-fetcher")
-        ?.classList.contains("fetching"),
-=======
-    const { container } = render(
-      <Dots alertStore={alertStore} dots={8} />,
-    );
     expect(
       container
         .querySelector("div.components-fetcher")!
         .classList.contains("fetching"),
->>>>>>> f2d4110a (upgrading to react 19)
     ).toBe(true);
   });
 
@@ -561,21 +503,11 @@ describe("<Dots />", () => {
     act(() => {
       alertStore.status.setProcessing();
     });
-<<<<<<< HEAD
     const { container } = render(<Dots alertStore={alertStore} dots={8} />);
-    expect(
-      container
-        .querySelector("div.components-fetcher")
-        ?.classList.contains("processing"),
-=======
-    const { container } = render(
-      <Dots alertStore={alertStore} dots={8} />,
-    );
     expect(
       container
         .querySelector("div.components-fetcher")!
         .classList.contains("processing"),
->>>>>>> f2d4110a (upgrading to react 19)
     ).toBe(true);
   });
 
@@ -583,21 +515,11 @@ describe("<Dots />", () => {
     act(() => {
       alertStore.info.setIsRetrying();
     });
-<<<<<<< HEAD
     const { container } = render(<Dots alertStore={alertStore} dots={8} />);
-    expect(
-      container
-        .querySelector("div.components-fetcher")
-        ?.classList.contains("retrying"),
-=======
-    const { container } = render(
-      <Dots alertStore={alertStore} dots={8} />,
-    );
     expect(
       container
         .querySelector("div.components-fetcher")!
         .classList.contains("retrying"),
->>>>>>> f2d4110a (upgrading to react 19)
     ).toBe(true);
   });
 });

@@ -80,8 +80,8 @@ const Grid: FC<{
   };
 
   const onAlertGridCollapseEvent = useCallback(
-    (event) => {
-      setIsExpanded(event.detail);
+    (event: Event) => {
+      setIsExpanded((event as CustomEvent).detail);
       debouncedRepack();
     },
     [debouncedRepack],

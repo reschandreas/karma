@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-import { act } from "react-dom/test-utils";
-
-import { renderHook } from "@testing-library/react-hooks";
-import { render } from "@testing-library/react";
-=======
-import { act, renderHook, waitFor, render } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
+import { renderHook, waitFor, render } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -38,7 +31,7 @@ describe("useFetchDelete", () => {
   const EmptyOptions = {};
 
   it("sends a DELETE request", async () => {
-    const { result } = renderHook(() =>
+    renderHook(() =>
       useFetchDelete("http://localhost/ok", EmptyOptions),
     );
 
@@ -53,7 +46,7 @@ describe("useFetchDelete", () => {
   });
 
   it("sends correct headers", async () => {
-    const { result } = renderHook(() =>
+    renderHook(() =>
       useFetchDelete("http://localhost/ok", EmptyOptions),
     );
 
@@ -201,15 +194,8 @@ describe("useFetchDelete", () => {
       );
     };
 
-<<<<<<< HEAD
-    act(() => {
-      const { unmount } = render(<Component />);
-      unmount();
-    });
-=======
     const { unmount } = render(<Component />);
     unmount();
->>>>>>> f2d4110a (upgrading to react 19)
 
     await fetchMock.flush(true);
   });
@@ -234,15 +220,8 @@ describe("useFetchDelete", () => {
       );
     };
 
-<<<<<<< HEAD
-    act(() => {
-      const { unmount } = render(<Component />);
-      unmount();
-    });
-=======
     const { unmount } = render(<Component />);
     unmount();
->>>>>>> f2d4110a (upgrading to react 19)
 
     await fetchMock.flush(true);
   });

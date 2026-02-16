@@ -1,4 +1,4 @@
-import { render, fireEvent, act } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import { MockThemeContext } from "__fixtures__/Theme";
@@ -8,7 +8,7 @@ import {
   MatcherWithIDT,
 } from "Stores/SilenceFormStore";
 import { ThemeContext } from "Components/Theme";
-import { OptionT, StringToOption } from "Common/Select";
+import { StringToOption } from "Common/Select";
 import { LabelValueInput } from "./LabelValueInput";
 
 let silenceFormStore: SilenceFormStore;

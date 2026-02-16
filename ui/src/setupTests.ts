@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-
-=======
->>>>>>> f2d4110a (upgrading to react 19)
 import "@testing-library/jest-dom";
 
 import ReactDOM from "react-dom";
@@ -44,13 +39,10 @@ jest.mock("react-intersection-observer");
 FetchRetryConfig.minTimeout = 2;
 FetchRetryConfig.maxTimeout = 10;
 
-<<<<<<< HEAD
-// floating-ui uses useLayoutEffect
-React.useLayoutEffect = React.useEffect;
-
-=======
->>>>>>> f2d4110a (upgrading to react 19)
 beforeEach(() => {
+  // Suppress console.info noise from AlertStore filter mismatch messages in tests
+  jest.spyOn(console, "info").mockImplementation(() => {});
+
   useFetchGetMock.fetch.reset();
   (useFetchGet as jest.MockedFunction<typeof useFetchGetMock>).mockRestore();
   (

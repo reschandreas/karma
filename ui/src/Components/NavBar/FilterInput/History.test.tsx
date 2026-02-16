@@ -39,10 +39,12 @@ const AppliedFilter = (name: string, matcher: string, value: string) => {
 
 const PopulateHistory = (count: number) => {
   for (let i = 1; i <= count; i++) {
-    alertStore.filters.setFilterValues([
-      AppliedFilter("foo", "=", `bar${i}`),
-      AppliedFilter("baz", "=~", `bar${i}`),
-    ]);
+    act(() => {
+      alertStore.filters.setFilterValues([
+        AppliedFilter("foo", "=", `bar${i}`),
+        AppliedFilter("baz", "=~", `bar${i}`),
+      ]);
+    });
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -104,11 +106,13 @@ describe("<History />", () => {
 
   it("saves only applied filters to history", async () => {
     const promise = Promise.resolve();
-    alertStore.filters.setFilterValues([
-      AppliedFilter("foo", "=", "bar"),
-      NewUnappliedFilter("foo=unapplied"),
-      AppliedFilter("baz", "!=", "bar"),
-    ]);
+    act(() => {
+      alertStore.filters.setFilterValues([
+        AppliedFilter("foo", "=", "bar"),
+        NewUnappliedFilter("foo=unapplied"),
+        AppliedFilter("baz", "!=", "bar"),
+      ]);
+    });
     const { container } = MountedHistory();
     fireEvent.click(container.querySelector("button.cursor-pointer")!);
     expect(container.querySelectorAll("button.dropdown-item")).toHaveLength(1);
@@ -161,10 +165,19 @@ describe("<HistoryMenu />", () => {
     const button = container.querySelectorAll("button.dropdown-item")[0];
     expect(button.textContent).toBe("foo=bar1baz=~bar1");
 
-    alertStore.filters.setFilterValues([AppliedFilter("job", "=", "foo")]);
+    act(() => {
+      alertStore.filters.setFilterValues([AppliedFilter("job", "=", "foo")]);
+    });
     expect(alertStore.filters.values).toHaveLength(1);
 
-    fireEvent.click(button);
+    // After setFilterValues, autorun pushes ["job=foo"] to top of history,
+    // so history is now [["job=foo"], ["foo=bar1","baz=~bar1"]].
+    // The original filter set we want to click is now at index 1.
+    const updatedButtons = container.querySelectorAll("button.dropdown-item");
+    const targetButton = Array.from(updatedButtons).find(
+      (btn) => btn.textContent === "foo=bar1baz=~bar1",
+    )!;
+    fireEvent.click(targetButton);
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -236,10 +249,12 @@ describe("<HistoryMenu />", () => {
 
   it("clicking on 'Save filters' saves current filter set to Settings", async () => {
     const promise = Promise.resolve();
-    alertStore.filters.setFilterValues([
-      AppliedFilter("foo", "=", "bar"),
-      AppliedFilter("bar", "=~", "baz"),
-    ]);
+    act(() => {
+      alertStore.filters.setFilterValues([
+        AppliedFilter("foo", "=", "bar"),
+        AppliedFilter("bar", "=~", "baz"),
+      ]);
+    });
 
     const { container } = MountedHistory();
     fireEvent.click(container.querySelector("button.cursor-pointer")!);

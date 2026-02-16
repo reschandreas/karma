@@ -30,7 +30,7 @@ const RenderedModal = (isOpen: boolean, isUpper?: boolean) => {
 
 describe("<ModalInner />", () => {
   it("'modal-open' class is appended to MountModal container", () => {
-    const { container } = RenderedModal(true);
+    RenderedModal(true);
     expect(
       document.body.querySelector("div.modal-open"),
     ).toBeInTheDocument();
@@ -62,7 +62,7 @@ describe("<ModalInner />", () => {
     expect(document.body.className.split(" ")).toContain("modal-open");
     // force update
     rerender(
-      <Modal isOpen={false} isUpper={false} toggleOpen={fakeToggle} style={{}}>
+      <Modal isOpen={false} isUpper={false} toggleOpen={fakeToggle}>
         <div />
       </Modal>,
     );

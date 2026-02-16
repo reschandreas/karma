@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import { act } from "react-dom/test-utils";
-
-import { render } from "@testing-library/react";
-=======
 import { render, act } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import fetchMock from "fetch-mock";
 
@@ -65,11 +59,7 @@ afterEach(() => {
   fetchMock.resetHistory();
 });
 
-<<<<<<< HEAD
-const renderSilenceSubmitProgress = () => {
-=======
 const MountedSilenceSubmitProgress = () => {
->>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <SilenceSubmitProgress
       cluster="mockAlertmanager"
@@ -89,7 +79,7 @@ const MountedSilenceSubmitProgress = () => {
 
 describe("<SilenceSubmitProgress />", () => {
   it("sends a request on mount", async () => {
-    renderSilenceSubmitProgress();
+    MountedSilenceSubmitProgress();
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -97,7 +87,7 @@ describe("<SilenceSubmitProgress />", () => {
   });
 
   it("appends /api/v2/silences to the passed URI", async () => {
-    renderSilenceSubmitProgress();
+    MountedSilenceSubmitProgress();
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -106,7 +96,7 @@ describe("<SilenceSubmitProgress />", () => {
   });
 
   it("sends correct JSON payload", async () => {
-    renderSilenceSubmitProgress();
+    MountedSilenceSubmitProgress();
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -128,7 +118,7 @@ describe("<SilenceSubmitProgress />", () => {
     const upstreams = generateUpstreams();
     upstreams.instances[0].corsCredentials = "same-origin";
     alertStore.data.setUpstreams(upstreams);
-    renderSilenceSubmitProgress();
+    MountedSilenceSubmitProgress();
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -495,11 +485,7 @@ describe("<SilenceSubmitProgress />", () => {
   });
 
   it("renders silence link on successful fetch", async () => {
-<<<<<<< HEAD
-    renderSilenceSubmitProgress();
-=======
     MountedSilenceSubmitProgress();
->>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -519,11 +505,7 @@ describe("<SilenceSubmitProgress />", () => {
       status: 500,
       body: "error message",
     });
-<<<<<<< HEAD
-    renderSilenceSubmitProgress();
-=======
     MountedSilenceSubmitProgress();
->>>>>>> f2d4110a (upgrading to react 19)
     await act(async () => {
       await fetchMock.flush(true);
     });

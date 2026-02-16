@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { render, screen, fireEvent } from "@testing-library/react";
-=======
 import { render, fireEvent } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import type { LabelsT } from "Models/APITypes";
 import { AlertStore } from "Stores/AlertStore";
@@ -20,11 +16,7 @@ afterEach(() => {
   global.window.innerWidth = 1024;
 });
 
-<<<<<<< HEAD
-const renderLabelSetList = (labelsList: LabelsT[]) => {
-=======
 const MountedLabelSetList = (labelsList: LabelsT[]) => {
->>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <LabelSetList
       alertStore={alertStore}
@@ -36,16 +28,6 @@ const MountedLabelSetList = (labelsList: LabelsT[]) => {
 
 describe("<LabelSetList />", () => {
   it("renders placeholder on empty list", () => {
-<<<<<<< HEAD
-    renderLabelSetList([]);
-    expect(screen.getByText("No alerts matched")).toBeInTheDocument();
-  });
-
-  it("renders labels on populated list", () => {
-    const { container } = renderLabelSetList([[{ name: "foo", value: "bar" }]]);
-    expect(screen.queryByText("No alerts matched")).not.toBeInTheDocument();
-    expect(container.querySelector("ul.list-group")?.textContent).toBe(
-=======
     const { container } = MountedLabelSetList([]);
     expect(container.textContent).toBe("No alerts matched");
   });
@@ -56,17 +38,12 @@ describe("<LabelSetList />", () => {
     ]);
     expect(container.textContent).not.toBe("No alerts matched");
     expect(container.querySelector("ul.list-group")!.textContent).toBe(
->>>>>>> f2d4110a (upgrading to react 19)
       "foo: bar",
     );
   });
 
   it("matches snapshot with populated list", () => {
-<<<<<<< HEAD
-    const { asFragment } = renderLabelSetList([
-=======
     const { asFragment } = MountedLabelSetList([
->>>>>>> f2d4110a (upgrading to react 19)
       [{ name: "foo", value: "bar" }],
       [{ name: "job", value: "node_exporter" }],
       [{ name: "instance", value: "server1" }],
@@ -77,11 +54,7 @@ describe("<LabelSetList />", () => {
 
   it("doesn't render pagination when list has 10 elements on  desktop", () => {
     global.window.innerWidth = 1024;
-<<<<<<< HEAD
-    const { container } = renderLabelSetList(
-=======
     const { container } = MountedLabelSetList(
->>>>>>> f2d4110a (upgrading to react 19)
       Array.from(Array(10), (_, i) => [
         { name: "instance", value: `server${i}` },
       ]),
@@ -91,11 +64,7 @@ describe("<LabelSetList />", () => {
 
   it("doesn't render pagination when list has 5 elements on  desktop", () => {
     global.window.innerWidth = 500;
-<<<<<<< HEAD
-    const { container } = renderLabelSetList(
-=======
     const { container } = MountedLabelSetList(
->>>>>>> f2d4110a (upgrading to react 19)
       Array.from(Array(5), (_, i) => [
         { name: "instance", value: `server${i}` },
       ]),
@@ -105,11 +74,7 @@ describe("<LabelSetList />", () => {
 
   it("renders pagination when list has 11 elements on desktop", () => {
     global.window.innerWidth = 1024;
-<<<<<<< HEAD
-    const { container } = renderLabelSetList(
-=======
     const { container } = MountedLabelSetList(
->>>>>>> f2d4110a (upgrading to react 19)
       Array.from(Array(11), (_, i) => [
         { name: "instance", value: `server${i}` },
       ]),
@@ -119,11 +84,7 @@ describe("<LabelSetList />", () => {
 
   it("renders pagination when list has 6 elements on mobile", () => {
     global.window.innerWidth = 500;
-<<<<<<< HEAD
-    const { container } = renderLabelSetList(
-=======
     const { container } = MountedLabelSetList(
->>>>>>> f2d4110a (upgrading to react 19)
       Array.from(Array(6), (_, i) => [
         { name: "instance", value: `server${i}` },
       ]),
@@ -132,24 +93,14 @@ describe("<LabelSetList />", () => {
   });
 
   it("clicking on pagination changes displayed elements", () => {
-<<<<<<< HEAD
-    const { container } = renderLabelSetList(
-=======
     const { container } = MountedLabelSetList(
->>>>>>> f2d4110a (upgrading to react 19)
       Array.from(Array(21), (_, i) => [
         { name: "instance", value: `server${i + 1}` },
       ]),
     );
-<<<<<<< HEAD
-    const pageLinks = container.querySelectorAll(".page-link");
-    fireEvent.click(pageLinks[3]);
-    expect(container.querySelector("ul.list-group")?.textContent).toBe(
-=======
     const pageLink = container.querySelectorAll(".page-link")[3];
     fireEvent.click(pageLink);
     expect(container.querySelector("ul.list-group")!.textContent).toBe(
->>>>>>> f2d4110a (upgrading to react 19)
       "instance: server21",
     );
   });

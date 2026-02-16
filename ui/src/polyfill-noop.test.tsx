@@ -1,3 +1,5 @@
+import { act } from "@testing-library/react";
+
 import fetchMock from "fetch-mock";
 
 import { EmptyAPIResponse } from "__fixtures__/Fetch";
@@ -25,7 +27,13 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-it("doesn't load ResizeObserver polyfill if not needed", () => {
+it("doesn't load ResizeObserver polyfill if not needed", async () => {
+  // Suppress expected react-cool-dimensions warnings about ResizeObserver
+  const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  const consoleInfoSpy = jest
+    .spyOn(console, "info")
+    .mockImplementation(() => {});
+
   global.window.ResizeObserver = jest.fn((cb) => {
     return {
       observe: jest.fn(),
@@ -51,6 +59,17 @@ it("doesn't load ResizeObserver polyfill if not needed", () => {
     body: JSON.stringify(response),
   });
 
-  require("./index.tsx");
+  let appRoot: any;
+  await act(async () => {
+    appRoot = require("./index.tsx").default;
+  });
   expect(window.ResizeObserver).toBeTruthy();
+
+  // Unmount to prevent async operations from leaking after test
+  await act(async () => {
+    appRoot.unmount();
+  });
+
+  consoleSpy.mockRestore();
+  consoleInfoSpy.mockRestore();
 });

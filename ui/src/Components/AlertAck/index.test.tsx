@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent, screen, waitFor } from "@testing-library/react";
-=======
 import { render, fireEvent, act } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import fetchMock from "fetch-mock";
 
@@ -95,11 +89,7 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-<<<<<<< HEAD
-const renderAlertAck = () => {
-=======
 const MountedAlertAck = () => {
->>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <AlertAck
       alertStore={alertStore}
@@ -109,17 +99,10 @@ const MountedAlertAck = () => {
   );
 };
 
-<<<<<<< HEAD
-const renderAndClick = async () => {
-  renderAlertAck();
-  const badge = screen.getByRole("img", { hidden: true }).parentElement;
-  if (badge) fireEvent.click(badge);
-=======
 const MountAndClick = async () => {
   const { container } = MountedAlertAck();
   const button = container.querySelector("span.badge");
   fireEvent.click(button!);
->>>>>>> f2d4110a (upgrading to react 19)
   await act(async () => {
     await fetchMock.flush(true);
   });
@@ -138,63 +121,6 @@ describe("<AlertAck />", () => {
         },
       },
     });
-<<<<<<< HEAD
-    const { container } = renderAlertAck();
-    expect(container).toBeEmptyDOMElement();
-  });
-
-  it("uses faCheck icon when idle", () => {
-    renderAlertAck();
-    expect(screen.getByRole("img", { hidden: true })).toHaveClass("fa-check");
-  });
-
-  it("uses faExclamationCircle after failed fetch", async () => {
-    fetchMock.mock(
-      "*",
-      {
-        status: 500,
-        body: "error message",
-      },
-      {
-        overwriteRoutes: true,
-      },
-    );
-    renderAlertAck();
-    const badge = screen.getByRole("img", { hidden: true }).parentElement;
-    if (badge) fireEvent.click(badge);
-    await act(async () => {
-      await fetchMock.flush(true);
-    });
-    await waitFor(() => {
-      expect(screen.getByRole("img", { hidden: true })).toHaveClass(
-        "fa-circle-exclamation",
-      );
-    });
-  });
-
-  it("resets faExclamationCircle after 20s", async () => {
-    fetchMock.mock(
-      "*",
-      {
-        status: 500,
-        body: "error message",
-      },
-      {
-        overwriteRoutes: true,
-      },
-    );
-    renderAlertAck();
-    const badge = screen.getByRole("img", { hidden: true }).parentElement;
-    if (badge) fireEvent.click(badge);
-    await act(async () => {
-      await fetchMock.flush(true);
-    });
-    await waitFor(() => {
-      expect(screen.getByRole("img", { hidden: true })).toHaveClass(
-        "fa-circle-exclamation",
-      );
-    });
-=======
     const { container } = MountedAlertAck();
     expect(container.innerHTML).toBe("");
   });
@@ -216,9 +142,7 @@ describe("<AlertAck />", () => {
     await act(async () => {
       await fetchMock.flush(true);
     });
-    expect(container.innerHTML).toMatch(
-      /fa-circle-exclamation/,
-    );
+    expect(container.innerHTML).toMatch(/fa-circle-exclamation/);
   });
 
   it("resets faExclamationCircle after 20s", async () => {
@@ -233,39 +157,12 @@ describe("<AlertAck />", () => {
     await act(async () => {
       await fetchMock.flush(true);
     });
-    expect(container.innerHTML).toMatch(
-      /fa-circle-exclamation/,
-    );
->>>>>>> f2d4110a (upgrading to react 19)
+    expect(container.innerHTML).toMatch(/fa-circle-exclamation/);
 
     act(() => {
       jest.advanceTimersByTime(21 * 1000);
     });
-<<<<<<< HEAD
-    await waitFor(() => {
-      expect(screen.getByRole("img", { hidden: true })).not.toHaveClass(
-        "fa-circle-exclamation",
-      );
-      expect(screen.getByRole("img", { hidden: true })).toHaveClass("fa-check");
-    });
-  });
-
-  it("uses faCheckCircle after successful fetch", async () => {
-    renderAlertAck();
-    const badge = screen.getByRole("img", { hidden: true }).parentElement;
-    if (badge) fireEvent.click(badge);
-    await act(async () => {
-      await fetchMock.flush(true);
-    });
-    await waitFor(() => {
-      expect(screen.getByRole("img", { hidden: true })).toHaveClass(
-        "fa-circle-check",
-      );
-    });
-=======
-    expect(container.innerHTML).not.toMatch(
-      /fa-circle-exclamation/,
-    );
+    expect(container.innerHTML).not.toMatch(/fa-circle-exclamation/);
     expect(container.innerHTML).toMatch(/fa-check/);
   });
 
@@ -282,11 +179,10 @@ describe("<AlertAck />", () => {
       await fetchMock.flush(true);
     });
     expect(container.innerHTML).toMatch(/fa-circle-check/);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("sends a POST request on click", async () => {
-    await renderAndClick();
+    await MountAndClick();
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.lastOptions()).toMatchObject({
       method: "POST",
@@ -308,8 +204,7 @@ describe("<AlertAck />", () => {
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers:
-          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -319,7 +214,7 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
-    await renderAndClick();
+    await MountAndClick();
     expect(fetchMock.calls()).toHaveLength(2);
     expect(fetchMock.calls()[0][0]).toBe(
       "http://m1.example.com/api/v2/silences",
@@ -349,13 +244,11 @@ describe("<AlertAck />", () => {
         publicURI: `http://${a}.example.com`,
         readonly: a === "m1" || a === "m3" ? true : false,
         headers: { "X-Cluster": a === "m1" || a === "2" ? "c1" : "c2" },
-        corsCredentials:
-          a === "m1" || a === "m2" ? "same-origin" : "include",
+        corsCredentials: a === "m1" || a === "m2" ? "same-origin" : "include",
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers:
-          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -365,7 +258,7 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
-    await renderAndClick();
+    await MountAndClick();
     expect(fetchMock.calls()).toHaveLength(2);
     expect(fetchMock.calls()[0][0]).toBe(
       "http://m2.example.com/api/v2/silences",
@@ -376,11 +269,7 @@ describe("<AlertAck />", () => {
   });
 
   it("doesn't send any request on click when already done", async () => {
-<<<<<<< HEAD
-    const { container } = renderAlertAck();
-=======
     const { container } = MountedAlertAck();
->>>>>>> f2d4110a (upgrading to react 19)
     const button = container.querySelector("span.badge");
 
     fireEvent.click(button!);
@@ -406,7 +295,7 @@ describe("<AlertAck />", () => {
     );
 
     silenceFormStore.data.setAuthor("karma/ui");
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment: "COMMENT",
       createdBy: "karma/ui",
@@ -436,7 +325,7 @@ describe("<AlertAck />", () => {
         },
       },
     });
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment: "comment",
       createdBy: "me",
@@ -466,7 +355,7 @@ describe("<AlertAck />", () => {
         },
       },
     });
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment:
         "ACK! This alert was acknowledged using karma on Tue, 01 Feb 2000 00:00:00 GMT",
@@ -493,20 +382,12 @@ describe("<AlertAck />", () => {
           enabled: true,
           durationSeconds: 237,
           author: "me",
-          comment:
-            "ACK! This alert was acknowledged using karma on %NOWLOC%",
+          comment: "ACK! This alert was acknowledged using karma on %NOWLOC%",
         },
       },
     });
-<<<<<<< HEAD
-    await renderAndClick();
-    const comment = JSON.parse((fetchMock.lastOptions() as any).body).comment;
-=======
     await MountAndClick();
-    const comment = JSON.parse(
-      (fetchMock.lastOptions() as any).body,
-    ).comment;
->>>>>>> f2d4110a (upgrading to react 19)
+    const comment = JSON.parse((fetchMock.lastOptions() as any).body).comment;
     expect(comment).not.toEqual(
       "ACK! This alert was acknowledged using karma on Tue Feb 01 2000 00:00:00 GMT",
     );
@@ -528,7 +409,7 @@ describe("<AlertAck />", () => {
         },
       },
     });
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment: "FOO: bar",
       createdBy: "auth@example.com",
@@ -560,7 +441,7 @@ describe("<AlertAck />", () => {
       },
     });
     silenceFormStore.data.setAuthor("bob@example.com");
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment: "FOO: bar",
       createdBy: "bob@example.com",
@@ -591,7 +472,7 @@ describe("<AlertAck />", () => {
       },
     });
     silenceFormStore.data.setAuthor("");
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment: "FOO: bar",
       createdBy: "me",
@@ -610,7 +491,7 @@ describe("<AlertAck />", () => {
   });
 
   it("sends POST request to /api/v2/silences", async () => {
-    await renderAndClick();
+    await MountAndClick();
     const uri = fetchMock.calls()[0][0];
     expect(uri).toBe("http://localhost/api/v2/silences");
   });
@@ -642,13 +523,11 @@ describe("<AlertAck />", () => {
         publicURI: `http://${a}.example.com`,
         readonly: false,
         headers: { "X-Cluster": a === "m1" || a === "2" ? "c1" : "c2" },
-        corsCredentials:
-          a === "m1" || a === "m2" ? "same-origin" : "include",
+        corsCredentials: a === "m1" || a === "m2" ? "same-origin" : "include",
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers:
-          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -658,11 +537,7 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
-<<<<<<< HEAD
-    const { container } = renderAlertAck();
-=======
     const { container } = MountedAlertAck();
->>>>>>> f2d4110a (upgrading to react 19)
     const button = container.querySelector("span.badge");
     fireEvent.click(button!);
     await act(async () => {
@@ -708,13 +583,11 @@ describe("<AlertAck />", () => {
         publicURI: `http://${a}.example.com`,
         readonly: false,
         headers: { "X-Cluster": a === "m1" || a === "2" ? "c1" : "c2" },
-        corsCredentials:
-          a === "m1" || a === "m2" ? "same-origin" : "include",
+        corsCredentials: a === "m1" || a === "m2" ? "same-origin" : "include",
         error: "",
         version: "0.24.0",
         cluster: a === "m1" || a === "2" ? "c1" : "c2",
-        clusterMembers:
-          a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
+        clusterMembers: a === "m1" || a === "2" ? ["m1", "m2"] : ["m3", "m4"],
       })),
     });
     group.alertmanagerCount = {
@@ -724,11 +597,7 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
-<<<<<<< HEAD
-    const { container } = renderAlertAck();
-=======
     const { container } = MountedAlertAck();
->>>>>>> f2d4110a (upgrading to react 19)
     const button = container.querySelector("span.badge");
     fireEvent.click(button!);
     await act(async () => {
@@ -775,11 +644,7 @@ describe("<AlertAck />", () => {
       ],
     });
 
-<<<<<<< HEAD
-    const { container } = renderAlertAck();
-=======
     const { container } = MountedAlertAck();
->>>>>>> f2d4110a (upgrading to react 19)
     const button = container.querySelector("span.badge");
     fireEvent.click(button!);
     await act(async () => {

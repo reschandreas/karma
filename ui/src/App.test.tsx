@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -46,18 +46,18 @@ afterEach(() => {
   localStorage.setItem("themeConfig", "");
   jest.restoreAllMocks();
   window.history.pushState({}, "App", "/");
-  global.window.location.href = "http://localhost/";
-  global.window.location.search = "";
 });
 
 describe("<App />", () => {
-  it("uses passed default filters if there's no query args or saved filters", () => {
+  it("uses passed default filters if there's no query args or saved filters", async () => {
     expect(window.location.search).toBe("");
-    render(<App defaultFilters={["foo=bar"]} uiDefaults={uiDefaults} />);
+    await act(async () => {
+      render(<App defaultFilters={["foo=bar"]} uiDefaults={uiDefaults} />);
+    });
     expect(window.location.search).toBe("?q=foo%3Dbar");
   });
 
-  it("uses saved filters if there's no query args (ignoring passed defaults)", () => {
+  it("uses saved filters if there's no query args (ignoring passed defaults)", async () => {
     expect(window.location.search).toBe("");
     localStorage.setItem(
       "savedFilters",
@@ -69,7 +69,11 @@ describe("<App />", () => {
 
     const getItemSpy: any = jest.spyOn(Storage.prototype, "getItem");
 
-    render(<App defaultFilters={["ignore=defaults"]} uiDefaults={uiDefaults} />);
+    await act(async () => {
+      render(
+        <App defaultFilters={["ignore=defaults"]} uiDefaults={uiDefaults} />,
+      );
+    });
 
     expect(getItemSpy).toHaveBeenCalledWith("savedFilters");
     expect(window.location.search).toBe("?q=bar%3Dbaz&q=abc%21%3Dcba");
@@ -77,7 +81,7 @@ describe("<App />", () => {
     getItemSpy.mockRestore();
   });
 
-  it("ignores saved filters if 'present' key is falsey (use passed defaults)", () => {
+  it("ignores saved filters if 'present' key is falsey (use passed defaults)", async () => {
     expect(window.location.search).toBe("");
     localStorage.setItem(
       "savedFilters",
@@ -89,7 +93,9 @@ describe("<App />", () => {
 
     const getItemSpy: any = jest.spyOn(Storage.prototype, "getItem");
 
-    render(<App defaultFilters={["use=defaults"]} uiDefaults={uiDefaults} />);
+    await act(async () => {
+      render(<App defaultFilters={["use=defaults"]} uiDefaults={uiDefaults} />);
+    });
 
     expect(getItemSpy).toHaveBeenCalledWith("savedFilters");
     expect(window.location.search).toBe("?q=use%3Ddefaults");
@@ -97,7 +103,7 @@ describe("<App />", () => {
     getItemSpy.mockRestore();
   });
 
-  it("uses filters passed via ?q= query args (ignoring saved filters and passed defaults)", () => {
+  it("uses filters passed via ?q= query args (ignoring saved filters and passed defaults)", async () => {
     expect(window.location.search).toBe("");
     localStorage.setItem(
       "savedFilters",
@@ -109,35 +115,47 @@ describe("<App />", () => {
 
     window.history.pushState({}, "App", "/?q=use%3Dquery");
 
-    render(<App defaultFilters={["ignore=defaults"]} uiDefaults={uiDefaults} />);
+    await act(async () => {
+      render(
+        <App defaultFilters={["ignore=defaults"]} uiDefaults={uiDefaults} />,
+      );
+    });
 
     expect(window.location.search).toBe("?q=use%3Dquery");
   });
 
-  it("popstate event updates alertStore filters", () => {
-    render(<App defaultFilters={["foo"]} uiDefaults={uiDefaults} />);
+  it("popstate event updates alertStore filters", async () => {
+    await act(async () => {
+      render(<App defaultFilters={["foo"]} uiDefaults={uiDefaults} />);
+    });
     expect(window.location.search).toBe("?q=foo");
 
     // Update location via pushState (jsdom doesn't support location reassignment)
     window.history.pushState({}, "", "/?q=bar");
 
-    const event = new PopStateEvent("popstate");
-    window.dispatchEvent(event);
+    await act(async () => {
+      const event = new PopStateEvent("popstate");
+      window.dispatchEvent(event);
+    });
 
     expect(window.location.search).toBe("?q=bar");
   });
 
-  it("unmounts without crashing", () => {
-    const { unmount } = render(
-      <App defaultFilters={["foo=bar"]} uiDefaults={uiDefaults} />,
-    );
-    unmount();
+  it("unmounts without crashing", async () => {
+    let unmount: () => void;
+    await act(async () => {
+      const result = render(
+        <App defaultFilters={["foo=bar"]} uiDefaults={uiDefaults} />,
+      );
+      unmount = result.unmount;
+    });
+    unmount!();
 
     const event = new PopStateEvent("popstate");
     window.dispatchEvent(event);
   });
 
-  it("populates silence from from 'm' query arg", () => {
+  it("populates silence from from 'm' query arg", async () => {
     const m1 = NewEmptyMatcher();
     m1.name = "foo";
     m1.isRegex = true;
@@ -151,29 +169,27 @@ describe("<App />", () => {
     store.data.setComment("base64");
     const m = store.data.toBase64;
 
-    global.window.location = {
-      href: `http://localhost/?q=bar&m=${m}`,
-      search: `?q=bar&m=${m}`,
-    };
+    window.history.pushState({}, "", `/?q=bar&m=${m}`);
 
-    render(<App defaultFilters={[]} uiDefaults={uiDefaults} />);
+    await act(async () => {
+      render(<App defaultFilters={[]} uiDefaults={uiDefaults} />);
+    });
   });
 
-  it("doesn't crash on invalid 'm' value", () => {
+  it("doesn't crash on invalid 'm' value", async () => {
     const consoleSpy = jest
       .spyOn(console, "error")
       .mockImplementation(jest.fn());
 
-    global.window.location = {
-      href: "http://localhost/?q=bar&m=foo",
-      search: "?q=bar&m=foo",
-    };
+    window.history.pushState({}, "", "/?q=bar&m=foo");
 
-    render(<App defaultFilters={[]} uiDefaults={uiDefaults} />);
+    await act(async () => {
+      render(<App defaultFilters={[]} uiDefaults={uiDefaults} />);
+    });
     expect(consoleSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("doesn't crash on truncated 'm' value", () => {
+  it("doesn't crash on truncated 'm' value", async () => {
     const consoleSpy = jest
       .spyOn(console, "error")
       .mockImplementation(jest.fn());
@@ -191,54 +207,64 @@ describe("<App />", () => {
     store.data.setComment("base64");
     const m = store.data.toBase64;
 
-    global.window.location = {
-      href: `http://localhost/?q=bar&m=${m}`,
-      search: `?q=bar&m=${m.slice(0, m.length - 2)}`,
-    };
+    window.history.pushState({}, "", `/?q=bar&m=${m.slice(0, m.length - 2)}`);
 
-    render(<App defaultFilters={[]} uiDefaults={uiDefaults} />);
+    await act(async () => {
+      render(<App defaultFilters={[]} uiDefaults={uiDefaults} />);
+    });
     expect(consoleSpy).toHaveBeenCalledTimes(1);
   });
 });
 
 describe("<App /> theme", () => {
-  const getApp = (theme: ThemeT) =>
-    render(
-      <App
-        defaultFilters={["foo=bar"]}
-        uiDefaults={Object.assign({}, uiDefaults, { Theme: theme })}
-      />,
-    );
+  const getApp = async (theme: ThemeT) => {
+    let result: ReturnType<typeof render>;
+    await act(async () => {
+      result = render(
+        <App
+          defaultFilters={["foo=bar"]}
+          uiDefaults={Object.assign({}, uiDefaults, { Theme: theme })}
+        />,
+      );
+    });
+    return result!;
+  };
 
-  it("configures light theme when uiDefaults passes it", () => {
-    const { container, unmount } = getApp("light");
+  it("configures light theme when uiDefaults passes it", async () => {
+    const { container, unmount } = await getApp("light");
     expect(container.querySelector("span[data-theme='light']")).toBeTruthy();
     unmount();
   });
 
-  it("configures dark theme when uiDefaults passes it", () => {
-    const { container, unmount } = getApp("dark");
+  it("configures dark theme when uiDefaults passes it", async () => {
+    const { container, unmount } = await getApp("dark");
     expect(container.querySelector("span[data-theme='dark']")).toBeTruthy();
     unmount();
   });
 
-  it("configures automatic theme when uiDefaults passes it", () => {
-    const { container, unmount } = getApp("auto");
+  it("configures automatic theme when uiDefaults passes it", async () => {
+    const { container, unmount } = await getApp("auto");
     expect(container.querySelector("span[data-theme='auto']")).toBeTruthy();
     unmount();
   });
 
-  it("configures automatic theme when uiDefaults doesn't pass any value", () => {
-    const { container, unmount } = render(
-      <App defaultFilters={["foo=bar"]} uiDefaults={null} />,
-    );
-    expect(container.querySelector("span[data-theme='auto']")).toBeTruthy();
-    unmount();
+  it("configures automatic theme when uiDefaults doesn't pass any value", async () => {
+    let container: HTMLElement;
+    let unmount: () => void;
+    await act(async () => {
+      const result = render(
+        <App defaultFilters={["foo=bar"]} uiDefaults={null} />,
+      );
+      container = result.container;
+      unmount = result.unmount;
+    });
+    expect(container!.querySelector("span[data-theme='auto']")).toBeTruthy();
+    unmount!();
   });
 
-  it("applies light theme when theme=auto and browser doesn't support prefers-color-scheme", () => {
+  it("applies light theme when theme=auto and browser doesn't support prefers-color-scheme", async () => {
     window.matchMedia = mockMatchMedia({});
-    const { container, unmount } = getApp("auto");
+    const { container, unmount } = await getApp("auto");
     // Light theme should be applied - check for light theme stylesheet
     expect(container.innerHTML).toBeTruthy();
     unmount();
@@ -318,9 +344,9 @@ describe("<App /> theme", () => {
     },
   ];
   for (const testCase of testCases) {
-    it(`${testCase.name}`, () => {
+    it(`${testCase.name}`, async () => {
       window.matchMedia = mockMatchMedia(testCase.matchMedia);
-      const { unmount } = getApp(testCase.settings);
+      const { unmount } = await getApp(testCase.settings);
       // Theme components render correctly without crashing
       unmount();
       window.matchMedia.mockRestore();
@@ -329,23 +355,28 @@ describe("<App /> theme", () => {
 });
 
 describe("<App /> animations", () => {
-  const getApp = (animations: boolean) =>
-    render(
-      <App
-        defaultFilters={["foo=bar"]}
-        uiDefaults={Object.assign({}, uiDefaults, { Animations: animations })}
-      />,
-    );
+  const getApp = async (animations: boolean) => {
+    let result: ReturnType<typeof render>;
+    await act(async () => {
+      result = render(
+        <App
+          defaultFilters={["foo=bar"]}
+          uiDefaults={Object.assign({}, uiDefaults, { Animations: animations })}
+        />,
+      );
+    });
+    return result!;
+  };
 
-  it("enables animations in the context when set via UI defaults", () => {
-    const { container, unmount } = getApp(true);
+  it("enables animations in the context when set via UI defaults", async () => {
+    const { container, unmount } = await getApp(true);
     // When animations are enabled, transition-group elements should exist
     expect(container.innerHTML).toBeTruthy();
     unmount();
   });
 
-  it("disables animations in the context when disabled via UI defaults", () => {
-    const { container, unmount } = getApp(false);
+  it("disables animations in the context when disabled via UI defaults", async () => {
+    const { container, unmount } = await getApp(false);
     // App renders without crashing with animations disabled
     expect(container.innerHTML).toBeTruthy();
     unmount();

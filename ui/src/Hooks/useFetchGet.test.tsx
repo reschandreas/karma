@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-import { act as actReact } from "react-dom/test-utils";
-
-import { renderHook, act } from "@testing-library/react-hooks";
-import { render } from "@testing-library/react";
-=======
 import { renderHook, act, waitFor, render } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import fetchMock from "fetch-mock";
 
@@ -39,7 +32,7 @@ describe("useFetchGet", () => {
   });
 
   it("sends a GET request", async () => {
-    const { result } = renderHook(() =>
+    renderHook(() =>
       useFetchGet<string>("http://localhost/ok"),
     );
 
@@ -54,7 +47,7 @@ describe("useFetchGet", () => {
   });
 
   it("sends correct headers", async () => {
-    const { result } = renderHook(() =>
+    renderHook(() =>
       useFetchGet<string>("http://localhost/ok"),
     );
 
@@ -333,15 +326,8 @@ describe("useFetchGet", () => {
       );
     };
 
-<<<<<<< HEAD
-    actReact(() => {
-      const { unmount } = render(<Component />);
-      unmount();
-    });
-=======
     const { unmount } = render(<Component />);
     unmount();
->>>>>>> f2d4110a (upgrading to react 19)
 
     for (let i = 0; i <= FetchRetryConfig.retries; i++) {
       jest.runOnlyPendingTimers();
@@ -369,15 +355,8 @@ describe("useFetchGet", () => {
       );
     };
 
-<<<<<<< HEAD
-    actReact(() => {
-      const { unmount } = render(<Component />);
-      unmount();
-    });
-=======
     const { unmount } = render(<Component />);
     unmount();
->>>>>>> f2d4110a (upgrading to react 19)
 
     for (let i = 0; i <= FetchRetryConfig.retries; i++) {
       jest.runOnlyPendingTimers();
@@ -404,15 +383,8 @@ describe("useFetchGet", () => {
       );
     };
 
-<<<<<<< HEAD
-    actReact(() => {
-      const { unmount } = render(<Component />);
-      unmount();
-    });
-=======
     const { unmount } = render(<Component />);
     unmount();
->>>>>>> f2d4110a (upgrading to react 19)
 
     for (let i = 0; i <= FetchRetryConfig.retries; i++) {
       jest.runOnlyPendingTimers();
@@ -440,15 +412,8 @@ describe("useFetchGet", () => {
       );
     };
 
-<<<<<<< HEAD
-    actReact(() => {
-      const { unmount } = render(<Component />);
-      unmount();
-    });
-=======
     const { unmount } = render(<Component />);
     unmount();
->>>>>>> f2d4110a (upgrading to react 19)
 
     jest.runOnlyPendingTimers();
     await fetchMock.flush(true);
@@ -473,15 +438,8 @@ describe("useFetchGet", () => {
       );
     };
 
-<<<<<<< HEAD
-    actReact(() => {
-      const { unmount } = render(<Component />);
-      unmount();
-    });
-=======
     const { unmount } = render(<Component />);
     unmount();
->>>>>>> f2d4110a (upgrading to react 19)
 
     jest.runOnlyPendingTimers();
     await fetchMock.flush(true);
@@ -490,24 +448,15 @@ describe("useFetchGet", () => {
   it("doesn't update response after cleanup on slow body read", async () => {
     FetchRetryConfig.retries = 0;
 
-<<<<<<< HEAD
-    let unmountFn: (() => void) | null = null;
-=======
     let renderResult: any = false;
->>>>>>> f2d4110a (upgrading to react 19)
     const fetcher = (): Promise<Response> =>
       Promise.resolve({
         headers: {
           get: () => "text/plain",
         },
         text: async () => {
-<<<<<<< HEAD
-          actReact(() => {
-            if (unmountFn) unmountFn();
-=======
           act(() => {
             renderResult.unmount();
->>>>>>> f2d4110a (upgrading to react 19)
           });
           return "ok";
         },
@@ -528,13 +477,6 @@ describe("useFetchGet", () => {
       );
     };
 
-<<<<<<< HEAD
-    actReact(() => {
-      const { unmount } = render(<Component />);
-      unmountFn = unmount;
-    });
-=======
     renderResult = render(<Component />);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 });

@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent } from "@testing-library/react";
-=======
 import { render, fireEvent, act } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import fetchMock from "fetch-mock";
 
@@ -37,11 +31,7 @@ afterEach(() => {
   document.body.className = "";
 });
 
-<<<<<<< HEAD
-const renderSilenceModal = () => {
-=======
 const MountedSilenceModal = () => {
->>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <ThemeContext.Provider value={MockThemeContext}>
       <SilenceModal
@@ -54,55 +44,36 @@ const MountedSilenceModal = () => {
 };
 
 describe("<SilenceModal />", () => {
-  it("only renders FontAwesomeIcon when modal is not shown", () => {
-<<<<<<< HEAD
-    const { container } = renderSilenceModal();
-    expect(container.querySelectorAll("svg")).toHaveLength(1);
-    expect(container.querySelector(".modal-content")).toBeNull();
-  });
-
-  it("renders a spinner placeholder while modal content is loading", () => {
-    const { container } = renderSilenceModal();
-    const toggle = container.querySelector(".nav-link");
-    fireEvent.click(toggle!);
-    expect(container.querySelectorAll("svg")).not.toHaveLength(0);
-    expect(
-      document.body.querySelector(".modal-content svg.fa-spinner"),
-    ).toBeInTheDocument();
-  });
-
-  it("renders a spinner placeholder after modal content load but no upstreams", () => {
-    const { container } = renderSilenceModal();
-    const toggle = container.querySelector(".nav-link");
-    fireEvent.click(toggle!);
-    expect(container.querySelectorAll("svg")).not.toHaveLength(0);
-    expect(
-      document.body.querySelector(".modal-content svg.fa-spinner"),
-    ).toBeInTheDocument();
-=======
+  it("only renders FontAwesomeIcon when modal is not shown", async () => {
     const { container } = MountedSilenceModal();
     expect(container.querySelectorAll("svg")).toHaveLength(1);
     expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
+    await act(async () => {});
   });
 
-  it("renders a spinner placeholder while modal content is loading", () => {
+  it("renders a spinner placeholder while modal content is loading", async () => {
     const { container } = MountedSilenceModal();
     const toggle = container.querySelector(".nav-link") as HTMLElement;
     fireEvent.click(toggle);
     expect(container.querySelectorAll("svg")).not.toHaveLength(0);
-    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(1);
+    expect(
+      document.body.querySelectorAll(".modal-content svg.fa-spinner"),
+    ).toHaveLength(1);
+    await act(async () => {});
   });
 
-  it("renders a spinner placeholder after modal content load but no upstreams", () => {
+  it("renders a spinner placeholder after modal content load but no upstreams", async () => {
     const { container } = MountedSilenceModal();
     const toggle = container.querySelector(".nav-link") as HTMLElement;
     fireEvent.click(toggle);
     expect(container.querySelectorAll("svg")).not.toHaveLength(0);
-    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(1);
->>>>>>> f2d4110a (upgrading to react 19)
+    expect(
+      document.body.querySelectorAll(".modal-content svg.fa-spinner"),
+    ).toHaveLength(1);
+    await act(async () => {});
   });
 
-  it("renders modal content if fallback is not used", () => {
+  it("renders modal content if fallback is not used", async () => {
     alertStore.data.setUpstreams({
       counters: { total: 1, healthy: 0, failed: 0 },
       instances: [
@@ -121,53 +92,24 @@ describe("<SilenceModal />", () => {
       ],
       clusters: { dev: ["dev"] },
     });
-<<<<<<< HEAD
-    const { container } = renderSilenceModal();
-    const toggle = container.querySelector(".nav-link");
-    fireEvent.click(toggle!);
-    expect(container.querySelectorAll("svg")).not.toHaveLength(0);
-    expect(container.querySelector(".modal-content svg.fa-spinner")).toBeNull();
-  });
-
-  it("hides the modal when toggle() is called twice", () => {
-    const { container } = renderSilenceModal();
-    const toggle = container.querySelector(".nav-link");
-
-    fireEvent.click(toggle!);
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(document.body.querySelector(".modal-content")).toBeInTheDocument();
-
-    fireEvent.click(toggle!);
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(document.body.querySelector(".modal-content")).toBeNull();
-  });
-
-  it("hides the modal when hide() is called", () => {
-    const { container } = renderSilenceModal();
-    const toggle = container.querySelector(".nav-link");
-
-    fireEvent.click(toggle!);
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(document.body.querySelector(".modal-content")).toBeInTheDocument();
-=======
     const { container } = MountedSilenceModal();
     const toggle = container.querySelector(".nav-link") as HTMLElement;
-    fireEvent.click(toggle);
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
     expect(container.querySelectorAll("svg")).not.toHaveLength(0);
-    expect(document.body.querySelectorAll(".modal-content svg.fa-spinner")).toHaveLength(0);
+    expect(
+      document.body.querySelectorAll(".modal-content svg.fa-spinner"),
+    ).toHaveLength(0);
   });
 
-  it("hides the modal when toggle() is called twice", () => {
+  it("hides the modal when toggle() is called twice", async () => {
     const { container } = MountedSilenceModal();
     const toggle = container.querySelector(".nav-link") as HTMLElement;
 
-    fireEvent.click(toggle);
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -180,16 +122,17 @@ describe("<SilenceModal />", () => {
     expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
-  it("hides the modal when hide() is called", () => {
+  it("hides the modal when hide() is called", async () => {
     const { container } = MountedSilenceModal();
     const toggle = container.querySelector(".nav-link") as HTMLElement;
 
-    fireEvent.click(toggle);
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
     act(() => {
       jest.runOnlyPendingTimers();
     });
     expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
->>>>>>> f2d4110a (upgrading to react 19)
 
     act(() => {
       silenceFormStore.toggle.hide();
@@ -197,23 +140,15 @@ describe("<SilenceModal />", () => {
     act(() => {
       jest.runOnlyPendingTimers();
     });
-<<<<<<< HEAD
-    expect(document.body.querySelector(".modal-content")).toBeNull();
-  });
-
-  it("resets progress on hide", () => {
-    const { container } = renderSilenceModal();
-    const toggle = container.querySelector(".nav-link");
-    fireEvent.click(toggle!);
-=======
     expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
   });
 
-  it("resets progress on hide", () => {
+  it("resets progress on hide", async () => {
     const { container } = MountedSilenceModal();
     const toggle = container.querySelector(".nav-link") as HTMLElement;
-    fireEvent.click(toggle);
->>>>>>> f2d4110a (upgrading to react 19)
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
 
     // mark form as dirty, resetProgress() should change this value to false
     silenceFormStore.data.setWasValidated(true);
@@ -221,11 +156,7 @@ describe("<SilenceModal />", () => {
     silenceFormStore.data.setAutofillMatchers(false);
 
     // click to hide
-<<<<<<< HEAD
-    fireEvent.click(toggle!);
-=======
     fireEvent.click(toggle);
->>>>>>> f2d4110a (upgrading to react 19)
     // wait for animation to finish
     act(() => {
       jest.runOnlyPendingTimers();
@@ -236,53 +167,37 @@ describe("<SilenceModal />", () => {
     expect(silenceFormStore.data.autofillMatchers).toBe(true);
   });
 
-  it("'modal-open' class is appended to body node when modal is visible", () => {
-<<<<<<< HEAD
-    const { container } = renderSilenceModal();
-    const toggle = container.querySelector(".nav-link");
-    fireEvent.click(toggle!);
-=======
+  it("'modal-open' class is appended to body node when modal is visible", async () => {
     const { container } = MountedSilenceModal();
     const toggle = container.querySelector(".nav-link") as HTMLElement;
-    fireEvent.click(toggle);
->>>>>>> f2d4110a (upgrading to react 19)
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
     expect(document.body.className.split(" ")).toContain("modal-open");
   });
 
-  it("'modal-open' class is removed from body node after modal is hidden", () => {
-<<<<<<< HEAD
-    const { container } = renderSilenceModal();
-    const toggle = container.querySelector(".nav-link");
-
-    fireEvent.click(toggle!);
-    expect(document.body.className.split(" ")).toContain("modal-open");
-
-    fireEvent.click(toggle!);
-=======
+  it("'modal-open' class is removed from body node after modal is hidden", async () => {
     const { container } = MountedSilenceModal();
     const toggle = container.querySelector(".nav-link") as HTMLElement;
 
-    fireEvent.click(toggle);
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
     expect(document.body.className.split(" ")).toContain("modal-open");
 
     fireEvent.click(toggle);
->>>>>>> f2d4110a (upgrading to react 19)
     act(() => {
       jest.runOnlyPendingTimers();
     });
     expect(document.body.className.split(" ")).not.toContain("modal-open");
   });
 
-  it("'modal-open' class is removed from body node after modal is unmounted", () => {
-<<<<<<< HEAD
-    const { container, unmount } = renderSilenceModal();
-    const toggle = container.querySelector(".nav-link");
-    fireEvent.click(toggle!);
-=======
+  it("'modal-open' class is removed from body node after modal is unmounted", async () => {
     const { container, unmount } = MountedSilenceModal();
     const toggle = container.querySelector(".nav-link") as HTMLElement;
-    fireEvent.click(toggle);
->>>>>>> f2d4110a (upgrading to react 19)
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
     unmount();
     expect(document.body.className.split(" ")).not.toContain("modal-open");
   });

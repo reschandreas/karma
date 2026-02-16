@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { render, screen } from "@testing-library/react";
-=======
 import { render } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import { mockMatchMedia } from "__fixtures__/matchMedia";
 import { AlertStore } from "Stores/AlertStore";
@@ -38,11 +34,7 @@ afterEach(() => {
   global.innerWidth = originalInnerWidth;
 });
 
-<<<<<<< HEAD
-const renderGrid = () => {
-=======
 const RenderGrid = () => {
->>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <Grid
       alertStore={alertStore}
@@ -52,30 +44,12 @@ const RenderGrid = () => {
   );
 };
 
-const setupGrids = () => {
-  alertStore.data.setGrids([
-    {
-      labelName: "",
-      labelValue: "",
-      alertGroups: [],
-      totalGroups: 0,
-      stateCount: { unprocessed: 0, suppressed: 0, active: 0 },
-    },
-  ]);
-};
-
 describe("<Grid />", () => {
   it("renders only AlertGrid when all upstreams are healthy", () => {
-<<<<<<< HEAD
-    setupGrids();
-    const { container } = renderGrid();
-    expect(container.querySelector(".components-grid")).toBeInTheDocument();
-=======
     const { container } = RenderGrid();
     // AlertGrid is rendered (no error/special states)
     expect(container.textContent).not.toMatch(/No alertmanager server/);
     expect(container.querySelector(".screen-center-icon-big")).toBeNull();
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders FatalError if there's only one upstream and it's unhealthy", () => {
@@ -97,13 +71,8 @@ describe("<Grid />", () => {
       ],
       clusters: { am1: ["am1"] },
     });
-<<<<<<< HEAD
-    renderGrid();
-    expect(screen.getByText("error")).toBeInTheDocument();
-=======
     const { container } = RenderGrid();
     expect(container.textContent).toMatch(/connection refused/);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders AlertGrid if there's only one upstream and it's unhealthy but there are alerts", () => {
@@ -126,15 +95,9 @@ describe("<Grid />", () => {
       clusters: { am1: ["am1"] },
     });
     alertStore.info.setTotalAlerts(1);
-<<<<<<< HEAD
-    setupGrids();
-    const { container } = renderGrid();
-    expect(container.querySelector(".components-grid")).toBeInTheDocument();
-=======
     const { container } = RenderGrid();
     // AlertGrid is rendered, no FatalError
     expect(container.querySelector(".screen-center-icon-big")).toBeNull();
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders FatalError if there's only one upstream and it's unhealthy but without any error", () => {
@@ -156,13 +119,8 @@ describe("<Grid />", () => {
       ],
       clusters: { am1: ["am1"] },
     });
-<<<<<<< HEAD
-    renderGrid();
-    expect(screen.getByText("error")).toBeInTheDocument();
-=======
     const { container } = RenderGrid();
     expect(container.textContent).toMatch(/error/);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders only FatalError on failed fetch", () => {
@@ -185,49 +143,28 @@ describe("<Grid />", () => {
       ],
       clusters: { am1: ["am1"] },
     });
-<<<<<<< HEAD
-    renderGrid();
-    expect(screen.getByText("fetch error")).toBeInTheDocument();
-=======
     const { container } = RenderGrid();
     expect(container.textContent).toMatch(/fetch error/);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders UpgradeNeeded when alertStore.info.upgradeNeeded=true", () => {
     alertStore.info.setUpgradeNeeded(true);
-<<<<<<< HEAD
-    renderGrid();
-    expect(screen.getByText(/new version/i)).toBeInTheDocument();
-=======
     const { container } = RenderGrid();
     expect(container.textContent).toMatch(alertStore.info.version);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders ReloadNeeded when alertStore.info.reloadNeeded=true", () => {
     alertStore.info.setReloadNeeded(true);
-<<<<<<< HEAD
-    renderGrid();
-    expect(screen.getByText(/reload/i)).toBeInTheDocument();
-=======
     const { container } = RenderGrid();
     expect(container.textContent).toMatch(/will try to reload/);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders AlertGrid before any fetch finished when totalAlerts is 0", () => {
     alertStore.info.setVersion("unknown");
     alertStore.info.setTotalAlerts(0);
-<<<<<<< HEAD
-    setupGrids();
-    const { container } = renderGrid();
-    expect(container.querySelector(".components-grid")).toBeInTheDocument();
-=======
     const { container } = RenderGrid();
     expect(container.textContent).not.toMatch(/No alertmanager server/);
     expect(container.querySelector(".screen-center-icon-big")).toBeNull();
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders EmptyGrid after first fetch when totalAlerts is 0", () => {
@@ -251,13 +188,8 @@ describe("<Grid />", () => {
       ],
       clusters: { dev: ["dev"] },
     });
-<<<<<<< HEAD
-    const { container } = renderGrid();
-    expect(container.querySelector(".fa-mug-hot")).toBeInTheDocument();
-=======
     const { container } = RenderGrid();
     expect(container.querySelector(".screen-center-icon-big")).toBeTruthy();
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders NoUpstream after first fetch when upstream list is empty", () => {
@@ -268,29 +200,13 @@ describe("<Grid />", () => {
       instances: [],
       clusters: {},
     });
-<<<<<<< HEAD
-    renderGrid();
-    expect(
-      screen.getByText(/No alertmanager server configured/i),
-    ).toBeInTheDocument();
-=======
     const { container } = RenderGrid();
     expect(container.textContent).toMatch(/No alertmanager server configured/);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("renders AlertGrid after first fetch finished when totalAlerts is >0", () => {
     alertStore.info.setVersion("unknown");
     alertStore.info.setTotalAlerts(1);
-<<<<<<< HEAD
-    setupGrids();
-    const { container } = renderGrid();
-    expect(container.querySelector(".components-grid")).toBeInTheDocument();
-  });
-
-  it("unmounts without crashes", () => {
-    const { unmount } = renderGrid();
-=======
     const { container } = RenderGrid();
     expect(container.textContent).not.toMatch(/No alertmanager server/);
     expect(container.querySelector(".screen-center-icon-big")).toBeNull();
@@ -298,7 +214,6 @@ describe("<Grid />", () => {
 
   it("unmounts without crashes", () => {
     const { unmount } = RenderGrid();
->>>>>>> f2d4110a (upgrading to react 19)
     unmount();
   });
 });

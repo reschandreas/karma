@@ -1,14 +1,16 @@
-import type { FC, ReactNode } from "react";
+import type { FC, PropsWithChildren, ReactNode } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle";
 
 import { Accordion, AccordionItem } from "Components/Accordion";
 
-const FilterOperatorHelp: FC<{
-  operator: string;
-  description: string;
-}> = ({ operator, description, children }) => (
+const FilterOperatorHelp: FC<
+  PropsWithChildren<{
+    operator: string;
+    description: string;
+  }>
+> = ({ operator, description, children }) => (
   <>
     <dt>
       <kbd>{operator}</kbd> {description}
@@ -27,11 +29,13 @@ const FilterOperatorHelp: FC<{
   </>
 );
 
-const QueryHelp: FC<{
-  title: string;
-  operators: string[];
-  warning?: ReactNode;
-}> = ({ title, operators, warning, children }) => (
+const QueryHelp: FC<
+  PropsWithChildren<{
+    title: string;
+    operators: string[];
+    warning?: ReactNode;
+  }>
+> = ({ title, operators, warning, children }) => (
   <>
     <dt>{title}</dt>
     <dd>
@@ -55,9 +59,11 @@ const QueryHelp: FC<{
   </>
 );
 
-const FilterExample: FC<{
-  example: string;
-}> = ({ example, children }) => (
+const FilterExample: FC<
+  PropsWithChildren<{
+    example: string;
+  }>
+> = ({ example, children }) => (
   <li>
     <div>
       <span className="badge bg-info">{example}</span>

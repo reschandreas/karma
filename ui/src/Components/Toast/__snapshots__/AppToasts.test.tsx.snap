@@ -16,11 +16,7 @@ exports[`<AppToasts /> renders UpgradeToastMessage when alertStore.info.upgradeR
       >
         <svg
           aria-hidden="true"
-<<<<<<< HEAD
-          class="svg-inline--fa fa-circle-info fa-fw "
-=======
           class="svg-inline--fa fa-circle-info fa-fw"
->>>>>>> f2d4110a (upgrading to react 19)
           data-icon="circle-info"
           data-prefix="fas"
           role="img"
@@ -51,11 +47,7 @@ exports[`<AppToasts /> renders upstream error toasts for each unhealthy upstream
       >
         <svg
           aria-hidden="true"
-<<<<<<< HEAD
-          class="svg-inline--fa fa-circle-info fa-fw "
-=======
           class="svg-inline--fa fa-circle-info fa-fw"
->>>>>>> f2d4110a (upgrading to react 19)
           data-icon="circle-info"
           data-prefix="fas"
           role="img"
@@ -86,11 +78,7 @@ exports[`<AppToasts /> renders upstream error toasts if all instances are down 1
       >
         <svg
           aria-hidden="true"
-<<<<<<< HEAD
-          class="svg-inline--fa fa-circle-info fa-fw "
-=======
           class="svg-inline--fa fa-circle-info fa-fw"
->>>>>>> f2d4110a (upgrading to react 19)
           data-icon="circle-info"
           data-prefix="fas"
           role="img"

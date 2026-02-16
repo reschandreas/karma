@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { render, screen, fireEvent } from "@testing-library/react";
-=======
 import { render, act, fireEvent } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import { AlertStore } from "Stores/AlertStore";
 import AppToasts from "./AppToasts";
@@ -73,11 +69,7 @@ describe("<AppToasts />", () => {
   it("renders upstream error toasts for each unhealthy upstream", () => {
     makeErrors();
     const { asFragment } = render(<AppToasts alertStore={alertStore} />);
-<<<<<<< HEAD
-    expect(document.body.querySelectorAll(".bg-toast")).toHaveLength(2);
-=======
     expect(document.body.querySelectorAll("div.bg-toast")).toHaveLength(2);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -113,11 +105,7 @@ describe("<AppToasts />", () => {
       clusters: { am: ["am1", "am2"] },
     });
     const { asFragment } = render(<AppToasts alertStore={alertStore} />);
-<<<<<<< HEAD
-    expect(document.body.querySelectorAll(".bg-toast")).toHaveLength(0);
-=======
     expect(document.body.querySelectorAll("div.bg-toast")).toHaveLength(0);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -153,23 +141,14 @@ describe("<AppToasts />", () => {
       clusters: { am: ["am1", "am2"] },
     });
     const { asFragment } = render(<AppToasts alertStore={alertStore} />);
-<<<<<<< HEAD
-    expect(document.body.querySelectorAll(".bg-toast")).toHaveLength(2);
-=======
     expect(document.body.querySelectorAll("div.bg-toast")).toHaveLength(2);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("removes notifications when upstream recovers", () => {
     makeErrors();
-<<<<<<< HEAD
-    const { rerender } = render(<AppToasts alertStore={alertStore} />);
-    expect(document.body.querySelectorAll(".bg-toast")).toHaveLength(2);
-=======
     render(<AppToasts alertStore={alertStore} />);
     expect(document.body.querySelectorAll("div.bg-toast")).toHaveLength(2);
->>>>>>> f2d4110a (upgrading to react 19)
 
     act(() => {
       alertStore.data.setUpstreams({
@@ -215,12 +194,7 @@ describe("<AppToasts />", () => {
         clusters: { am1: ["am1"], am2: ["am2"], am3: ["am3"] },
       });
     });
-<<<<<<< HEAD
-    rerender(<AppToasts alertStore={alertStore} />);
-    expect(document.body.querySelectorAll(".bg-toast")).toHaveLength(0);
-=======
     expect(document.body.querySelectorAll("div.bg-toast")).toHaveLength(0);
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("clicking navbar icon toggles all notifications", () => {
@@ -229,22 +203,6 @@ describe("<AppToasts />", () => {
     alertStore.info.setUpgradeReady(false);
     const { container } = render(<AppToasts alertStore={alertStore} />);
     expect(document.body.querySelectorAll("div.bg-toast")).toHaveLength(2);
-<<<<<<< HEAD
-    expect(
-      document.body.querySelectorAll("span.badge.cursor-pointer.with-click"),
-    ).toHaveLength(2);
-
-    const closeBtns = document.body.querySelectorAll(
-      "span.badge.cursor-pointer.with-click",
-    );
-    fireEvent.click(closeBtns[1]);
-    expect(document.body.querySelectorAll("div.bg-toast")).toHaveLength(1);
-
-    const notificationsIcon = container.querySelector(
-      "span#components-notifications",
-    );
-    fireEvent.click(notificationsIcon!);
-=======
 
     const closeBadges = document.body.querySelectorAll(
       "span.badge.cursor-pointer.with-click",
@@ -257,20 +215,15 @@ describe("<AppToasts />", () => {
 
     // Click the notifications icon to show all again
     fireEvent.click(container.querySelector("span#components-notifications")!);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(document.body.querySelectorAll("div.bg-toast")).toHaveLength(2);
   });
 
   it("renders UpgradeToastMessage when alertStore.info.upgradeReady=true", () => {
     alertStore.info.setUpgradeReady(true);
     const { asFragment } = render(<AppToasts alertStore={alertStore} />);
-<<<<<<< HEAD
-    expect(screen.getByText(/new version/i)).toBeInTheDocument();
-=======
     expect(
       document.body.querySelectorAll("div.toast-upgrade-progressbar"),
     ).toHaveLength(1);
->>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 });

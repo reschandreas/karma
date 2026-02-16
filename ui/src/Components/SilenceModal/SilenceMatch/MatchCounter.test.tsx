@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { render, screen } from "@testing-library/react";
-=======
 import { render } from "@testing-library/react";
->>>>>>> f2d4110a (upgrading to react 19)
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import {
@@ -28,11 +24,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-<<<<<<< HEAD
-const renderMatchCounter = () => {
-=======
 const MountedMatchCounter = () => {
->>>>>>> f2d4110a (upgrading to react 19)
   return render(
     <MatchCounter silenceFormStore={silenceFormStore} matcher={matcher} />,
   );
@@ -53,11 +45,7 @@ describe("<MatchCounter />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-<<<<<<< HEAD
-    const { asFragment } = renderMatchCounter();
-=======
     const { asFragment } = MountedMatchCounter();
->>>>>>> f2d4110a (upgrading to react 19)
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -72,11 +60,7 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
-<<<<<<< HEAD
-    const { container } = renderMatchCounter();
-=======
     const { container } = MountedMatchCounter();
->>>>>>> f2d4110a (upgrading to react 19)
     expect(container.querySelectorAll("svg.fa-spinner")).toHaveLength(1);
     expect(
       container.querySelectorAll("svg.fa-spinner.text-danger"),
@@ -94,11 +78,7 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
-<<<<<<< HEAD
-    const { container } = renderMatchCounter();
-=======
     const { container } = MountedMatchCounter();
->>>>>>> f2d4110a (upgrading to react 19)
     expect(
       container.querySelectorAll("svg.fa-spinner.text-danger"),
     ).toHaveLength(1);
@@ -115,11 +95,7 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
-<<<<<<< HEAD
-    const { container } = renderMatchCounter();
-=======
     const { container } = MountedMatchCounter();
->>>>>>> f2d4110a (upgrading to react 19)
     expect(
       container.querySelectorAll("svg.fa-circle-exclamation.text-danger"),
     ).toHaveLength(1);
@@ -136,13 +112,8 @@ describe("<MatchCounter />", () => {
       cancelGet: jest.fn(),
     });
 
-<<<<<<< HEAD
-    renderMatchCounter();
-    expect(screen.getByText("0")).toBeInTheDocument();
-=======
     const { container } = MountedMatchCounter();
     expect(container.textContent).toBe("0");
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("updates totalAlerts after successful fetch", () => {
@@ -159,17 +130,12 @@ describe("<MatchCounter />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-<<<<<<< HEAD
-    renderMatchCounter();
-    expect(screen.getByText("25")).toBeInTheDocument();
-=======
     const { container } = MountedMatchCounter();
     expect(container.textContent).toBe("25");
->>>>>>> f2d4110a (upgrading to react 19)
   });
 
   it("sends correct query string for a 'foo=bar' matcher", () => {
-    renderMatchCounter();
+    MountedMatchCounter();
     expect(
       (useFetchGet as jest.MockedFunction<typeof useFetchGet>).mock.calls[0][0],
     ).toBe("./alertList.json?q=foo%3Dbar");
@@ -177,7 +143,7 @@ describe("<MatchCounter />", () => {
 
   it("sends correct query string for a 'foo=~bar' matcher", () => {
     matcher.isRegex = true;
-    renderMatchCounter();
+    MountedMatchCounter();
     expect(
       (useFetchGet as jest.MockedFunction<typeof useFetchGet>).mock.calls[0][0],
     ).toBe("./alertList.json?q=foo%3D~%5Ebar%24");
@@ -188,7 +154,7 @@ describe("<MatchCounter />", () => {
     v.wasCreated = true;
     matcher.values = [v];
     matcher.isRegex = false;
-    renderMatchCounter();
+    MountedMatchCounter();
     expect(
       (useFetchGet as jest.MockedFunction<typeof useFetchGet>).mock.calls[0][0],
     ).toBe("./alertList.json?q=foo%3D%28x%29");
@@ -199,7 +165,7 @@ describe("<MatchCounter />", () => {
     v.wasCreated = true;
     matcher.values = [v];
     matcher.isRegex = true;
-    renderMatchCounter();
+    MountedMatchCounter();
     expect(
       (useFetchGet as jest.MockedFunction<typeof useFetchGet>).mock.calls[0][0],
     ).toBe("./alertList.json?q=foo%3D~%5E%28x%29%24");
@@ -210,7 +176,7 @@ describe("<MatchCounter />", () => {
     v.wasCreated = false;
     matcher.values = [v];
     matcher.isRegex = false;
-    renderMatchCounter();
+    MountedMatchCounter();
     expect(
       (useFetchGet as jest.MockedFunction<typeof useFetchGet>).mock.calls[0][0],
     ).toBe("./alertList.json?q=foo%3D%28x%29");
@@ -221,7 +187,7 @@ describe("<MatchCounter />", () => {
     v.wasCreated = false;
     matcher.values = [v];
     matcher.isRegex = true;
-    renderMatchCounter();
+    MountedMatchCounter();
     expect(
       (useFetchGet as jest.MockedFunction<typeof useFetchGet>).mock.calls[0][0],
     ).toBe("./alertList.json?q=foo%3D~%5E%5C%28x%5C%29%24");
@@ -231,7 +197,7 @@ describe("<MatchCounter />", () => {
     matcher.values = [StringToOption("bar"), StringToOption("baz")];
     matcher.isRegex = true;
     silenceFormStore.data.setAlertmanagers([]);
-    renderMatchCounter();
+    MountedMatchCounter();
     expect(
       (useFetchGet as jest.MockedFunction<typeof useFetchGet>).mock.calls[0][0],
     ).toBe("./alertList.json?q=foo%3D~%5E%28bar%7Cbaz%29%24");
@@ -244,7 +210,7 @@ describe("<MatchCounter />", () => {
         value: ["am1"],
       },
     ]);
-    renderMatchCounter();
+    MountedMatchCounter();
     expect(
       (useFetchGet as jest.MockedFunction<typeof useFetchGet>).mock.calls[0][0],
     ).toBe("./alertList.json?q=foo%3Dbar&q=%40alertmanager%3D~%5E%28am1%29%24");
@@ -261,7 +227,7 @@ describe("<MatchCounter />", () => {
         value: ["am2"],
       },
     ]);
-    renderMatchCounter();
+    MountedMatchCounter();
     expect(
       (useFetchGet as jest.MockedFunction<typeof useFetchGet>).mock.calls[0][0],
     ).toBe(

@@ -30,11 +30,7 @@ exports[`<SilencePreview /> matches snapshot 1`] = `
             >
               <svg
                 aria-hidden="true"
-<<<<<<< HEAD
-                class="svg-inline--fa fa-angle-left "
-=======
                 class="svg-inline--fa fa-angle-left"
->>>>>>> f2d4110a (upgrading to react 19)
                 data-icon="angle-left"
                 data-prefix="fas"
                 role="img"
@@ -82,11 +78,7 @@ exports[`<SilencePreview /> matches snapshot 1`] = `
             >
               <svg
                 aria-hidden="true"
-<<<<<<< HEAD
-                class="svg-inline--fa fa-angle-right "
-=======
                 class="svg-inline--fa fa-angle-right"
->>>>>>> f2d4110a (upgrading to react 19)
                 data-icon="angle-right"
                 data-prefix="fas"
                 role="img"
