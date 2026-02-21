@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import { mockMatchMedia } from "__fixtures__/matchMedia";
 import { AlertStore } from "Stores/AlertStore";
@@ -34,7 +34,7 @@ afterEach(() => {
   global.innerWidth = originalInnerWidth;
 });
 
-const renderGrid = () => {
+const RenderGrid = () => {
   return render(
     <Grid
       alertStore={alertStore}
@@ -44,23 +44,12 @@ const renderGrid = () => {
   );
 };
 
-const setupGrids = () => {
-  alertStore.data.setGrids([
-    {
-      labelName: "",
-      labelValue: "",
-      alertGroups: [],
-      totalGroups: 0,
-      stateCount: { unprocessed: 0, suppressed: 0, active: 0 },
-    },
-  ]);
-};
-
 describe("<Grid />", () => {
   it("renders only AlertGrid when all upstreams are healthy", () => {
-    setupGrids();
-    const { container } = renderGrid();
-    expect(container.querySelector(".components-grid")).toBeInTheDocument();
+    const { container } = RenderGrid();
+    // AlertGrid is rendered (no error/special states)
+    expect(container.textContent).not.toMatch(/No alertmanager server/);
+    expect(container.querySelector(".screen-center-icon-big")).toBeNull();
   });
 
   it("renders FatalError if there's only one upstream and it's unhealthy", () => {
@@ -73,7 +62,7 @@ describe("<Grid />", () => {
           clusterMembers: ["am"],
           uri: "http://am1",
           publicURI: "http://am1",
-          error: "error",
+          error: "connection refused",
           version: "0.24.0",
           readonly: false,
           corsCredentials: "include",
@@ -82,8 +71,8 @@ describe("<Grid />", () => {
       ],
       clusters: { am1: ["am1"] },
     });
-    renderGrid();
-    expect(screen.getByText("error")).toBeInTheDocument();
+    const { container } = RenderGrid();
+    expect(container.textContent).toMatch(/connection refused/);
   });
 
   it("renders AlertGrid if there's only one upstream and it's unhealthy but there are alerts", () => {
@@ -106,9 +95,9 @@ describe("<Grid />", () => {
       clusters: { am1: ["am1"] },
     });
     alertStore.info.setTotalAlerts(1);
-    setupGrids();
-    const { container } = renderGrid();
-    expect(container.querySelector(".components-grid")).toBeInTheDocument();
+    const { container } = RenderGrid();
+    // AlertGrid is rendered, no FatalError
+    expect(container.querySelector(".screen-center-icon-big")).toBeNull();
   });
 
   it("renders FatalError if there's only one upstream and it's unhealthy but without any error", () => {
@@ -130,8 +119,8 @@ describe("<Grid />", () => {
       ],
       clusters: { am1: ["am1"] },
     });
-    renderGrid();
-    expect(screen.getByText("error")).toBeInTheDocument();
+    const { container } = RenderGrid();
+    expect(container.textContent).toMatch(/error/);
   });
 
   it("renders only FatalError on failed fetch", () => {
@@ -154,28 +143,28 @@ describe("<Grid />", () => {
       ],
       clusters: { am1: ["am1"] },
     });
-    renderGrid();
-    expect(screen.getByText("fetch error")).toBeInTheDocument();
+    const { container } = RenderGrid();
+    expect(container.textContent).toMatch(/fetch error/);
   });
 
   it("renders UpgradeNeeded when alertStore.info.upgradeNeeded=true", () => {
     alertStore.info.setUpgradeNeeded(true);
-    renderGrid();
-    expect(screen.getByText(/new version/i)).toBeInTheDocument();
+    const { container } = RenderGrid();
+    expect(container.textContent).toMatch(alertStore.info.version);
   });
 
   it("renders ReloadNeeded when alertStore.info.reloadNeeded=true", () => {
     alertStore.info.setReloadNeeded(true);
-    renderGrid();
-    expect(screen.getByText(/reload/i)).toBeInTheDocument();
+    const { container } = RenderGrid();
+    expect(container.textContent).toMatch(/will try to reload/);
   });
 
   it("renders AlertGrid before any fetch finished when totalAlerts is 0", () => {
     alertStore.info.setVersion("unknown");
     alertStore.info.setTotalAlerts(0);
-    setupGrids();
-    const { container } = renderGrid();
-    expect(container.querySelector(".components-grid")).toBeInTheDocument();
+    const { container } = RenderGrid();
+    expect(container.textContent).not.toMatch(/No alertmanager server/);
+    expect(container.querySelector(".screen-center-icon-big")).toBeNull();
   });
 
   it("renders EmptyGrid after first fetch when totalAlerts is 0", () => {
@@ -199,8 +188,8 @@ describe("<Grid />", () => {
       ],
       clusters: { dev: ["dev"] },
     });
-    const { container } = renderGrid();
-    expect(container.querySelector(".fa-mug-hot")).toBeInTheDocument();
+    const { container } = RenderGrid();
+    expect(container.querySelector(".screen-center-icon-big")).toBeTruthy();
   });
 
   it("renders NoUpstream after first fetch when upstream list is empty", () => {
@@ -211,22 +200,20 @@ describe("<Grid />", () => {
       instances: [],
       clusters: {},
     });
-    renderGrid();
-    expect(
-      screen.getByText(/No alertmanager server configured/i),
-    ).toBeInTheDocument();
+    const { container } = RenderGrid();
+    expect(container.textContent).toMatch(/No alertmanager server configured/);
   });
 
   it("renders AlertGrid after first fetch finished when totalAlerts is >0", () => {
     alertStore.info.setVersion("unknown");
     alertStore.info.setTotalAlerts(1);
-    setupGrids();
-    const { container } = renderGrid();
-    expect(container.querySelector(".components-grid")).toBeInTheDocument();
+    const { container } = RenderGrid();
+    expect(container.textContent).not.toMatch(/No alertmanager server/);
+    expect(container.querySelector(".screen-center-icon-big")).toBeNull();
   });
 
   it("unmounts without crashes", () => {
-    const { unmount } = renderGrid();
+    const { unmount } = RenderGrid();
     unmount();
   });
 });

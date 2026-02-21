@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render } from "@testing-library/react";
+import { render, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -61,7 +59,7 @@ afterEach(() => {
   fetchMock.resetHistory();
 });
 
-const renderSilenceSubmitProgress = () => {
+const MountedSilenceSubmitProgress = () => {
   return render(
     <SilenceSubmitProgress
       cluster="mockAlertmanager"
@@ -81,7 +79,7 @@ const renderSilenceSubmitProgress = () => {
 
 describe("<SilenceSubmitProgress />", () => {
   it("sends a request on mount", async () => {
-    renderSilenceSubmitProgress();
+    MountedSilenceSubmitProgress();
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -89,7 +87,7 @@ describe("<SilenceSubmitProgress />", () => {
   });
 
   it("appends /api/v2/silences to the passed URI", async () => {
-    renderSilenceSubmitProgress();
+    MountedSilenceSubmitProgress();
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -98,14 +96,14 @@ describe("<SilenceSubmitProgress />", () => {
   });
 
   it("sends correct JSON payload", async () => {
-    renderSilenceSubmitProgress();
+    MountedSilenceSubmitProgress();
     await act(async () => {
       await fetchMock.flush(true);
     });
     const payload = fetchMock.calls()[0][1];
     expect(payload).toMatchObject({
       method: "POST",
-      headers: { "Content-Type": "application/json", foo: "bar" },
+      headers: { foo: "bar" },
       body: JSON.stringify({
         matchers: [],
         startsAt: "now",
@@ -120,7 +118,7 @@ describe("<SilenceSubmitProgress />", () => {
     const upstreams = generateUpstreams();
     upstreams.instances[0].corsCredentials = "same-origin";
     alertStore.data.setUpstreams(upstreams);
-    renderSilenceSubmitProgress();
+    MountedSilenceSubmitProgress();
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -487,7 +485,7 @@ describe("<SilenceSubmitProgress />", () => {
   });
 
   it("renders silence link on successful fetch", async () => {
-    renderSilenceSubmitProgress();
+    MountedSilenceSubmitProgress();
     await act(async () => {
       await fetchMock.flush(true);
     });
@@ -507,7 +505,7 @@ describe("<SilenceSubmitProgress />", () => {
       status: 500,
       body: "error message",
     });
-    renderSilenceSubmitProgress();
+    MountedSilenceSubmitProgress();
     await act(async () => {
       await fetchMock.flush(true);
     });

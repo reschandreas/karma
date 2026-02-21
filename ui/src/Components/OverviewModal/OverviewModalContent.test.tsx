@@ -16,7 +16,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-const renderOverviewModalContent = () =>
+const MountedOverviewModalContent = () =>
   render(
     <span>
       <OverviewModalContent alertStore={alertStore} onHide={onHide} />
@@ -94,7 +94,7 @@ describe("<OverviewModalContent />", () => {
       NewUnappliedFilter("foo=bar"),
     ]);
 
-    const { asFragment } = renderOverviewModalContent();
+    const { asFragment } = MountedOverviewModalContent();
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -111,7 +111,7 @@ describe("<OverviewModalContent />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { asFragment } = renderOverviewModalContent();
+    const { asFragment } = MountedOverviewModalContent();
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -155,21 +155,16 @@ describe("<OverviewModalContent />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderOverviewModalContent();
+    const { container } = MountedOverviewModalContent();
 
-    const labels = container.querySelectorAll("span.components-label");
-    expect(labels).toHaveLength(2 + 1); // +1 for toggle icon
-    expect(labels[0].textContent).toBe("5foo");
-    expect(labels[1].textContent).toBe("5bar");
+    expect(container.querySelectorAll("span.components-label")).toHaveLength(2 + 1); // +1 for toggle icon
+    expect(container.querySelectorAll("span.components-label")[0].textContent).toBe("5foo");
+    expect(container.querySelectorAll("span.components-label")[1].textContent).toBe("5bar");
 
-    const toggleBtn = container.querySelector(
-      "span.badge.cursor-pointer.with-click",
-    );
-    fireEvent.click(toggleBtn!);
+    fireEvent.click(container.querySelector("span.badge.cursor-pointer.with-click") as HTMLElement);
 
-    const expandedLabels = container.querySelectorAll("span.components-label");
-    expect(expandedLabels).toHaveLength(4 + 1); // +1 for toggle icon
-    expect(expandedLabels[3].textContent).toBe("3bar");
-    expect(expandedLabels[4].textContent).toBe("3foo");
+    expect(container.querySelectorAll("span.components-label")).toHaveLength(4 + 1); // +1 for toggle icon
+    expect(container.querySelectorAll("span.components-label")[3].textContent).toBe("3bar");
+    expect(container.querySelectorAll("span.components-label")[4].textContent).toBe("3foo");
   });
 });

@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { MockSilence } from "__fixtures__/Alerts";
 import { MockThemeContext } from "__fixtures__/Theme";
@@ -51,7 +49,7 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-const renderManagedSilence = (onDidUpdate?: () => void) => {
+const MountedManagedSilence = (onDidUpdate?: () => void) => {
   return render(
     <ThemeContext.Provider value={MockThemeContext}>
       <ManagedSilence
@@ -69,21 +67,19 @@ const renderManagedSilence = (onDidUpdate?: () => void) => {
 
 describe("<ManagedSilence />", () => {
   it("matches snapshot when collapsed", () => {
-    const { asFragment } = renderManagedSilence();
+    const { asFragment } = MountedManagedSilence();
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("clicking on expand toggle shows silence details", () => {
-    const { container } = renderManagedSilence();
-    const toggle = container.querySelector("svg.text-muted.cursor-pointer");
-    fireEvent.click(toggle!);
-    expect(screen.getByText("Edit")).toBeInTheDocument();
+    const { container } = MountedManagedSilence();
+    fireEvent.click(container.querySelector("svg.text-muted.cursor-pointer")!);
+    expect(container.querySelectorAll(".badge")).not.toHaveLength(0);
   });
 
   it("matches snapshot with expaned details", () => {
-    const { container, asFragment } = renderManagedSilence();
-    const toggle = container.querySelector("svg.text-muted.cursor-pointer");
-    fireEvent.click(toggle!);
+    const { container, asFragment } = MountedManagedSilence();
+    fireEvent.click(container.querySelector("svg.text-muted.cursor-pointer")!);
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -151,47 +147,47 @@ describe("<ManagedSilence />", () => {
   });
 
   it("shows Edit button on unexpired silence", () => {
-    const { container } = renderManagedSilence();
-    const toggle = container.querySelector("svg.text-muted.cursor-pointer");
-    fireEvent.click(toggle!);
+    const { container } = MountedManagedSilence();
+    fireEvent.click(container.querySelector("svg.text-muted.cursor-pointer")!);
 
-    expect(screen.getByText("Edit")).toBeInTheDocument();
+    const button = container.querySelector(".btn-primary")!;
+    expect(button.textContent).toBe("Edit");
   });
 
   it("shows Delete button on unexpired silence", () => {
-    const { container } = renderManagedSilence();
-    const toggle = container.querySelector("svg.text-muted.cursor-pointer");
-    fireEvent.click(toggle!);
+    const { container } = MountedManagedSilence();
+    fireEvent.click(container.querySelector("svg.text-muted.cursor-pointer")!);
 
-    expect(screen.getByText("Delete")).toBeInTheDocument();
+    const button = container.querySelector(".btn-danger")!;
+    expect(button.textContent).toBe("Delete");
   });
 
   it("shows Recreate button on expired silence", () => {
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 23, 30, 0)));
-    const { container } = renderManagedSilence();
-    const toggle = container.querySelector("svg.text-muted.cursor-pointer");
-    fireEvent.click(toggle!);
+    const { container } = MountedManagedSilence();
+    fireEvent.click(container.querySelector("svg.text-muted.cursor-pointer")!);
 
-    expect(screen.getByText("Recreate")).toBeInTheDocument();
+    const button = container.querySelector(".btn-primary")!;
+    expect(button.textContent).toBe("Recreate");
   });
 
   it("clicking on Edit calls", () => {
-    const { container } = renderManagedSilence();
-    const toggle = container.querySelector("svg.text-muted.cursor-pointer");
-    fireEvent.click(toggle!);
+    const { container } = MountedManagedSilence();
+    fireEvent.click(container.querySelector("svg.text-muted.cursor-pointer")!);
 
     expect(silenceFormStore.data.silenceID).toBeNull();
 
-    const button = screen.getByText("Edit");
+    const button = container.querySelector(".btn-primary")!;
+    expect(button.textContent).toBe("Edit");
+
     fireEvent.click(button);
     expect(silenceFormStore.data.silenceID).toBe(silence.id);
   });
 
   it("call onDidUpdate if passed", () => {
     const fakeUpdate = jest.fn();
-    const { container } = renderManagedSilence(fakeUpdate);
-    const toggle = container.querySelector("svg.text-muted.cursor-pointer");
-    fireEvent.click(toggle!);
+    const { container } = MountedManagedSilence(fakeUpdate);
+    fireEvent.click(container.querySelector("svg.text-muted.cursor-pointer")!);
     expect(fakeUpdate).toHaveBeenCalled();
   });
 });
@@ -199,39 +195,39 @@ describe("<ManagedSilence />", () => {
 describe("<ManagedSilence progress bar />", () => {
   it("renders with class 'danger' and no progressbar when expired", () => {
     jest.setSystemTime(new Date(Date.UTC(2001, 0, 1, 23, 0, 0)));
-    const { container } = renderManagedSilence();
+    const { container } = MountedManagedSilence();
     expect(container.innerHTML).toMatch(/bg-danger/);
-    expect(screen.getByText(/Expired 1 year ago/)).toBeInTheDocument();
+    expect(container.textContent).toMatch(/Expired 1 year ago/);
   });
 
   it("renders with class 'warning' if <= 5m is left", () => {
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 0, 56, 0)));
-    const { container } = renderManagedSilence();
+    const { container } = MountedManagedSilence();
     expect(container.innerHTML).toMatch(/bg-warning/);
-    expect(screen.getByText(/Expires in 4 minutes/)).toBeInTheDocument();
+    expect(container.textContent).toMatch(/Expires in 4 minutes/);
   });
 
   it("progressbar uses class 'danger' when > 90%", () => {
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 0, 55, 0)));
-    const { container } = renderManagedSilence();
+    const { container } = MountedManagedSilence();
     expect(container.innerHTML).toMatch(/progress-bar bg-danger/);
   });
 
   it("progressbar uses class 'danger' when > 75%", () => {
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 0, 50, 0)));
-    const { container } = renderManagedSilence();
+    const { container } = MountedManagedSilence();
     expect(container.innerHTML).toMatch(/progress-bar bg-warning/);
   });
 
   it("progressbar uses class 'success' when <= 75%", () => {
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 0, 30, 0)));
-    const { container } = renderManagedSilence();
+    const { container } = MountedManagedSilence();
     expect(container.innerHTML).toMatch(/progress-bar bg-success/);
   });
 
   it("progressbar is updated every 30 seconds", () => {
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 0, 30, 0)));
-    const { container } = renderManagedSilence();
+    const { container } = MountedManagedSilence();
     expect(container.innerHTML).toMatch(/progress-bar bg-success/);
 
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 0, 50, 0)));
@@ -248,7 +244,7 @@ describe("<ManagedSilence progress bar />", () => {
   });
 
   it("unmounts cleanly", () => {
-    const { unmount } = renderManagedSilence();
+    const { unmount } = MountedManagedSilence();
     unmount();
   });
 });

@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render } from "@testing-library/react";
+import { render, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -19,6 +17,12 @@ import type {
   LabelsT,
 } from "Models/APITypes";
 import { AlertHistory } from ".";
+
+// Flush pending microtasks (response body parsing, cascaded state updates)
+// so that all React state updates happen within act() boundaries
+const flushMicrotasks = async () => {
+  for (let i = 0; i < 10; i++) await Promise.resolve();
+};
 
 let group: APIAlertGroupT;
 let grid: APIGridT;
@@ -95,11 +99,10 @@ describe("<AlertHistory />", () => {
     grid.labelName = "";
     grid.labelValue = "";
     MockAlerts(3);
-    const { unmount } = render(
-      <AlertHistory group={group} grid={grid}></AlertHistory>,
-    );
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.calls()[0][1]?.body).toStrictEqual(
@@ -128,11 +131,10 @@ describe("<AlertHistory />", () => {
     );
 
     MockAlerts(3);
-    const { unmount } = render(
-      <AlertHistory group={group} grid={grid}></AlertHistory>,
-    );
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.calls()[0][1]?.body).toStrictEqual(
@@ -163,11 +165,10 @@ describe("<AlertHistory />", () => {
     grid.labelName = "@cluster";
     grid.labelValue = "prod";
     MockAlerts(3);
-    const { unmount } = render(
-      <AlertHistory group={group} grid={grid}></AlertHistory>,
-    );
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.calls()[0][1]?.body).toStrictEqual(
@@ -200,11 +201,10 @@ describe("<AlertHistory />", () => {
       { name: "shared1", value: "value1" },
       { name: "shared2", value: "value2" },
     ]);
-    const { unmount } = render(
-      <AlertHistory group={group} grid={grid}></AlertHistory>,
-    );
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.calls()[0][1]?.body).toStrictEqual(
@@ -239,14 +239,13 @@ describe("<AlertHistory />", () => {
     );
 
     MockAlerts(3);
-    const { unmount, asFragment } = render(
-      <AlertHistory group={group} grid={grid}></AlertHistory>,
-    );
+    const { container, unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
-    expect(asFragment()).toMatchSnapshot();
+    expect(container.innerHTML).toMatchSnapshot();
     unmount();
   });
 
@@ -264,14 +263,13 @@ describe("<AlertHistory />", () => {
     );
 
     MockAlerts(3);
-    const { unmount, asFragment } = render(
-      <AlertHistory group={group} grid={grid}></AlertHistory>,
-    );
+    const { container, unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
-    expect(asFragment()).toMatchSnapshot();
+    expect(container.innerHTML).toMatchSnapshot();
     unmount();
   });
 
@@ -294,11 +292,10 @@ describe("<AlertHistory />", () => {
     ] as any);
 
     MockAlerts(3);
-    const { unmount } = render(
-      <AlertHistory group={group} grid={grid}></AlertHistory>,
-    );
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     unmount();
 
@@ -325,23 +322,24 @@ describe("<AlertHistory />", () => {
     ] as any);
 
     MockAlerts(3);
-    const { unmount } = render(
-      <AlertHistory group={group} grid={grid}></AlertHistory>,
-    );
+    const { unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
 
     await act(async () => {
       jest.advanceTimersByTime(1000 * 299);
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
 
     await act(async () => {
       jest.advanceTimersByTime(1000 * 2);
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(2);
 
@@ -362,14 +360,13 @@ describe("<AlertHistory />", () => {
     );
 
     MockAlerts(3);
-    const { unmount, asFragment } = render(
-      <AlertHistory group={group} grid={grid}></AlertHistory>,
-    );
+    const { container, unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
-    expect(asFragment()).toMatchSnapshot();
+    expect(container.innerHTML).toMatchSnapshot();
     unmount();
   });
 
@@ -387,14 +384,13 @@ describe("<AlertHistory />", () => {
     );
 
     MockAlerts(3);
-    const { unmount, asFragment } = render(
-      <AlertHistory group={group} grid={grid}></AlertHistory>,
-    );
+    const { container, unmount } = render(<AlertHistory group={group} grid={grid}></AlertHistory>);
     await act(async () => {
       await fetchMock.flush(true);
+      await flushMicrotasks();
     });
     expect(fetchMock.calls()).toHaveLength(1);
-    expect(asFragment()).toMatchSnapshot();
+    expect(container.innerHTML).toMatchSnapshot();
     unmount();
   });
 
@@ -536,16 +532,12 @@ describe("<AlertHistory />", () => {
         },
       );
 
-      const { container, unmount } = render(
-        <AlertHistory group={g} grid={gr}></AlertHistory>,
-      );
+      const { container, unmount } = render(<AlertHistory group={g} grid={gr}></AlertHistory>);
       await act(async () => {
         await fetchMock.flush(true);
       });
 
-      const rects = Array.from(container.querySelectorAll("rect")).map(
-        (r) => r.className.baseVal,
-      );
+      const rects = Array.from(container.querySelectorAll("rect")).map((r) => r.className.baseVal);
       expect(rects).toStrictEqual(testCase.values);
       unmount();
     });

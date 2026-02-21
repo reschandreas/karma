@@ -102,9 +102,9 @@ const AlertGroup: FC<{
   };
 
   const onAlertGroupCollapseEvent = useCallback(
-    (event) => {
-      if (event.detail.gridLabelValue === gridLabelValue) {
-        setIsCollapsed(event.detail.value);
+    (event: Event) => {
+      if ((event as CustomEvent).detail.gridLabelValue === gridLabelValue) {
+        setIsCollapsed((event as CustomEvent).detail.value);
       }
     },
     [gridLabelValue],

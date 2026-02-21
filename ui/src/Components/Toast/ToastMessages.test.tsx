@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 
 import { AlertStore } from "Stores/AlertStore";
 import { ToastMessage, UpgradeToastMessage } from "./ToastMessages";
@@ -31,23 +31,27 @@ describe("<UpgradeToastMessage />", () => {
     const { container } = render(
       <UpgradeToastMessage alertStore={alertStore} />,
     );
-    const button = screen.getByRole("button");
-    expect(container.querySelector("svg.fa-stop")).toBeInTheDocument();
-    expect(button.textContent).toBe("Stop auto-reload");
+    expect(container.querySelector("button")!.innerHTML).toMatch(/fa-stop/);
+    expect(container.querySelector("button")!.textContent).toBe(
+      "Stop auto-reload",
+    );
 
-    fireEvent.click(button);
-    expect(container.querySelector("svg.fa-arrows-rotate")).toBeInTheDocument();
-    expect(button.textContent).toBe("Reload now");
+    fireEvent.click(container.querySelector("button")!);
+    expect(container.querySelector("button")!.innerHTML).toMatch(
+      /fa-arrows-rotate/,
+    );
+    expect(container.querySelector("button")!.textContent).toBe("Reload now");
   });
 
   it("clicking on the reload buton triggers a reload", () => {
-    render(<UpgradeToastMessage alertStore={alertStore} />);
-    const button = screen.getByRole("button");
+    const { container } = render(
+      <UpgradeToastMessage alertStore={alertStore} />,
+    );
 
-    fireEvent.click(button);
-    expect(button.textContent).toBe("Reload now");
+    fireEvent.click(container.querySelector("button")!);
+    expect(container.querySelector("button")!.textContent).toBe("Reload now");
 
-    fireEvent.click(button);
+    fireEvent.click(container.querySelector("button")!);
     expect(alertStore.info.upgradeNeeded).toBe(true);
   });
 
@@ -55,10 +59,9 @@ describe("<UpgradeToastMessage />", () => {
     const { container } = render(
       <UpgradeToastMessage alertStore={alertStore} />,
     );
-    const progressbar = container.querySelector(
-      "div.toast-upgrade-progressbar",
+    fireEvent.animationEnd(
+      container.querySelector("div.toast-upgrade-progressbar")!,
     );
-    fireEvent.animationEnd(progressbar!);
     expect(alertStore.info.upgradeNeeded).toBe(true);
   });
 });

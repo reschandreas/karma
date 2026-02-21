@@ -16,7 +16,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-const renderConfiguration = () => {
+const FakeConfiguration = () => {
   return render(
     <ThemeContext.Provider value={MockThemeContext}>
       <AlertGroupSortConfiguration settingsStore={settingsStore} />
@@ -26,25 +26,27 @@ const renderConfiguration = () => {
 
 const expandSortLabelSuggestions = () => {
   settingsStore.gridConfig.setSortOrder("label");
-  const view = renderConfiguration();
+  const result = FakeConfiguration();
 
-  const input = view.container.querySelector(
-    "input#react-select-configuration-sort-label-input",
+  fireEvent.change(
+    result.container.querySelector(
+      "input#react-select-configuration-sort-label-input",
+    )!,
+    { target: { value: "a" } },
   );
-  fireEvent.change(input!, { target: { value: "c" } });
 
-  return view;
+  return result;
 };
 
 describe("<AlertGroupSortConfiguration />", () => {
   it("matches snapshot with default values", () => {
-    const { asFragment } = renderConfiguration();
+    const { asFragment } = FakeConfiguration();
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("invalid sortOrder value is reset on mount", () => {
     settingsStore.gridConfig.setSortOrder("badValue" as any);
-    renderConfiguration();
+    FakeConfiguration();
     expect(settingsStore.gridConfig.config.sortOrder).toBe(
       settingsStore.gridConfig.options.default.value,
     );
@@ -65,14 +67,15 @@ describe("<AlertGroupSortConfiguration />", () => {
     expect(settingsStore.gridConfig.config.sortOrder).toBe(
       settingsStore.gridConfig.options.label.value,
     );
-    const { container } = renderConfiguration();
+    const { container } = FakeConfiguration();
 
-    const input = container.querySelector(
-      "input#react-select-configuration-sort-order-input",
+    fireEvent.change(
+      container.querySelector(
+        "input#react-select-configuration-sort-order-input",
+      )!,
+      { target: { value: " " } },
     );
-    fireEvent.change(input!, { target: { value: " " } });
-    const options = container.querySelectorAll("div.react-select__option");
-    fireEvent.click(options[2]);
+    fireEvent.click(container.querySelectorAll("div.react-select__option")[2]);
 
     expect(settingsStore.gridConfig.config.sortOrder).toBe(
       settingsStore.gridConfig.options.startsAt.value,
@@ -81,57 +84,57 @@ describe("<AlertGroupSortConfiguration />", () => {
 
   it("reverse checkbox is not rendered when sort order is == 'default'", () => {
     settingsStore.gridConfig.setSortOrder("default");
-    const { container } = renderConfiguration();
+    const { container } = FakeConfiguration();
     const labelSelect = container.querySelector("#configuration-sort-reverse");
-    expect(labelSelect).not.toBeInTheDocument();
+    expect(labelSelect).toBeNull();
   });
 
   it("reverse checkbox is not rendered when sort order is == 'disabled'", () => {
     settingsStore.gridConfig.setSortOrder("disabled");
-    const { container } = renderConfiguration();
+    const { container } = FakeConfiguration();
     const labelSelect = container.querySelector("#configuration-sort-reverse");
-    expect(labelSelect).not.toBeInTheDocument();
+    expect(labelSelect).toBeNull();
   });
 
   it("reverse checkbox is rendered when sort order is = 'startsAt'", () => {
     settingsStore.gridConfig.setSortOrder("startsAt");
-    const { container } = renderConfiguration();
+    const { container } = FakeConfiguration();
     const labelSelect = container.querySelector("#configuration-sort-reverse");
-    expect(labelSelect).toBeInTheDocument();
+    expect(labelSelect).not.toBeNull();
   });
 
   it("reverse checkbox is rendered when sort order is = 'label'", () => {
     settingsStore.gridConfig.setSortOrder("label");
-    const { container } = renderConfiguration();
+    const { container } = FakeConfiguration();
     const labelSelect = container.querySelector("#configuration-sort-reverse");
-    expect(labelSelect).toBeInTheDocument();
+    expect(labelSelect).not.toBeNull();
   });
 
   it("label select is not rendered when sort order is != 'label'", () => {
     settingsStore.gridConfig.setSortOrder("disabled");
-    const { container } = renderConfiguration();
+    const { container } = FakeConfiguration();
     const labelSelect = container.querySelector(
       "input#react-select-configuration-sort-label-input",
     );
-    expect(labelSelect).not.toBeInTheDocument();
+    expect(labelSelect).toBeNull();
   });
 
   it("label select is rendered when sort order is == 'label'", () => {
     settingsStore.gridConfig.setSortOrder("label");
-    const { container } = renderConfiguration();
+    const { container } = FakeConfiguration();
     const labelSelect = container.querySelector(
       "input#react-select-configuration-sort-label-input",
     );
-    expect(labelSelect).toBeInTheDocument();
+    expect(labelSelect).not.toBeNull();
   });
 
   it("label select renders suggestions on click", () => {
     const { container } = expandSortLabelSuggestions();
     const options = container.querySelectorAll("div.react-select__option");
-    expect(options).toHaveLength(3);
-    expect(options[0].textContent).toBe("cluster");
-    expect(options[1].textContent).toBe("instance");
-    expect(options[2].textContent).toBe("New label: c");
+    // Filter "a" narrows results to labels containing "a" + creatable "New label: a"
+    expect(options).toHaveLength(2);
+    expect(options[0].textContent).toBe("instance");
+    expect(options[1].textContent).toBe("New label: a");
   });
 
   it("label select handles fetch errors", () => {
@@ -146,26 +149,37 @@ describe("<AlertGroupSortConfiguration />", () => {
     });
     const { container } = expandSortLabelSuggestions();
     const options = container.querySelectorAll("div.react-select__option");
+    // With error, no API labels are loaded; filter "a" matches only "New label: a"
     expect(options).toHaveLength(1);
-    expect(options[0].textContent).toBe("New label: c");
+    expect(options[0].textContent).toBe("New label: a");
   });
 
   it("clicking on a label option updates settingsStore", () => {
     expect(settingsStore.gridConfig.config.sortLabel).toBeNull();
-    const { container } = expandSortLabelSuggestions();
+    settingsStore.gridConfig.setSortOrder("label");
+    const { container } = FakeConfiguration();
+    // Open dropdown with space to show all options (no filter)
+    fireEvent.change(
+      container.querySelector(
+        "input#react-select-configuration-sort-label-input",
+      )!,
+      { target: { value: " " } },
+    );
     const options = container.querySelectorAll("div.react-select__option");
-    fireEvent.click(options[1]);
-    expect(settingsStore.gridConfig.config.sortLabel).toBe("instance");
+    const jobOption = Array.from(options).find((o) => o.textContent === "job");
+    expect(jobOption).toBeDefined();
+    fireEvent.click(jobOption!);
+    expect(settingsStore.gridConfig.config.sortLabel).toBe("job");
   });
 
   it("clicking on the 'reverse' checkbox updates settingsStore", () => {
     settingsStore.gridConfig.setSortOrder("label");
     settingsStore.gridConfig.setSortReverse(false);
-    const { container } = renderConfiguration();
-    const checkbox = container.querySelector("#configuration-sort-reverse");
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-sort-reverse")!;
 
     expect(settingsStore.gridConfig.config.reverseSort).toBe(false);
-    fireEvent.click(checkbox!);
+    fireEvent.click(checkbox);
     expect(settingsStore.gridConfig.config.reverseSort).toBe(true);
   });
 });

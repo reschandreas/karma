@@ -30,8 +30,8 @@ const FetchConfiguration: FC<{
             {children}
           </div>
         )}
-        renderThumb={({ props }) => (
-          <div className="input-range-thumb" {...props}>
+        renderThumb={({ props: { key, ...restProps } }) => (
+          <div key={key} className="input-range-thumb" {...restProps}>
             {fetchInterval}s
           </div>
         )}

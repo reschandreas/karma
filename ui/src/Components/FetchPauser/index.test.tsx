@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render } from "@testing-library/react";
+import { render, act } from "@testing-library/react";
 
 import { AlertStore } from "Stores/AlertStore";
 import { FetchPauser } from ".";
@@ -11,7 +9,7 @@ beforeEach(() => {
   alertStore = new AlertStore([]);
 });
 
-const renderFetchPauser = () => {
+const MountedFetchPauser = () => {
   return render(
     <FetchPauser alertStore={alertStore}>
       <div />
@@ -21,12 +19,12 @@ const renderFetchPauser = () => {
 
 describe("<FetchPauser />", () => {
   it("mounting FetchPauser pauses alertStore", () => {
-    renderFetchPauser();
+    MountedFetchPauser();
     expect(alertStore.status.paused).toBe(true);
   });
 
   it("unmounting FetchPauser resumes alertStore", () => {
-    const { unmount } = renderFetchPauser();
+    const { unmount } = MountedFetchPauser();
     act(() => {
       unmount();
     });

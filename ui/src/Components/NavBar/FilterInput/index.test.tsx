@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import { AlertStore, NewUnappliedFilter } from "Stores/AlertStore";
@@ -29,7 +27,7 @@ afterEach(() => {
   global.window.innerWidth = originalInnerWidth;
 });
 
-const renderInput = () => {
+const MountedInput = () => {
   return render(
     <FilterInput alertStore={alertStore} settingsStore={settingsStore} />,
   );
@@ -37,8 +35,10 @@ const renderInput = () => {
 
 describe("<FilterInput />", () => {
   it("matches snapshot with no filters", () => {
-    const { asFragment } = renderInput();
-    expect(asFragment()).toMatchSnapshot();
+    const { container } = render(
+      <FilterInput alertStore={alertStore} settingsStore={settingsStore} />,
+    );
+    expect(container.innerHTML).toMatchSnapshot();
     expect(alertStore.filters.values).toHaveLength(0);
   });
 
@@ -47,60 +47,57 @@ describe("<FilterInput />", () => {
       NewUnappliedFilter("foo=bar"),
       NewUnappliedFilter("baz!=bar"),
     ]);
-    const { asFragment } = renderInput();
-    expect(asFragment()).toMatchSnapshot();
+    const { container } = render(
+      <FilterInput alertStore={alertStore} settingsStore={settingsStore} />,
+    );
+    expect(container.innerHTML).toMatchSnapshot();
     expect(alertStore.filters.values).toHaveLength(2);
   });
 
   it("input gets focus by default on desktop", () => {
     global.window.innerWidth = 768;
-    const { container } = renderInput();
+    const { container } = MountedInput();
     expect(
       container
-        .querySelector("div.components-filterinput-outer")
-        ?.classList.contains("bg-focused"),
+        .querySelector("div.components-filterinput-outer")!
+        .classList.contains("bg-focused"),
     ).toBe(true);
   });
 
   it("input doesn't get focus by default on mobile", () => {
     global.window.innerWidth = 767;
-    const { container } = renderInput();
+    const { container } = MountedInput();
     expect(
       container
-        .querySelector("div.components-filterinput-outer")
-        ?.classList.contains("bg-focused"),
+        .querySelector("div.components-filterinput-outer")!
+        .classList.contains("bg-focused"),
     ).toBe(false);
   });
 
   it("onChange should modify inputStore.value", () => {
-    const { container } = renderInput();
-    const input = container.querySelector("input");
-    fireEvent.change(input!, { target: { value: "foo=bar" } });
+    const { container } = MountedInput();
+    const input = container.querySelector("input")!;
+    fireEvent.change(input, { target: { value: "foo=bar" } });
     act(() => {
       jest.runOnlyPendingTimers();
     });
 
     expect(
-      (
-        container.querySelector(
-          "input.components-filterinput-wrapper",
-        ) as HTMLInputElement
-      )?.value,
+      (container.querySelector("input.components-filterinput-wrapper") as HTMLInputElement).value,
     ).toBe("foo=bar");
   });
 
   it("submit should modify alertStore.filters", () => {
-    const { container } = renderInput();
-    const input = container.querySelector("input");
-    const form = container.querySelector("form");
+    const { container } = MountedInput();
 
-    fireEvent.change(input!, { target: { value: "foo=bar" } });
+    const input = container.querySelector("input")!;
+    fireEvent.change(input, { target: { value: "foo=bar" } });
     act(() => {
       jest.runOnlyPendingTimers();
     });
 
     expect(alertStore.filters.values).toHaveLength(0);
-    fireEvent.submit(form!);
+    fireEvent.submit(container.querySelector("form")!);
     expect(alertStore.filters.values).toHaveLength(1);
     expect(alertStore.filters.values[0]).toMatchObject(
       NewUnappliedFilter("foo=bar"),
@@ -108,56 +105,54 @@ describe("<FilterInput />", () => {
   });
 
   it("submit should be no-op if input value is empty", () => {
-    const { container } = renderInput();
-    const input = container.querySelector("input");
-    const form = container.querySelector("form");
-    fireEvent.change(input!, { target: { value: "" } });
+    const { container } = MountedInput();
+    const input = container.querySelector("input")!;
+    fireEvent.change(input, { target: { value: "" } });
     act(() => {
       jest.runOnlyPendingTimers();
     });
 
     expect(alertStore.filters.values).toHaveLength(0);
-    fireEvent.submit(form!);
+    fireEvent.submit(container.querySelector("form")!);
     expect(alertStore.filters.values).toHaveLength(0);
   });
 
   it("clicking on form-control div focuses input", () => {
-    const { container } = renderInput();
-    const formControl = container.querySelector("div.form-control");
-    fireEvent.click(formControl!);
+    const { container } = MountedInput();
+    const formControl = container.querySelector("div.form-control")!;
+    fireEvent.click(formControl);
     expect(
       container
-        .querySelector("div.components-filterinput-outer")
-        ?.classList.contains("bg-focused"),
+        .querySelector("div.components-filterinput-outer")!
+        .classList.contains("bg-focused"),
     ).toBe(true);
   });
 
   it("clicking input changes background color", () => {
-    const { container } = renderInput();
-    const input = container.querySelector("input");
-    fireEvent.click(input!);
+    const { container } = MountedInput();
+    fireEvent.click(container.querySelector("input")!);
     expect(container.innerHTML).toMatch(/bg-focused/);
   });
 
   it("focusing input changes background color", () => {
-    const { container } = renderInput();
-    const input = container.querySelector("input");
-    fireEvent.focus(input!);
+    const { container } = MountedInput();
+    const input = container.querySelector("input")!;
+    fireEvent.focus(input);
     expect(container.innerHTML).toMatch(/bg-focused/);
   });
 
   it("focusing form changes background color", () => {
-    const { container } = renderInput();
-    const input = container.querySelector(".form-control input");
-    fireEvent.focus(input!);
+    const { container } = MountedInput();
+    const input = container.querySelector(".form-control input")!;
+    fireEvent.focus(input);
     expect(container.innerHTML).toMatch(/bg-focused/);
   });
 
   it("bluring input changes background color", async () => {
-    const { container, unmount } = renderInput();
-    const input = container.querySelector(".form-control input");
-    fireEvent.change(input!, { target: { value: "cluster" } });
-    fireEvent.blur(input!);
+    const { container, unmount } = MountedInput();
+    const input = container.querySelector(".form-control input")!;
+    fireEvent.change(input, { target: { value: "cluster" } });
+    fireEvent.blur(input);
     expect(container.innerHTML).not.toMatch(/bg-focused/);
     unmount();
   });
@@ -165,9 +160,9 @@ describe("<FilterInput />", () => {
 
 describe("<FilterInput autocomplete />", () => {
   it("fetches suggestions on input change", async () => {
-    const { container, unmount } = renderInput();
-    const input = container.querySelector("input");
-    fireEvent.change(input!, { target: { value: "cluster" } });
+    const { container, unmount } = MountedInput();
+    const input = container.querySelector("input")!;
+    fireEvent.change(input, { target: { value: "cluster" } });
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -180,9 +175,9 @@ describe("<FilterInput autocomplete />", () => {
   });
 
   it("doesn't fetch any suggestion if the input value is empty", () => {
-    const { container, unmount } = renderInput();
-    const input = container.querySelector("input");
-    fireEvent.change(input!, { target: { value: "" } });
+    const { container, unmount } = MountedInput();
+    const input = container.querySelector("input")!;
+    fireEvent.change(input, { target: { value: "" } });
     act(() => {
       jest.runOnlyPendingTimers();
     });
@@ -191,51 +186,53 @@ describe("<FilterInput autocomplete />", () => {
   });
 
   it("highlighting a suggestion makes it active", async () => {
-    const { container } = renderInput();
-    const input = container.querySelector("input");
-    fireEvent.change(input!, { target: { value: "cluster" } });
+    const { container } = MountedInput();
+    const input = container.querySelector("input")!;
+    fireEvent.change(input, { target: { value: "cluster" } });
     act(() => {
       jest.runOnlyPendingTimers();
     });
 
-    fireEvent.focus(input!);
+    // suggestions are rendered only when input is focused
+    fireEvent.focus(input);
 
-    fireEvent.keyDown(input!, { keyCode: 40, key: "ArrowDown" });
-    expect(container.querySelector(".dropdown-item")?.outerHTML).toMatch(
-      /active/,
-    );
+    fireEvent.keyDown(input, { keyCode: 40, key: "ArrowDown" });
+    expect(
+      container.querySelectorAll(".dropdown-item")[0].classList.contains("active"),
+    ).toBe(true);
   });
 
   it("handles invalid regexp values", async () => {
-    const { container } = renderInput();
-    const input = container.querySelector("input");
-    fireEvent.change(input!, { target: { value: "foo(" } });
+    const { container } = MountedInput();
+    const input = container.querySelector("input")!;
+    fireEvent.change(input, { target: { value: "foo(" } });
     act(() => {
       jest.runOnlyPendingTimers();
     });
 
-    fireEvent.focus(input!);
+    // suggestions are rendered only when input is focused
+    fireEvent.focus(input);
 
-    fireEvent.keyDown(input!, { keyCode: 40, key: "ArrowDown" });
-    expect(container.querySelector(".dropdown-item")?.outerHTML).toMatch(
-      /active/,
-    );
+    fireEvent.keyDown(input, { keyCode: 40, key: "ArrowDown" });
+    expect(
+      container.querySelectorAll(".dropdown-item")[0].classList.contains("active"),
+    ).toBe(true);
   });
 
   it("clicking on a suggestion adds it to filters", async () => {
-    const { container } = renderInput();
-    const input = container.querySelector("input");
-    fireEvent.change(input!, { target: { value: "cluster" } });
+    const { container } = MountedInput();
+    const input = container.querySelector("input")!;
+    fireEvent.change(input, { target: { value: "cluster" } });
     act(() => {
       jest.runOnlyPendingTimers();
     });
 
-    fireEvent.focus(input!);
+    // suggestions are rendered only when input is focused
+    fireEvent.focus(input);
 
-    const suggestions = container.querySelectorAll(".dropdown-item");
-    const suggestion = suggestions[1];
-    expect(suggestion?.textContent).toBe("cluster=prod");
-    fireEvent.click(suggestion!);
+    const suggestion = container.querySelectorAll(".dropdown-item")[1];
+    expect(suggestion.textContent).toBe("cluster=prod");
+    fireEvent.click(suggestion);
     expect(alertStore.filters.values).toHaveLength(1);
     expect(alertStore.filters.values[0]).toMatchObject({
       raw: "cluster=prod",
@@ -253,9 +250,9 @@ describe("<FilterInput autocomplete />", () => {
       cancelGet: jest.fn(),
     });
 
-    const { container } = renderInput();
-    const input = container.querySelector("input");
-    fireEvent.change(input!, { target: { value: "cluster" } });
+    const { container } = MountedInput();
+    const input = container.querySelector("input")!;
+    fireEvent.change(input, { target: { value: "cluster" } });
     act(() => {
       jest.runOnlyPendingTimers();
     });

@@ -1,10 +1,7 @@
-import React from "react";
-
 import "@testing-library/jest-dom";
 
-import { useInView } from "react-intersection-observer";
+import ReactDOM from "react-dom";
 
-// react-idle-timer >= 4.6.0
 import "regenerator-runtime/runtime";
 
 import { configure } from "mobx";
@@ -13,6 +10,20 @@ import { FetchRetryConfig } from "Common/Fetch";
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import { useFetchGet } from "Hooks/useFetchGet";
+
+import { useInView } from "react-intersection-observer";
+
+// Polyfill findDOMNode for react-transition-group v4 which uses it,
+// but it was removed in React 19
+if (!(ReactDOM as any).findDOMNode) {
+  (ReactDOM as any).findDOMNode = function (component: any) {
+    if (component == null) return null;
+    if (component.nodeType) return component;
+    return null;
+  };
+}
+
+// react-idle-timer >= 4.6.0
 
 configure({
   enforceActions: "always",
@@ -28,10 +39,10 @@ jest.mock("react-intersection-observer");
 FetchRetryConfig.minTimeout = 2;
 FetchRetryConfig.maxTimeout = 10;
 
-// floating-ui uses useLayoutEffect
-React.useLayoutEffect = React.useEffect;
-
 beforeEach(() => {
+  // Suppress console.info noise from AlertStore filter mismatch messages in tests
+  jest.spyOn(console, "info").mockImplementation(() => {});
+
   useFetchGetMock.fetch.reset();
   (useFetchGet as jest.MockedFunction<typeof useFetchGetMock>).mockRestore();
   (

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import { MockSilence } from "__fixtures__/Alerts";
 import { AlertStore } from "Stores/AlertStore";
@@ -22,7 +22,7 @@ describe("<RenderSilence />", () => {
   });
 
   it("renders fallback text if silence is not present in AlertStore", () => {
-    const { asFragment } = render(
+    const { container } = render(
       <RenderSilence
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
@@ -31,8 +31,8 @@ describe("<RenderSilence />", () => {
         silenceID="1234567890"
       />,
     );
-    expect(screen.getByText("Silenced by 1234567890")).toBeInTheDocument();
-    expect(asFragment()).toMatchSnapshot();
+    expect(container.textContent).toBe("Silenced by 1234567890");
+    expect(container.innerHTML).toMatchSnapshot();
   });
 
   it("renders ManagedSilence if silence is present in AlertStore", () => {
@@ -40,7 +40,7 @@ describe("<RenderSilence />", () => {
 
     alertStore.data.setSilences({ fakeCluster: { [silence.id]: silence } });
 
-    const { asFragment, container } = render(
+    const { container } = render(
       <RenderSilence
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
@@ -49,8 +49,9 @@ describe("<RenderSilence />", () => {
         silenceID={silence.id}
       />,
     );
-    expect(container.innerHTML).toMatch(/Mocked Silence/);
-    expect(asFragment()).toMatchSnapshot();
+    expect(container.querySelector(".components-managed-silence")).toBeTruthy();
+    expect(container.textContent).toMatch(/Mocked Silence/);
+    expect(container.innerHTML).toMatchSnapshot();
   });
 
   it("re-render when silence was removed AlertStore is a no-op", () => {
@@ -67,6 +68,7 @@ describe("<RenderSilence />", () => {
         silenceID={silence.id}
       />,
     );
+    expect(container.querySelector(".components-managed-silence")).toBeTruthy();
     const snapshot = container.innerHTML;
 
     alertStore.data.setSilences({});
@@ -80,11 +82,12 @@ describe("<RenderSilence />", () => {
         silenceID={silence.id}
       />,
     );
+    expect(container.querySelector(".components-managed-silence")).toBeTruthy();
     expect(container.innerHTML).toBe(snapshot);
   });
 
   it("re-render when silence ID was changed updates it", () => {
-    const { rerender } = render(
+    const { container, rerender } = render(
       <RenderSilence
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
@@ -93,7 +96,7 @@ describe("<RenderSilence />", () => {
         silenceID="silence1"
       />,
     );
-    expect(screen.getByText("Silenced by silence1")).toBeInTheDocument();
+    expect(container.textContent).toBe("Silenced by silence1");
 
     rerender(
       <RenderSilence
@@ -104,11 +107,11 @@ describe("<RenderSilence />", () => {
         silenceID="silence2"
       />,
     );
-    expect(screen.getByText("Silenced by silence2")).toBeInTheDocument();
+    expect(container.textContent).toBe("Silenced by silence2");
   });
 
   it("re-render when cluster name was changed updates it", () => {
-    const { rerender } = render(
+    const { container, rerender } = render(
       <RenderSilence
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
@@ -117,7 +120,7 @@ describe("<RenderSilence />", () => {
         silenceID="1234567890"
       />,
     );
-    expect(screen.getByText("Silenced by 1234567890")).toBeInTheDocument();
+    expect(container.textContent).toBe("Silenced by 1234567890");
 
     rerender(
       <RenderSilence
@@ -128,6 +131,6 @@ describe("<RenderSilence />", () => {
         silenceID="1234567890"
       />,
     );
-    expect(screen.getByText("Silenced by 1234567890")).toBeInTheDocument();
+    expect(container.textContent).toBe("Silenced by 1234567890");
   });
 });

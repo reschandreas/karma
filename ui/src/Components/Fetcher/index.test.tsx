@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -119,11 +117,8 @@ describe("<Fetcher />", () => {
   it("calls alertStore.fetchWithThrottle again after filter change", () => {
     MockEmptyAPIResponseWithoutFilters();
     const fetchSpy = jest.spyOn(alertStore, "fetchWithThrottle");
-    const { rerender } = render(
-      <Fetcher alertStore={alertStore} settingsStore={settingsStore} />,
-    );
+    render(<Fetcher alertStore={alertStore} settingsStore={settingsStore} />);
     alertStore.filters.setFilterValues([]);
-    rerender(<Fetcher alertStore={alertStore} settingsStore={settingsStore} />);
     expect(fetchSpy).toHaveBeenCalledTimes(2);
   });
 
@@ -403,7 +398,9 @@ describe("<Fetcher />", () => {
   it("fetches on update when resumed", () => {
     alertStore.status.pause();
     render(<Fetcher alertStore={alertStore} settingsStore={settingsStore} />);
-    alertStore.status.resume();
+    act(() => {
+      alertStore.status.resume();
+    });
     settingsStore.gridConfig.setSortReverse(
       !settingsStore.gridConfig.config.reverseSort,
     );
@@ -416,7 +413,9 @@ describe("<Fetcher />", () => {
   it("fetches on resume", () => {
     alertStore.status.pause();
     render(<Fetcher alertStore={alertStore} settingsStore={settingsStore} />);
-    alertStore.status.resume();
+    act(() => {
+      alertStore.status.resume();
+    });
     jest.setSystemTime(
       new Date(Date.UTC(2000, 1, 1, 0, 0, 0)).getTime() + 2 * 1000,
     );
@@ -432,9 +431,7 @@ describe("<Fetcher /> children", () => {
     const { container } = render(
       <Fetcher alertStore={alertStore} settingsStore={settingsStore} />,
     );
-    expect(container.querySelectorAll("div.components-fetcher")).toHaveLength(
-      1,
-    );
+    expect(container.querySelector("div.components-fetcher")).toBeTruthy();
   });
 
   it("doesn't render any children when upgrade is needed", () => {
@@ -444,9 +441,8 @@ describe("<Fetcher /> children", () => {
     const { container } = render(
       <Fetcher alertStore={alertStore} settingsStore={settingsStore} />,
     );
-    expect(container.querySelector("div.navbar-brand")?.children).toHaveLength(
-      0,
-    );
+    const brand = container.querySelector("div.navbar-brand");
+    expect(brand ? brand.children.length : 0).toBe(0);
   });
 
   it("renders PauseButton when paused", () => {
@@ -466,11 +462,10 @@ describe("<Fetcher /> children", () => {
     act(() => {
       alertStore.status.pause();
     });
-    const navbarBrand = container.querySelector(".navbar-brand");
-    fireEvent.mouseEnter(navbarBrand!);
+    fireEvent.mouseEnter(container.querySelector(".navbar-brand")!);
     expect(container.innerHTML).toMatch(/fa-pause/);
 
-    fireEvent.mouseLeave(navbarBrand!);
+    fireEvent.mouseLeave(container.querySelector(".navbar-brand")!);
     expect(container.innerHTML).toMatch(/fa-pause/);
   });
 
@@ -478,21 +473,18 @@ describe("<Fetcher /> children", () => {
     const { container } = render(
       <Fetcher alertStore={alertStore} settingsStore={settingsStore} />,
     );
-    const navbarBrand = container.querySelector(".navbar-brand");
-    fireEvent.mouseEnter(navbarBrand!);
+    fireEvent.mouseEnter(container.querySelector(".navbar-brand")!);
     expect(container.innerHTML).toMatch(/fa-play/);
 
-    fireEvent.mouseLeave(navbarBrand!);
-    expect(container.querySelectorAll("div.components-fetcher")).toHaveLength(
-      1,
-    );
+    fireEvent.mouseLeave(container.querySelector(".navbar-brand")!);
+    expect(container.querySelector("div.components-fetcher")).toBeTruthy();
   });
 });
 
 describe("<Dots />", () => {
   it("matches snapshot", () => {
-    const { asFragment } = render(<Dots alertStore={alertStore} dots={8} />);
-    expect(asFragment()).toMatchSnapshot();
+    const { container } = render(<Dots alertStore={alertStore} dots={8} />);
+    expect(container.innerHTML).toMatchSnapshot();
   });
 
   it("adds 'fetching' class when fetching data", () => {
@@ -502,8 +494,8 @@ describe("<Dots />", () => {
     const { container } = render(<Dots alertStore={alertStore} dots={8} />);
     expect(
       container
-        .querySelector("div.components-fetcher")
-        ?.classList.contains("fetching"),
+        .querySelector("div.components-fetcher")!
+        .classList.contains("fetching"),
     ).toBe(true);
   });
 
@@ -514,8 +506,8 @@ describe("<Dots />", () => {
     const { container } = render(<Dots alertStore={alertStore} dots={8} />);
     expect(
       container
-        .querySelector("div.components-fetcher")
-        ?.classList.contains("processing"),
+        .querySelector("div.components-fetcher")!
+        .classList.contains("processing"),
     ).toBe(true);
   });
 
@@ -526,8 +518,8 @@ describe("<Dots />", () => {
     const { container } = render(<Dots alertStore={alertStore} dots={8} />);
     expect(
       container
-        .querySelector("div.components-fetcher")
-        ?.classList.contains("retrying"),
+        .querySelector("div.components-fetcher")!
+        .classList.contains("retrying"),
     ).toBe(true);
   });
 });

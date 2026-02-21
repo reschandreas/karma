@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 
 import {
   MockAlert,
@@ -164,13 +162,18 @@ describe("<Alert />", () => {
     const alert = MockedAlert();
     const group = MockAlertGroup([], [alert], [], [], {});
     const { container } = renderAlert(alert, group, false, false);
-    expect(container.textContent).toMatch(/@cluster:.*default/);
+    // Find labels containing @cluster text
+    const labels = Array.from(
+      container.querySelectorAll("span.components-label"),
+    ).filter((el) => el.textContent?.includes("@cluster"));
+    expect(labels).toHaveLength(1);
+    expect(labels[0].textContent).toBe("@cluster: default");
   });
 
   it("only renders one @cluster label per alertmanager cluster", () => {
     alertStore.data.setUpstreams({
       counters: { total: 2, healthy: 2, failed: 0 },
-      clusters: { default: ["default"], second: ["second"] },
+      clusters: { default: ["default"], HA: ["HA"] },
       instances: [
         {
           name: "default",
@@ -221,15 +224,23 @@ describe("<Alert />", () => {
     });
     const group = MockAlertGroup([], [alert], [], [], {});
     const { container } = renderAlert(alert, group, false, false);
-    expect(container.textContent).toMatch(/@cluster:.*default/);
-    expect(container.textContent).toMatch(/@cluster:.*HA/);
+    const labels = Array.from(
+      container.querySelectorAll("span.components-label"),
+    ).filter((el) => el.textContent?.includes("@cluster"));
+    expect(labels).toHaveLength(2);
+    expect(labels[0].textContent).toBe("@cluster: default");
+    expect(labels[1].textContent).toBe("@cluster: HA");
   });
 
   it("renders @receiver label with showReceiver=true", () => {
     const alert = MockedAlert();
     const group = MockAlertGroup([], [alert], [], [], {});
     const { container } = renderAlert(alert, group, true, false);
-    expect(container.textContent).toMatch(/@receiver:.*by-name/);
+    const labels = Array.from(
+      container.querySelectorAll("span.components-label"),
+    ).filter((el) => el.textContent?.includes("@receiver"));
+    expect(labels).toHaveLength(1);
+    expect(labels[0].textContent).toBe("@receiver: by-name");
   });
 
   it("renders a silence if alert is silenced", () => {
@@ -242,6 +253,8 @@ describe("<Alert />", () => {
     });
     const group = MockAlertGroup([], [alert], [], [], { default: [] });
     const { container } = renderAlert(alert, group, false, false);
+    const silences = container.querySelectorAll(".components-managed-silence");
+    expect(silences).toHaveLength(1);
     expect(container.innerHTML).toMatch(/Mocked Silence/);
   });
 
@@ -255,8 +268,8 @@ describe("<Alert />", () => {
     });
     const group = MockAlertGroup([], [alert], [], [], { default: [] });
     const { container } = renderAlert(alert, group, false, false);
+    expect(container.innerHTML).toMatch(/Silenced by silence123456789/);
     expect(container.innerHTML).not.toMatch(/Mocked Silence/);
-    expect(container.innerHTML).toMatch(/silence123456789/);
   });
 
   it("renders a fallback silence if the cluster is not found in alertStore", () => {
@@ -269,8 +282,8 @@ describe("<Alert />", () => {
     });
     const group = MockAlertGroup([], [alert], [], [], { default: [] });
     const { container } = renderAlert(alert, group, false, false);
+    expect(container.innerHTML).toMatch(/Silenced by silence123456789/);
     expect(container.innerHTML).not.toMatch(/Mocked Silence/);
-    expect(container.innerHTML).toMatch(/silence123456789/);
   });
 
   it("renders only one silence for HA cluster", () => {
@@ -304,6 +317,8 @@ describe("<Alert />", () => {
     });
     const group = MockAlertGroup([], [alert], [], [], {});
     const { container } = renderAlert(alert, group, false, false);
+    const silences = container.querySelectorAll(".components-managed-silence");
+    expect(silences).toHaveLength(1);
     expect(container.innerHTML).toMatch(/Mocked Silence/);
   });
 
@@ -314,7 +329,8 @@ describe("<Alert />", () => {
       default: ["silence123456789"],
     });
     const { container } = renderAlert(alert, group, false, false);
-    expect(container.innerHTML).not.toMatch(/Mocked Silence/);
+    const silences = container.querySelectorAll(".components-managed-silence");
+    expect(silences).toHaveLength(0);
   });
 
   it("renders collapsed annotations when showOnlyExpandedAnnotations=false", () => {
@@ -374,10 +390,11 @@ describe("<Alert />", () => {
     alert.state = "active";
     const group = MockAlertGroup([], [alert], [], [], {});
     const { container } = renderAlert(alert, group, false, false);
-    const alertEl = container.querySelector(
-      ".components-grid-alertgrid-alertgroup-alert",
-    );
-    expect(alertEl?.classList.contains(BorderClassMap.active)).toBe(true);
+    expect(
+      container
+        .querySelector(".components-grid-alertgrid-alertgroup-alert")!
+        .classList.contains(BorderClassMap.active),
+    ).toBe(true);
   });
 
   it("uses BorderClassMap.suppressed when @state=suppressed", () => {
@@ -385,10 +402,11 @@ describe("<Alert />", () => {
     alert.state = "suppressed";
     const group = MockAlertGroup([], [alert], [], [], {});
     const { container } = renderAlert(alert, group, false, false);
-    const alertEl = container.querySelector(
-      ".components-grid-alertgrid-alertgroup-alert",
-    );
-    expect(alertEl?.classList.contains(BorderClassMap.suppressed)).toBe(true);
+    expect(
+      container
+        .querySelector(".components-grid-alertgrid-alertgroup-alert")!
+        .classList.contains(BorderClassMap.suppressed),
+    ).toBe(true);
   });
 
   it("uses BorderClassMap.unprocessed when @state=unprocessed", () => {
@@ -396,10 +414,11 @@ describe("<Alert />", () => {
     alert.state = "unprocessed";
     const group = MockAlertGroup([], [alert], [], [], {});
     const { container } = renderAlert(alert, group, false, false);
-    const alertEl = container.querySelector(
-      ".components-grid-alertgrid-alertgroup-alert",
-    );
-    expect(alertEl?.classList.contains(BorderClassMap.unprocessed)).toBe(true);
+    expect(
+      container
+        .querySelector(".components-grid-alertgrid-alertgroup-alert")!
+        .classList.contains(BorderClassMap.unprocessed),
+    ).toBe(true);
   });
 
   it("uses 'border-default' with unknown @state", () => {
@@ -409,10 +428,11 @@ describe("<Alert />", () => {
     (alert.state as string) = "foobar";
     const group = MockAlertGroup([], [alert], [], [], {});
     const { container } = renderAlert(alert, group, false, false);
-    const alertEl = container.querySelector(
-      ".components-grid-alertgrid-alertgroup-alert",
-    );
-    expect(alertEl?.classList.contains("border-default")).toBe(true);
+    expect(
+      container
+        .querySelector(".components-grid-alertgrid-alertgroup-alert")!
+        .classList.contains("border-default"),
+    ).toBe(true);
   });
 
   it("alert timestamp is updated every minute", () => {
@@ -423,40 +443,60 @@ describe("<Alert />", () => {
     const alert = MockedAlert();
     const group = MockAlertGroup([], [alert], [], [], {});
     const { container } = renderAlert(alert, group, false, false);
-    const getTimestamp = () =>
-      container.querySelector(
+    expect(
+      container.querySelectorAll(
         "span.components-label.badge.bg-secondary.cursor-pointer",
-      )?.textContent;
-    expect(getTimestamp()).toBe("just now");
+      )[0].textContent,
+    ).toBe("just now");
 
     jest.setSystemTime(new Date(Date.UTC(2018, 7, 14, 17, 36, 42)));
     act(() => {
       jest.advanceTimersByTime(31 * 1000);
     });
-    expect(getTimestamp()).toBe("a few seconds ago");
+    expect(
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
+    ).toBe("a few seconds ago");
 
     jest.setSystemTime(new Date(Date.UTC(2018, 7, 14, 17, 37, 41)));
     act(() => {
       jest.advanceTimersByTime(31 * 1000);
     });
-    expect(getTimestamp()).toBe("1 minute ago");
+    expect(
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
+    ).toBe("1 minute ago");
 
     jest.setSystemTime(new Date(Date.UTC(2018, 7, 14, 18, 36, 41)));
     act(() => {
       jest.advanceTimersByTime(31 * 1000);
     });
-    expect(getTimestamp()).toBe("1 hour ago");
+    expect(
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
+    ).toBe("1 hour ago");
 
     jest.setSystemTime(new Date(Date.UTC(2018, 7, 14, 19, 36, 41)));
     act(() => {
       jest.advanceTimersByTime(31 * 1000);
     });
-    expect(getTimestamp()).toBe("2 hours ago");
+    expect(
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
+    ).toBe("2 hours ago");
 
     jest.setSystemTime(new Date(Date.UTC(2018, 7, 16, 19, 36, 41)));
     act(() => {
       jest.advanceTimersByTime(31 * 1000);
     });
-    expect(getTimestamp()).toBe("2 days ago");
+    expect(
+      container.querySelectorAll(
+        "span.components-label.badge.bg-secondary.cursor-pointer",
+      )[0].textContent,
+    ).toBe("2 days ago");
   });
 });

@@ -63,10 +63,7 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-const renderGroupFooter = (props?: {
-  showSilences?: boolean;
-  showAnnotations?: boolean;
-}) => {
+const MountedGroupFooter = () => {
   return render(
     <ThemeContext.Provider value={MockThemeContext}>
       <GroupFooter
@@ -74,7 +71,6 @@ const renderGroupFooter = (props?: {
         afterUpdate={MockAfterUpdate}
         alertStore={alertStore}
         silenceFormStore={silenceFormStore}
-        {...props}
       />
     </ThemeContext.Provider>,
   );
@@ -83,8 +79,8 @@ const renderGroupFooter = (props?: {
 describe("<GroupFooter />", () => {
   it("matches snapshot", () => {
     group.shared.clusters = ["default"];
-    const { asFragment } = renderGroupFooter();
-    expect(asFragment()).toMatchSnapshot();
+    const { container } = MountedGroupFooter();
+    expect(container.innerHTML).toMatchSnapshot();
   });
 
   it("render deduplicated silence if present", () => {
@@ -98,8 +94,12 @@ describe("<GroupFooter />", () => {
       },
     });
 
-    const { container } = renderGroupFooter();
-    expect(container.innerHTML).toMatch(/Mocked Silence/);
+    const { container } = MountedGroupFooter();
+    expect(
+      container.querySelectorAll(
+        ".components-managed-silence",
+      ),
+    ).toHaveLength(1);
   });
 
   it("render fallback silence if not found in alertStore", () => {
@@ -111,8 +111,8 @@ describe("<GroupFooter />", () => {
       default: {},
     });
 
-    const { container } = renderGroupFooter();
-    expect(container.innerHTML).toMatch(/Silenced by 123456789/);
+    const { container } = MountedGroupFooter();
+    expect(container.textContent).toMatch(/Silenced by 123456789/);
   });
 
   it("render fallback silence if cluster not found in alertStore", () => {
@@ -124,8 +124,8 @@ describe("<GroupFooter />", () => {
       foo: {},
     });
 
-    const { container } = renderGroupFooter();
-    expect(container.innerHTML).toMatch(/Silenced by 123456789/);
+    const { container } = MountedGroupFooter();
+    expect(container.textContent).toMatch(/Silenced by 123456789/);
   });
 
   it("mathes snapshot when silence is rendered", () => {
@@ -143,19 +143,19 @@ describe("<GroupFooter />", () => {
       },
     });
 
-    const { asFragment } = renderGroupFooter();
-    expect(asFragment()).toMatchSnapshot();
+    const { container } = MountedGroupFooter();
+    expect(container.innerHTML).toMatchSnapshot();
   });
 
   it("renders @receiver label when alertStore.data.receivers.length > 1", () => {
     alertStore.data.setReceivers(["foo", "bar"]);
-    const { container } = renderGroupFooter();
+    const { container } = MountedGroupFooter();
     expect(container.innerHTML).toMatch(/@receiver:/);
   });
 
   it("doesn't render @receiver label when alertStore.data.receivers.length == 0", () => {
     alertStore.data.setReceivers([]);
-    const { container } = renderGroupFooter();
+    const { container } = MountedGroupFooter();
     expect(container.innerHTML).not.toMatch(/@receiver:/);
   });
 
@@ -173,7 +173,17 @@ describe("<GroupFooter />", () => {
       },
     });
 
-    const { container } = renderGroupFooter({ showSilences: false });
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <GroupFooter
+          group={group}
+          afterUpdate={MockAfterUpdate}
+          alertStore={alertStore}
+          silenceFormStore={silenceFormStore}
+          showSilences={false}
+        />
+      </ThemeContext.Provider>,
+    );
     expect(
       container.querySelectorAll(
         "div.components-grid-alertgrid-alertgroup-shared-silence",
@@ -182,10 +192,20 @@ describe("<GroupFooter />", () => {
   });
 
   it("doesn't render annotations when showAnnotations=false", () => {
-    const { container } = renderGroupFooter({ showAnnotations: false });
-    expect(
-      container.querySelectorAll(".components-grid-annotation"),
-    ).toHaveLength(0);
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <GroupFooter
+          group={group}
+          afterUpdate={MockAfterUpdate}
+          alertStore={alertStore}
+          silenceFormStore={silenceFormStore}
+          showAnnotations={false}
+        />
+      </ThemeContext.Provider>,
+    );
+    // No link annotations or non-link annotations should be rendered
+    expect(container.querySelector("a[href='http://link.example.com']")).toBeNull();
+    expect(container.querySelector(".components-grid-annotation")).toBeNull();
   });
 
   it("renders @cluster label if there's more than one cluster", () => {
@@ -220,13 +240,33 @@ describe("<GroupFooter />", () => {
       ],
     });
     group.shared.clusters = ["default", "second"];
-    const { container } = renderGroupFooter({ showAnnotations: false });
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <GroupFooter
+          group={group}
+          afterUpdate={MockAfterUpdate}
+          alertStore={alertStore}
+          silenceFormStore={silenceFormStore}
+          showAnnotations={false}
+        />
+      </ThemeContext.Provider>,
+    );
     expect(container.innerHTML).toMatch(/@cluster:/);
   });
 
   it("doesn't render @cluster label if there's only one cluster", () => {
     group.shared.clusters = ["default"];
-    const { container } = renderGroupFooter({ showAnnotations: false });
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <GroupFooter
+          group={group}
+          afterUpdate={MockAfterUpdate}
+          alertStore={alertStore}
+          silenceFormStore={silenceFormStore}
+          showAnnotations={false}
+        />
+      </ThemeContext.Provider>,
+    );
     expect(container.innerHTML).not.toMatch(/@cluster:/);
   });
 });

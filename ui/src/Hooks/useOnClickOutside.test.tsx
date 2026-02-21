@@ -1,7 +1,5 @@
 import { FC, useRef, useState } from "react";
-import { act } from "react-dom/test-utils";
-
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { useOnClickOutside } from "./useOnClickOutside";
 
@@ -27,8 +25,8 @@ describe("useOnClickOutside", () => {
   };
 
   it("closes modal on click outside", () => {
-    render(<Component enabled />);
-    expect(screen.getByText("Open")).toBeInTheDocument();
+    const { container } = render(<Component enabled />);
+    expect(container.textContent).toBe("Open");
 
     const clickEvent = document.createEvent("MouseEvents");
     clickEvent.initEvent("mousedown", true, true);
@@ -36,12 +34,12 @@ describe("useOnClickOutside", () => {
       document.dispatchEvent(clickEvent);
     });
 
-    expect(screen.getByText("Hidden")).toBeInTheDocument();
+    expect(container.textContent).toBe("Hidden");
   });
 
   it("ignores events when hidden", () => {
-    render(<Component enabled />);
-    expect(screen.getByText("Open")).toBeInTheDocument();
+    const { container } = render(<Component enabled />);
+    expect(container.textContent).toBe("Open");
 
     const clickEvent = document.createEvent("MouseEvents");
     clickEvent.initEvent("mousedown", true, true);
@@ -52,19 +50,19 @@ describe("useOnClickOutside", () => {
     act(() => {
       document.dispatchEvent(clickEvent);
     });
-    expect(screen.getByText("Hidden")).toBeInTheDocument();
+    expect(container.textContent).toBe("Hidden");
   });
 
   it("modal stays open on click inside", () => {
-    render(<Component enabled />);
-    expect(screen.getByText("Open")).toBeInTheDocument();
-    fireEvent.click(screen.getByText("Open"));
-    expect(screen.getByText("Open")).toBeInTheDocument();
+    const { container } = render(<Component enabled />);
+    expect(container.textContent).toBe("Open");
+    fireEvent.click(container.querySelector("span")!);
+    expect(container.textContent).toBe("Open");
   });
 
   it("only runs when enabled", () => {
-    const { rerender } = render(<Component enabled={false} />);
-    expect(screen.getByText("Open")).toBeInTheDocument();
+    const { container, rerender } = render(<Component enabled={false} />);
+    expect(container.textContent).toBe("Open");
 
     const clickEvent = document.createEvent("MouseEvents");
     clickEvent.initEvent("mousedown", true, true);
@@ -72,18 +70,18 @@ describe("useOnClickOutside", () => {
       document.dispatchEvent(clickEvent);
     });
 
-    expect(screen.getByText("Open")).toBeInTheDocument();
+    expect(container.textContent).toBe("Open");
 
     rerender(<Component enabled={true} />);
     act(() => {
       document.dispatchEvent(clickEvent);
     });
-    expect(screen.getByText("Hidden")).toBeInTheDocument();
+    expect(container.textContent).toBe("Hidden");
   });
 
   it("unmounts cleanly", () => {
-    const { unmount } = render(<Component enabled />);
-    expect(screen.getByText("Open")).toBeInTheDocument();
+    const { container, unmount } = render(<Component enabled />);
+    expect(container.textContent).toBe("Open");
     unmount();
   });
 });

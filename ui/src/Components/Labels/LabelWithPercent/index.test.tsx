@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 
 import { AlertStore, NewUnappliedFilter } from "Stores/AlertStore";
 
@@ -31,10 +31,12 @@ const renderLabelWithPercent = (
   );
 };
 
-const renderAndClick = (name: string, value: string, clickOptions?: any) => {
-  renderLabelWithPercent(name, value, 25, 50, 0, false);
-  const labelText = screen.getByText(value);
-  fireEvent.click(labelText, clickOptions || {});
+const RenderAndClick = (name: string, value: string, clickOptions?: any) => {
+  const { container } = renderLabelWithPercent(name, value, 25, 50, 0, false);
+  const span = container.querySelector(
+    ".components-label .components-label-value",
+  );
+  fireEvent.click(span!, clickOptions || {});
 };
 
 describe("<LabelWithPercent />", () => {
@@ -75,7 +77,7 @@ describe("<LabelWithPercent />", () => {
   });
 
   it("calling adds a new filter 'foo=bar'", () => {
-    renderAndClick("foo", "bar");
+    RenderAndClick("foo", "bar");
     expect(alertStore.filters.values).toHaveLength(1);
     expect(alertStore.filters.values).toContainEqual(
       NewUnappliedFilter("foo=bar"),
@@ -84,8 +86,8 @@ describe("<LabelWithPercent />", () => {
 
   it("clicking the X buttom removes label from filters", () => {
     const { container } = renderLabelWithPercent("foo", "bar", 25, 50, 0, true);
-    const removeButton = container.querySelector("svg.fa-xmark");
-    fireEvent.click(removeButton!);
+    const svg = container.querySelector(".components-label svg");
+    fireEvent.click(svg!);
     expect(alertStore.filters.values).toHaveLength(0);
     expect(alertStore.filters.values).not.toContainEqual(
       NewUnappliedFilter("foo=bar"),
@@ -93,7 +95,7 @@ describe("<LabelWithPercent />", () => {
   });
 
   it("calling onClick() while holding Alt key adds a new filter 'foo!=bar'", () => {
-    renderAndClick("foo", "bar", { altKey: true });
+    RenderAndClick("foo", "bar", { altKey: true });
     expect(alertStore.filters.values).toHaveLength(1);
     expect(alertStore.filters.values).toContainEqual(
       NewUnappliedFilter("foo!=bar"),
@@ -109,9 +111,7 @@ describe("<LabelWithPercent />", () => {
       0,
       false,
     );
-    expect(
-      container.querySelector(".progress-bar.bg-danger"),
-    ).toBeInTheDocument();
+    expect(container.innerHTML).toMatch(/progress-bar bg-danger/);
   });
 
   it("uses bg-warning when percent is >33", () => {
@@ -123,9 +123,7 @@ describe("<LabelWithPercent />", () => {
       0,
       false,
     );
-    expect(
-      container.querySelector(".progress-bar.bg-warning"),
-    ).toBeInTheDocument();
+    expect(container.innerHTML).toMatch(/progress-bar bg-warning/);
   });
 
   it("uses bg-success when percent is <=33", () => {
@@ -137,8 +135,6 @@ describe("<LabelWithPercent />", () => {
       0,
       false,
     );
-    expect(
-      container.querySelector(".progress-bar.bg-success"),
-    ).toBeInTheDocument();
+    expect(container.innerHTML).toMatch(/progress-bar bg-success/);
   });
 });

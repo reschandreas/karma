@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, fireEvent, act, waitFor } from "@testing-library/react";
 
 import { Settings } from "Stores/Settings";
 import { AlertGroupTitleBarColor } from "./AlertGroupTitleBarColor";
@@ -8,13 +8,13 @@ beforeEach(() => {
   settingsStore = new Settings(null);
 });
 
-const renderConfiguration = () => {
+const FakeConfiguration = () => {
   return render(<AlertGroupTitleBarColor settingsStore={settingsStore} />);
 };
 
 describe("<AlertGroupTitleBarColor />", () => {
   it("matches snapshot with default values", () => {
-    const { asFragment } = renderConfiguration();
+    const { asFragment } = FakeConfiguration();
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -23,24 +23,29 @@ describe("<AlertGroupTitleBarColor />", () => {
   });
 
   it("unchecking the checkbox sets stored colorTitleBar value to 'false'", async () => {
-    renderConfiguration();
-    const checkbox = screen.getByRole("checkbox");
-
+    // Set to true before render so checkbox starts checked
     settingsStore.alertGroupConfig.setColorTitleBar(true);
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-colortitlebar")!;
+
     expect(settingsStore.alertGroupConfig.config.colorTitleBar).toBe(true);
-    fireEvent.click(checkbox);
+    act(() => {
+      fireEvent.click(checkbox);
+    });
     await waitFor(() => {
       expect(settingsStore.alertGroupConfig.config.colorTitleBar).toBe(false);
     });
   });
 
   it("checking the checkbox sets stored colorTitleBar value to 'true'", async () => {
-    renderConfiguration();
-    const checkbox = screen.getByRole("checkbox");
-
     settingsStore.alertGroupConfig.setColorTitleBar(false);
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-colortitlebar")!;
+
     expect(settingsStore.alertGroupConfig.config.colorTitleBar).toBe(false);
-    fireEvent.click(checkbox);
+    act(() => {
+      fireEvent.click(checkbox);
+    });
     await waitFor(() => {
       expect(settingsStore.alertGroupConfig.config.colorTitleBar).toBe(true);
     });

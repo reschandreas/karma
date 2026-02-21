@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent, screen, waitFor } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -84,14 +82,14 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  fetchMock.resetHistory();
+  fetchMock.reset();
   jest.clearAllTimers();
   jest.clearAllMocks();
   jest.restoreAllMocks();
   jest.useRealTimers();
 });
 
-const renderAlertAck = () => {
+const MountedAlertAck = () => {
   return render(
     <AlertAck
       alertStore={alertStore}
@@ -101,10 +99,10 @@ const renderAlertAck = () => {
   );
 };
 
-const renderAndClick = async () => {
-  renderAlertAck();
-  const badge = screen.getByRole("img", { hidden: true }).parentElement;
-  if (badge) fireEvent.click(badge);
+const MountAndClick = async () => {
+  const { container } = MountedAlertAck();
+  const button = container.querySelector("span.badge");
+  fireEvent.click(button!);
   await act(async () => {
     await fetchMock.flush(true);
   });
@@ -123,93 +121,72 @@ describe("<AlertAck />", () => {
         },
       },
     });
-    const { container } = renderAlertAck();
-    expect(container).toBeEmptyDOMElement();
+    const { container } = MountedAlertAck();
+    expect(container.innerHTML).toBe("");
   });
 
   it("uses faCheck icon when idle", () => {
-    renderAlertAck();
-    expect(screen.getByRole("img", { hidden: true })).toHaveClass("fa-check");
+    const { container } = MountedAlertAck();
+    expect(container.innerHTML).toMatch(/fa-check/);
   });
 
   it("uses faExclamationCircle after failed fetch", async () => {
-    fetchMock.mock(
-      "*",
-      {
-        status: 500,
-        body: "error message",
-      },
-      {
-        overwriteRoutes: true,
-      },
-    );
-    renderAlertAck();
-    const badge = screen.getByRole("img", { hidden: true }).parentElement;
-    if (badge) fireEvent.click(badge);
+    fetchMock.reset();
+    fetchMock.mock("*", {
+      status: 500,
+      body: "error message",
+    });
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
     await act(async () => {
       await fetchMock.flush(true);
     });
-    await waitFor(() => {
-      expect(screen.getByRole("img", { hidden: true })).toHaveClass(
-        "fa-circle-exclamation",
-      );
-    });
+    expect(container.innerHTML).toMatch(/fa-circle-exclamation/);
   });
 
   it("resets faExclamationCircle after 20s", async () => {
-    fetchMock.mock(
-      "*",
-      {
-        status: 500,
-        body: "error message",
-      },
-      {
-        overwriteRoutes: true,
-      },
-    );
-    renderAlertAck();
-    const badge = screen.getByRole("img", { hidden: true }).parentElement;
-    if (badge) fireEvent.click(badge);
+    fetchMock.reset();
+    fetchMock.mock("*", {
+      status: 500,
+      body: "error message",
+    });
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    fireEvent.click(button!);
     await act(async () => {
       await fetchMock.flush(true);
     });
-    await waitFor(() => {
-      expect(screen.getByRole("img", { hidden: true })).toHaveClass(
-        "fa-circle-exclamation",
-      );
-    });
+    expect(container.innerHTML).toMatch(/fa-circle-exclamation/);
 
     act(() => {
       jest.advanceTimersByTime(21 * 1000);
     });
-    await waitFor(() => {
-      expect(screen.getByRole("img", { hidden: true })).not.toHaveClass(
-        "fa-circle-exclamation",
-      );
-      expect(screen.getByRole("img", { hidden: true })).toHaveClass("fa-check");
-    });
+    expect(container.innerHTML).not.toMatch(/fa-circle-exclamation/);
+    expect(container.innerHTML).toMatch(/fa-check/);
   });
 
   it("uses faCheckCircle after successful fetch", async () => {
-    renderAlertAck();
-    const badge = screen.getByRole("img", { hidden: true }).parentElement;
-    if (badge) fireEvent.click(badge);
+    const { container } = MountedAlertAck();
+    const button = container.querySelector("span.badge");
+    await act(async () => {
+      fireEvent.click(button!);
+    });
     await act(async () => {
       await fetchMock.flush(true);
     });
-    await waitFor(() => {
-      expect(screen.getByRole("img", { hidden: true })).toHaveClass(
-        "fa-circle-check",
-      );
+    await act(async () => {
+      await fetchMock.flush(true);
     });
+    expect(container.innerHTML).toMatch(/fa-circle-check/);
   });
 
   it("sends a POST request on click", async () => {
-    await renderAndClick();
+    await MountAndClick();
     expect(fetchMock.calls()).toHaveLength(1);
     expect(fetchMock.lastOptions()).toMatchObject({
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
     });
   });
 
@@ -237,7 +214,7 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
-    await renderAndClick();
+    await MountAndClick();
     expect(fetchMock.calls()).toHaveLength(2);
     expect(fetchMock.calls()[0][0]).toBe(
       "http://m1.example.com/api/v2/silences",
@@ -245,7 +222,7 @@ describe("<AlertAck />", () => {
     expect(fetchMock.calls()[0][1]).toMatchObject({
       method: "POST",
       credentials: "same-origin",
-      headers: { "X-Cluster": "c1" },
+      headers: { "x-cluster": "c1" },
     });
     expect(fetchMock.calls()[1][0]).toBe(
       "http://m3.example.com/api/v2/silences",
@@ -253,7 +230,7 @@ describe("<AlertAck />", () => {
     expect(fetchMock.calls()[1][1]).toMatchObject({
       method: "POST",
       credentials: "include",
-      headers: { "X-Cluster": "c2" },
+      headers: { "x-cluster": "c2" },
     });
   });
 
@@ -281,7 +258,7 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
-    await renderAndClick();
+    await MountAndClick();
     expect(fetchMock.calls()).toHaveLength(2);
     expect(fetchMock.calls()[0][0]).toBe(
       "http://m2.example.com/api/v2/silences",
@@ -292,7 +269,7 @@ describe("<AlertAck />", () => {
   });
 
   it("doesn't send any request on click when already done", async () => {
-    const { container } = renderAlertAck();
+    const { container } = MountedAlertAck();
     const button = container.querySelector("span.badge");
 
     fireEvent.click(button!);
@@ -318,7 +295,7 @@ describe("<AlertAck />", () => {
     );
 
     silenceFormStore.data.setAuthor("karma/ui");
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment: "COMMENT",
       createdBy: "karma/ui",
@@ -348,7 +325,7 @@ describe("<AlertAck />", () => {
         },
       },
     });
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment: "comment",
       createdBy: "me",
@@ -378,7 +355,7 @@ describe("<AlertAck />", () => {
         },
       },
     });
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment:
         "ACK! This alert was acknowledged using karma on Tue, 01 Feb 2000 00:00:00 GMT",
@@ -409,13 +386,13 @@ describe("<AlertAck />", () => {
         },
       },
     });
-    await renderAndClick();
+    await MountAndClick();
     const comment = JSON.parse((fetchMock.lastOptions() as any).body).comment;
     expect(comment).not.toEqual(
       "ACK! This alert was acknowledged using karma on Tue Feb 01 2000 00:00:00 GMT",
     );
     expect(comment).toMatch(
-      /ACK! This alert was acknowledged using karma on (Mon Jan 31 2000 19|Tue Feb 01 2000 00):00:00 GMT([+-]+)[0-9]+ \(.*\)/,
+      /ACK! This alert was acknowledged using karma on (Mon Jan 31|Tue Feb 01) 2000 \d{2}:00:00 GMT([+-]+)\d+ \(.*\)/,
     );
   });
 
@@ -432,7 +409,7 @@ describe("<AlertAck />", () => {
         },
       },
     });
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment: "FOO: bar",
       createdBy: "auth@example.com",
@@ -464,7 +441,7 @@ describe("<AlertAck />", () => {
       },
     });
     silenceFormStore.data.setAuthor("bob@example.com");
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment: "FOO: bar",
       createdBy: "bob@example.com",
@@ -495,7 +472,7 @@ describe("<AlertAck />", () => {
       },
     });
     silenceFormStore.data.setAuthor("");
-    await renderAndClick();
+    await MountAndClick();
     expect(JSON.parse((fetchMock.lastOptions() as any).body)).toEqual({
       comment: "FOO: bar",
       createdBy: "me",
@@ -514,7 +491,7 @@ describe("<AlertAck />", () => {
   });
 
   it("sends POST request to /api/v2/silences", async () => {
-    await renderAndClick();
+    await MountAndClick();
     const uri = fetchMock.calls()[0][0];
     expect(uri).toBe("http://localhost/api/v2/silences");
   });
@@ -560,7 +537,7 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
-    const { container } = renderAlertAck();
+    const { container } = MountedAlertAck();
     const button = container.querySelector("span.badge");
     fireEvent.click(button!);
     await act(async () => {
@@ -620,7 +597,7 @@ describe("<AlertAck />", () => {
       m4: 1,
     };
 
-    const { container } = renderAlertAck();
+    const { container } = MountedAlertAck();
     const button = container.querySelector("span.badge");
     fireEvent.click(button!);
     await act(async () => {
@@ -667,7 +644,7 @@ describe("<AlertAck />", () => {
       ],
     });
 
-    const { container } = renderAlertAck();
+    const { container } = MountedAlertAck();
     const button = container.querySelector("span.badge");
     fireEvent.click(button!);
     await act(async () => {

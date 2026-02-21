@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import { AlertStore } from "Stores/AlertStore";
@@ -17,27 +15,29 @@ afterEach(() => {
   document.body.className = "";
 });
 
-const renderOverviewModal = () => {
+const MountedOverviewModal = () => {
   return render(<OverviewModal alertStore={alertStore} />);
 };
 
 describe("<OverviewModal />", () => {
-  it("only renders the counter when modal is not shown", () => {
-    renderOverviewModal();
-    expect(screen.getByText("0")).toBeInTheDocument();
-    expect(screen.queryByText("Overview")).not.toBeInTheDocument();
+  it("only renders the counter when modal is not shown", async () => {
+    const { container } = MountedOverviewModal();
+    expect(container.textContent).toBe("0");
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
+    await act(async () => {});
   });
 
-  it("renders a spinner placeholder while modal content is loading", () => {
-    const { container } = renderOverviewModal();
-    const toggle = container.querySelector("div.navbar-brand");
-    fireEvent.click(toggle!);
+  it("renders a spinner placeholder while modal content is loading", async () => {
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    fireEvent.click(toggle);
     expect(
-      document.body.querySelector(".modal-content svg.fa-spinner"),
-    ).toBeInTheDocument();
+      document.body.querySelectorAll(".modal-content svg.fa-spinner"),
+    ).toHaveLength(1);
+    await act(async () => {});
   });
 
-  it("renders a spinner placeholder while fetch is in progress", () => {
+  it("renders a spinner placeholder while fetch is in progress", async () => {
     useFetchGetMock.fetch.setMockedData({
       response: null,
       error: null,
@@ -47,15 +47,17 @@ describe("<OverviewModal />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderOverviewModal();
-    const toggle = container.querySelector("div.navbar-brand");
-    fireEvent.click(toggle!);
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
     expect(
-      document.body.querySelector(".modal-content svg.fa-spinner"),
-    ).toBeInTheDocument();
+      document.body.querySelectorAll(".modal-content svg.fa-spinner"),
+    ).toHaveLength(1);
   });
 
-  it("renders an error message on fetch error", () => {
+  it("renders an error message on fetch error", async () => {
     useFetchGetMock.fetch.setMockedData({
       response: null,
       error: "mock error",
@@ -65,13 +67,17 @@ describe("<OverviewModal />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderOverviewModal();
-    const toggle = container.querySelector("div.navbar-brand");
-    fireEvent.click(toggle!);
-    expect(screen.getByText("mock error")).toBeInTheDocument();
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
+    expect(document.body.querySelector("h1.text-danger")!.textContent).toBe(
+      "mock error",
+    );
   });
 
-  it("renders modal content if fallback is not used", () => {
+  it("renders modal content if fallback is not used", async () => {
     useFetchGetMock.fetch.setMockedData({
       response: {
         total: 20,
@@ -84,13 +90,20 @@ describe("<OverviewModal />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderOverviewModal();
-    const toggle = container.querySelector("div.navbar-brand");
-    fireEvent.click(toggle!);
-    expect(screen.getByText("Overview")).toBeInTheDocument();
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
+    expect(document.body.querySelector(".modal-title")!.textContent).toBe(
+      "Overview",
+    );
+    expect(
+      document.body.querySelectorAll(".modal-content svg.fa-spinner"),
+    ).toHaveLength(0);
   });
 
-  it("re-fetches counters after timestamp change", () => {
+  it("re-fetches counters after timestamp change", async () => {
     alertStore.info.setTimestamp("old");
     useFetchGetMock.fetch.setMockedData({
       response: {
@@ -104,9 +117,11 @@ describe("<OverviewModal />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderOverviewModal();
-    const toggle = container.querySelector("div.navbar-brand");
-    fireEvent.click(toggle!);
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
     expect(useFetchGetMock.fetch.calls).toHaveLength(1);
 
     act(() => {
@@ -116,66 +131,78 @@ describe("<OverviewModal />", () => {
   });
 
   it("hides the modal when toggle() is called twice", async () => {
-    const { container } = renderOverviewModal();
-    const toggle = container.querySelector("div.navbar-brand");
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
 
-    fireEvent.click(toggle!);
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    expect(screen.getByText("Overview")).toBeInTheDocument();
+    expect(document.body.querySelector(".modal-title")!.textContent).toBe(
+      "Overview",
+    );
 
-    fireEvent.click(toggle!);
+    fireEvent.click(toggle);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    await waitFor(() => {
-      expect(screen.queryByText("Overview")).not.toBeInTheDocument();
-    });
+    expect(document.body.querySelectorAll(".modal-title")).toHaveLength(0);
   });
 
   it("hides the modal when button.btn-close is clicked", async () => {
-    const { container } = renderOverviewModal();
-    const toggle = container.querySelector("div.navbar-brand");
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
 
-    fireEvent.click(toggle!);
-    expect(screen.getByText("Overview")).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
+    expect(document.body.querySelector(".modal-title")!.textContent).toBe(
+      "Overview",
+    );
 
-    const closeBtn = document.body.querySelector("button.btn-close");
-    fireEvent.click(closeBtn!);
+    fireEvent.click(
+      document.body.querySelector("button.btn-close") as HTMLElement,
+    );
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    await waitFor(() => {
-      expect(screen.queryByText("Overview")).not.toBeInTheDocument();
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(0);
+  });
+
+  it("'modal-open' class is appended to body node when modal is visible", async () => {
+    const { container } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    await act(async () => {
+      fireEvent.click(toggle);
     });
-  });
-
-  it("'modal-open' class is appended to body node when modal is visible", () => {
-    const { container } = renderOverviewModal();
-    const toggle = container.querySelector("div.navbar-brand");
-    fireEvent.click(toggle!);
     expect(document.body.className.split(" ")).toContain("modal-open");
   });
 
-  it("'modal-open' class is removed from body node after modal is hidden", () => {
-    const { container } = renderOverviewModal();
+  it("'modal-open' class is removed from body node after modal is hidden", async () => {
+    const { container } = MountedOverviewModal();
 
-    const toggle = container.querySelector("div.navbar-brand");
-    fireEvent.click(toggle!);
+    await act(async () => {
+      fireEvent.click(
+        container.querySelector("div.navbar-brand") as HTMLElement,
+      );
+    });
     expect(document.body.className.split(" ")).toContain("modal-open");
 
-    fireEvent.click(toggle!);
+    fireEvent.click(container.querySelector("div.navbar-brand") as HTMLElement);
     act(() => {
       jest.runOnlyPendingTimers();
     });
     expect(document.body.className.split(" ")).not.toContain("modal-open");
   });
 
-  it("'modal-open' class is removed from body node after modal is unmounted", () => {
-    const { container, unmount } = renderOverviewModal();
-    const toggle = container.querySelector("div.navbar-brand");
-    fireEvent.click(toggle!);
+  it("'modal-open' class is removed from body node after modal is unmounted", async () => {
+    const { container, unmount } = MountedOverviewModal();
+    const toggle = container.querySelector("div.navbar-brand") as HTMLElement;
+    await act(async () => {
+      fireEvent.click(toggle);
+    });
     unmount();
     expect(document.body.className.split(" ")).not.toContain("modal-open");
   });

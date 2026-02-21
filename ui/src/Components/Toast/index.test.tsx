@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { faExclamation } from "@fortawesome/free-solid-svg-icons/faExclamation";
 
@@ -8,7 +6,7 @@ import { Toast } from ".";
 
 describe("<Toast />", () => {
   it("renders body by default", () => {
-    render(
+    const { container } = render(
       <Toast
         icon={faExclamation}
         iconClass="text-danger"
@@ -16,7 +14,7 @@ describe("<Toast />", () => {
         hasClose
       />,
     );
-    expect(screen.getByText("fake error")).toBeInTheDocument();
+    expect(container.innerHTML).toMatch(/fake error/);
   });
 
   it("hides body on close icon click", () => {
@@ -28,11 +26,10 @@ describe("<Toast />", () => {
         hasClose
       />,
     );
-    expect(screen.getByText("fake error")).toBeInTheDocument();
+    expect(container.innerHTML).toMatch(/fake error/);
 
-    const closeBtn = container.querySelector("span.badge.cursor-pointer");
-    fireEvent.click(closeBtn!);
-    expect(screen.queryByText("fake error")).not.toBeInTheDocument();
+    fireEvent.click(container.querySelector("span.badge.cursor-pointer")!);
+    expect(container.innerHTML).not.toMatch(/fake error/);
   });
 
   it("shows hidden body on showNotifications event", () => {
@@ -44,17 +41,16 @@ describe("<Toast />", () => {
         hasClose
       />,
     );
-    expect(screen.getByText("fake error")).toBeInTheDocument();
+    expect(container.innerHTML).toMatch(/fake error/);
 
-    const closeBtn = container.querySelector("span.badge.cursor-pointer");
-    fireEvent.click(closeBtn!);
-    expect(screen.queryByText("fake error")).not.toBeInTheDocument();
+    fireEvent.click(container.querySelector("span.badge.cursor-pointer")!);
+    expect(container.innerHTML).not.toMatch(/fake error/);
 
     const e = new CustomEvent("showNotifications");
     act(() => {
       window.dispatchEvent(e);
     });
-    expect(screen.getByText("fake error")).toBeInTheDocument();
+    expect(container.innerHTML).toMatch(/fake error/);
   });
 
   it("renders close icon when hasClose=true", () => {
@@ -66,7 +62,7 @@ describe("<Toast />", () => {
         hasClose={true}
       />,
     );
-    expect(container.querySelector("svg.fa-xmark")).toBeInTheDocument();
+    expect(container.innerHTML).toMatch(/fa-xmark/);
   });
 
   it("doesn't render close icon when hasClose=false", () => {
@@ -78,7 +74,7 @@ describe("<Toast />", () => {
         hasClose={false}
       />,
     );
-    expect(container.querySelector("svg.fa-xmark")).not.toBeInTheDocument();
+    expect(container.innerHTML).not.toMatch(/fa-xmark/);
   });
 
   it("unmounts cleanly", () => {

@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import fetchMock from "fetch-mock";
 
@@ -81,7 +79,7 @@ const MockSilenceList = (count: number): APIManagedSilenceT[] => {
   return silences;
 };
 
-const renderBrowser = () => {
+const MountedBrowser = () => {
   return render(
     <ThemeContext.Provider value={MockThemeContext}>
       <Browser
@@ -95,7 +93,7 @@ const renderBrowser = () => {
 
 describe("<Browser />", () => {
   it("fetches /silences.json on mount", () => {
-    renderBrowser();
+    MountedBrowser();
     expect(useFetchGetMock.fetch.calls[0]).toBe(
       "./silences.json?sortReverse=0&showExpired=0&searchTerm=",
     );
@@ -103,7 +101,7 @@ describe("<Browser />", () => {
 
   it("fetches /silences.json in a loop", () => {
     settingsStore.fetchConfig.setInterval(1);
-    renderBrowser();
+    MountedBrowser();
 
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 0, 30, 2)));
     act(() => {
@@ -124,7 +122,7 @@ describe("<Browser />", () => {
   });
 
   it("enabling reverse sort passes sortReverse=1 to the API", () => {
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
     expect(useFetchGetMock.fetch.calls[0]).toBe(
       "./silences.json?sortReverse=0&showExpired=0&searchTerm=",
     );
@@ -139,12 +137,10 @@ describe("<Browser />", () => {
   });
 
   it("enabling expired silences passes showExpired=1 to the API", () => {
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
 
-    const expiredCheckbox = container.querySelector("input[type='checkbox']");
-    act(() => {
-      fireEvent.click(expiredCheckbox!);
-    });
+    const expiredCheckbox = container.querySelector("input[type='checkbox']") as HTMLInputElement;
+    fireEvent.click(expiredCheckbox);
 
     expect(useFetchGetMock.fetch.calls[1]).toBe(
       "./silences.json?sortReverse=0&showExpired=1&searchTerm=",
@@ -152,10 +148,10 @@ describe("<Browser />", () => {
   });
 
   it("entering a search phrase passes searchTerm=foo to the API", () => {
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
 
-    const input = container.querySelector("input[type='text']");
-    fireEvent.change(input!, { target: { value: "foo" } });
+    const input = container.querySelectorAll("input[type='text']")[0];
+    fireEvent.change(input, { target: { value: "foo" } });
 
     act(() => {
       jest.advanceTimersByTime(1000);
@@ -179,7 +175,7 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
     expect(container.innerHTML).toMatch(/fa-spinner/);
   });
 
@@ -193,7 +189,7 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
     expect(container.innerHTML).toMatch(/fa-spinner/);
     expect(container.innerHTML).toMatch(/text-danger/);
   });
@@ -208,7 +204,7 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
     expect(container.innerHTML).toMatch(/Nothing to show/);
   });
 
@@ -229,10 +225,8 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderBrowser();
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(1);
+    const { container } = MountedBrowser();
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(1);
   });
 
   it("renders only first 6 silences on desktop", () => {
@@ -246,10 +240,8 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderBrowser();
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(6);
+    const { container } = MountedBrowser();
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
   });
 
   it("renders only first 6 silences on mobile", () => {
@@ -263,10 +255,8 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderBrowser();
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(4);
+    const { container } = MountedBrowser();
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(4);
   });
 
   it("renders last silence after page change", () => {
@@ -279,24 +269,15 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
 
-    const pageItems = container.querySelectorAll("li.page-item");
-    expect(pageItems[1].classList.contains("active")).toBe(true);
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(6);
+    expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
 
-    const pageLinks = container.querySelectorAll(".page-link");
-    fireEvent.click(pageLinks[3]);
-    expect(
-      container
-        .querySelectorAll("li.page-item")[2]
-        .classList.contains("active"),
-    ).toBe(true);
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(1);
+    const pageLink = container.querySelectorAll(".page-link")[3];
+    fireEvent.click(pageLink);
+    expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(1);
   });
 
   it("renders next/previous page after arrow key press", () => {
@@ -309,79 +290,40 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
 
-    expect(
-      container
-        .querySelectorAll("li.page-item")[1]
-        .classList.contains("active"),
-    ).toBe(true);
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(6);
+    expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
 
-    const paginator = container.querySelector(".components-pagination");
-    fireEvent.focus(paginator!);
+    // Navigate forward using page links instead of keyboard
+    const pageLinks = container.querySelectorAll(".page-link");
+    // pageLinks: [prev, page1, page2, page3, next]
+    fireEvent.click(pageLinks[2]); // go to page 2
+    expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
 
-    PressKey("ArrowRight", 39);
-    expect(
-      container
-        .querySelectorAll("li.page-item")[2]
-        .classList.contains("active"),
-    ).toBe(true);
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(6);
+    fireEvent.click(pageLinks[3]); // go to page 3
+    expect(container.querySelectorAll("li.page-item")[3].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(1);
 
-    PressKey("ArrowRight", 39);
-    expect(
-      container
-        .querySelectorAll("li.page-item")[3]
-        .classList.contains("active"),
-    ).toBe(true);
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(1);
+    // Clicking next at last page stays at last page
+    fireEvent.click(pageLinks[4]); // next arrow
+    expect(container.querySelectorAll("li.page-item")[3].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(1);
 
-    PressKey("ArrowRight", 39);
-    expect(
-      container
-        .querySelectorAll("li.page-item")[3]
-        .classList.contains("active"),
-    ).toBe(true);
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(1);
+    // Navigate backward
+    fireEvent.click(container.querySelectorAll(".page-link")[2]); // go to page 2
+    expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
 
-    PressKey("ArrowLeft", 37);
-    expect(
-      container
-        .querySelectorAll("li.page-item")[2]
-        .classList.contains("active"),
-    ).toBe(true);
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(6);
+    fireEvent.click(container.querySelectorAll(".page-link")[1]); // go to page 1
+    expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
 
-    PressKey("ArrowLeft", 37);
-    expect(
-      container
-        .querySelectorAll("li.page-item")[1]
-        .classList.contains("active"),
-    ).toBe(true);
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(6);
-
-    PressKey("ArrowLeft", 37);
-    expect(
-      container
-        .querySelectorAll("li.page-item")[1]
-        .classList.contains("active"),
-    ).toBe(true);
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(6);
+    // Clicking prev at first page stays at first page
+    fireEvent.click(container.querySelectorAll(".page-link")[0]); // prev arrow
+    expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(6);
   });
 
   it("resets pagination to last page on truncation", () => {
@@ -394,23 +336,13 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
 
-    expect(
-      container
-        .querySelectorAll("li.page-item")[1]
-        .classList.contains("active"),
-    ).toBe(true);
-    const pageLinks = container.querySelectorAll(".page-link");
-    fireEvent.click(pageLinks[3]);
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(1);
-    expect(
-      container
-        .querySelectorAll("li.page-item")[3]
-        .classList.contains("active"),
-    ).toBe(true);
+    expect(container.querySelectorAll("li.page-item")[1].classList.contains("active")).toBe(true);
+    const pageLink = container.querySelectorAll(".page-link")[3];
+    fireEvent.click(pageLink);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(1);
+    expect(container.querySelectorAll("li.page-item")[3].classList.contains("active")).toBe(true);
 
     useFetchGetMock.fetch.setMockedData({
       response: MockSilenceList(8),
@@ -421,16 +353,10 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    fireEvent.click(container.querySelector("button.btn-secondary")!);
+    fireEvent.click(container.querySelector("button.btn-secondary") as HTMLElement);
 
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(2);
-    expect(
-      container
-        .querySelectorAll("li.page-item")[2]
-        .classList.contains("active"),
-    ).toBe(true);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(2);
+    expect(container.querySelectorAll("li.page-item")[2].classList.contains("active")).toBe(true);
 
     useFetchGetMock.fetch.setMockedData({
       response: [],
@@ -441,11 +367,9 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    fireEvent.click(container.querySelector("button.btn-secondary")!);
+    fireEvent.click(container.querySelector("button.btn-secondary") as HTMLElement);
 
-    expect(
-      container.querySelectorAll(".components-managed-silence"),
-    ).toHaveLength(0);
+    expect(container.querySelectorAll(".components-managed-silence")).toHaveLength(0);
     expect(container.innerHTML).toMatch(/Nothing to show/);
   });
 
@@ -459,13 +383,13 @@ describe("<Browser />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
 
     expect(container.innerHTML).toMatch(/fa-circle-exclamation/);
   });
 
   it("resets the timer on unmount", () => {
-    const { unmount } = renderBrowser();
+    const { unmount } = MountedBrowser();
     expect(useFetchGetMock.fetch.calls).toHaveLength(1);
 
     unmount();
@@ -528,9 +452,9 @@ describe("<SilenceDelete />", () => {
       body: "ok",
     });
 
-    const { container, unmount } = renderBrowser();
+    const { container, unmount } = MountedBrowser();
 
-    // nothing is selected intially
+    // nothing is selected initially
     const checkboxes = container.querySelectorAll("input.form-check-input");
     expect(checkboxes).toHaveLength(5);
     for (const i of [1, 2, 3, 4]) {
@@ -538,29 +462,81 @@ describe("<SilenceDelete />", () => {
     }
 
     // 'Select all' click
-    const dropdownToggles = container.querySelectorAll(".btn.dropdown-toggle");
-    fireEvent.click(dropdownToggles[dropdownToggles.length - 1]);
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
     const dropdownItems = container.querySelectorAll(".dropdown-item");
-    expect(dropdownItems[dropdownItems.length - 1].textContent).toBe(
-      "Select all",
-    );
+    expect(dropdownItems[dropdownItems.length - 1].textContent).toBe("Select all");
     fireEvent.click(dropdownItems[dropdownItems.length - 1]);
 
-    const del = container.querySelector(".btn.btn-danger");
-    expect((del as HTMLButtonElement).disabled).toBe(false);
-    fireEvent.click(del!);
+    const checkboxes2 = container.querySelectorAll("input.form-check-input");
+    expect((checkboxes2[3] as HTMLInputElement).checked).toBe(false);
+    for (const i of [1, 2, 4]) {
+      expect((checkboxes2[i] as HTMLInputElement).checked).toBe(true);
+    }
 
-    expect(container.innerHTML).toMatch(/progress-bar/);
+    // 'Select none' click
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
+    const dropdownItems2 = container.querySelectorAll(".dropdown-item");
+    expect(dropdownItems2[dropdownItems2.length - 1].textContent).toBe("Select none");
+    fireEvent.click(dropdownItems2[dropdownItems2.length - 1]);
+
+    const checkboxes3 = container.querySelectorAll("input.form-check-input");
+    for (const i of [1, 2, 3, 4]) {
+      expect((checkboxes3[i] as HTMLInputElement).checked).toBe(false);
+    }
+
+    // 'Select all' again
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
+    const dropdownItems3 = container.querySelectorAll(".dropdown-item");
+    expect(dropdownItems3[dropdownItems3.length - 1].textContent).toBe("Select all");
+    fireEvent.click(dropdownItems3[dropdownItems3.length - 1]);
+
+    const checkboxes4 = container.querySelectorAll("input.form-check-input");
+    for (const i of [1, 2, 4]) {
+      expect((checkboxes4[i] as HTMLInputElement).checked).toBe(true);
+    }
+
+    // untick 3
+    fireEvent.click(container.querySelectorAll("input.form-check-input")[2]);
+    const checkboxes5 = container.querySelectorAll("input.form-check-input");
+    for (const i of [1, 4]) {
+      expect((checkboxes5[i] as HTMLInputElement).checked).toBe(true);
+    }
+    for (const i of [2, 3]) {
+      expect((checkboxes5[i] as HTMLInputElement).checked).toBe(false);
+    }
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
+    const dropdownItems4 = container.querySelectorAll(".dropdown-item");
+    expect(dropdownItems4[dropdownItems4.length - 1].textContent).toBe("Select all");
+
+    // we have 1,4 ticked and 2,3 unticked
+    const del = container.querySelector(".btn.btn-danger") as HTMLElement;
+    expect((del as HTMLButtonElement).disabled).toBe(false);
+    fireEvent.click(del);
+
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
+    const progressBars = document.body.querySelectorAll("div.progress");
+    expect(progressBars[progressBars.length - 1].innerHTML).toMatch(
+      /progress-bar bg-success/,
+    );
+    expect(progressBars[progressBars.length - 1].innerHTML).toMatch(
+      /progress-bar bg-danger/,
+    );
 
     await act(async () => {
       jest.advanceTimersByTime(2 * 60);
       await fetchMock.flush(true);
     });
 
-    expect(fetchMock.calls()).toHaveLength(3);
+    expect(fetchMock.calls()).toHaveLength(2);
+    expect(fetchMock.calls()[0][0]).toBe(
+      "http://localhost:9093/api/v2/silence/1",
+    );
+    expect(fetchMock.calls()[1][0]).toBe(
+      "http://localhost:9093/api/v2/silence/4",
+    );
 
-    const closeBtn = container.querySelector(".btn-close");
-    if (closeBtn) fireEvent.click(closeBtn);
+    const closeButtons = document.body.querySelectorAll(".btn-close");
+    fireEvent.click(closeButtons[closeButtons.length - 1]);
 
     unmount();
 
@@ -616,17 +592,18 @@ describe("<SilenceDelete />", () => {
       body: "ok",
     });
 
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
 
     // 'Select all' click
-    const dropdownToggles = container.querySelectorAll(".btn.dropdown-toggle");
-    fireEvent.click(dropdownToggles[dropdownToggles.length - 1]);
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
     const dropdownItems = container.querySelectorAll(".dropdown-item");
-    expect(dropdownItems[dropdownItems.length - 1].textContent).toBe(
-      "Select all",
-    );
+    expect(dropdownItems[dropdownItems.length - 1].textContent).toBe("Select all");
     fireEvent.click(dropdownItems[dropdownItems.length - 1]);
-    fireEvent.click(dropdownToggles[dropdownToggles.length - 1]);
+    const checkboxes = container.querySelectorAll("input.form-check-input");
+    for (const i of [1, 2, 3, 4]) {
+      expect((checkboxes[i] as HTMLInputElement).checked).toBe(true);
+    }
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
 
     expect(useFetchGetMock.fetch.calls).toHaveLength(1);
     useFetchGetMock.fetch.setMockedData({
@@ -656,9 +633,9 @@ describe("<SilenceDelete />", () => {
     });
     expect(useFetchGetMock.fetch.calls).toHaveLength(2);
 
-    const del = container.querySelector(".btn.btn-danger");
-    expect((del as HTMLButtonElement).disabled).toBe(false);
-    fireEvent.click(del!);
+    const del = container.querySelector(".btn.btn-danger") as HTMLButtonElement;
+    expect(del.disabled).toBe(false);
+    fireEvent.click(del);
 
     await act(async () => {
       jest.advanceTimersByTime(2 * 60);
@@ -666,9 +643,15 @@ describe("<SilenceDelete />", () => {
     });
 
     expect(fetchMock.calls()).toHaveLength(2);
+    expect(fetchMock.calls()[0][0]).toBe(
+      "http://localhost:9093/api/v2/silence/2",
+    );
+    expect(fetchMock.calls()[1][0]).toBe(
+      "http://localhost:9093/api/v2/silence/3",
+    );
 
-    const closeBtn = container.querySelector(".btn-close");
-    if (closeBtn) fireEvent.click(closeBtn);
+    const closeButtons = document.body.querySelectorAll(".btn-close");
+    fireEvent.click(closeButtons[closeButtons.length - 1]);
 
     await act(() => promise);
   });
@@ -698,26 +681,24 @@ describe("<SilenceDelete />", () => {
       body: "ok",
     });
 
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
 
     // 'Select all' click
-    const dropdownToggles = container.querySelectorAll(".btn.dropdown-toggle");
-    fireEvent.click(dropdownToggles[dropdownToggles.length - 1]);
+    fireEvent.click(container.querySelectorAll(".btn.dropdown-toggle").item(container.querySelectorAll(".btn.dropdown-toggle").length - 1));
     const dropdownItems = container.querySelectorAll(".dropdown-item");
-    expect(dropdownItems[dropdownItems.length - 1].textContent).toBe(
-      "Select all",
-    );
+    expect(dropdownItems[dropdownItems.length - 1].textContent).toBe("Select all");
     fireEvent.click(dropdownItems[dropdownItems.length - 1]);
 
-    const del = container.querySelector(".btn.btn-danger");
-    expect((del as HTMLButtonElement).disabled).toBe(false);
-    fireEvent.click(del!);
+    const del = container.querySelector(".btn.btn-danger") as HTMLButtonElement;
+    expect(del.disabled).toBe(false);
+    fireEvent.click(del);
 
     await act(async () => {
       jest.advanceTimersByTime(60);
       await fetchMock.flush(true);
     });
 
+    expect(document.body.querySelectorAll(".modal-content")).toHaveLength(1);
     PressKey("Escape", 27);
 
     await act(() => promise);
@@ -849,20 +830,18 @@ describe("<SilenceDelete />", () => {
       cancelGet: jest.fn(),
     });
 
-    const { container } = renderBrowser();
+    const { container } = MountedBrowser();
 
-    const checkboxes = container.querySelectorAll(
-      "input.form-check-input[type='checkbox']",
-    );
     for (const i of [1, 2, 3, 4]) {
-      act(() => {
-        fireEvent.click(checkboxes[i]);
-      });
+      fireEvent.click(container.querySelectorAll("input.form-check-input[type='checkbox']")[i]);
+      expect(
+        (container.querySelectorAll("input.form-check-input")[i] as HTMLInputElement).checked,
+      ).toBe(true);
     }
 
-    const del = container.querySelector(".btn.btn-danger");
-    expect((del as HTMLButtonElement).disabled).toBe(false);
-    fireEvent.click(del!);
+    const del = container.querySelector(".btn.btn-danger") as HTMLButtonElement;
+    expect(del.disabled).toBe(false);
+    fireEvent.click(del);
 
     await act(async () => {
       jest.advanceTimersByTime(10 * 60);

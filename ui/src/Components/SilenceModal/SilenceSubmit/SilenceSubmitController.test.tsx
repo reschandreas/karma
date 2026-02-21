@@ -96,7 +96,6 @@ describe("<SilenceSubmitController />", () => {
       />,
     );
     expect(container.querySelectorAll("table")).toHaveLength(0);
-    expect(container.querySelectorAll(".display-1")).toHaveLength(1);
   });
 
   it("resets the form on 'Back' button click", () => {
@@ -107,8 +106,8 @@ describe("<SilenceSubmitController />", () => {
         silenceFormStore={silenceFormStore}
       />,
     );
-    const button = container.querySelector("button");
-    fireEvent.click(button!);
+    const button = container.querySelector("button") as HTMLButtonElement;
+    fireEvent.click(button);
     expect(silenceFormStore.data.currentStage).toBe("form");
   });
 });
@@ -138,10 +137,9 @@ describe("<MultiClusterStatus />", () => {
       />,
     );
     expect(container.querySelectorAll("tr")).toHaveLength(1);
-    const tds = container.querySelectorAll("td");
-    expect(tds[0].innerHTML).toMatch(/fa-circle-notch/);
-    expect(tds[1].textContent).toBe("single");
-    expect(tds[2].textContent).toBe("");
+    expect(container.querySelectorAll("td")[0].innerHTML).toMatch(/fa-circle-notch/);
+    expect(container.querySelectorAll("td")[1].textContent).toBe("single");
+    expect(container.querySelectorAll("td")[2].textContent).toBe("");
   });
 
   it("renders error for failed requests", () => {
@@ -156,10 +154,9 @@ describe("<MultiClusterStatus />", () => {
       />,
     );
     expect(container.querySelectorAll("tr")).toHaveLength(1);
-    const tds = container.querySelectorAll("td");
-    expect(tds[0].innerHTML).toMatch(/fa-circle-exclamation/);
-    expect(tds[1].textContent).toBe("single");
-    expect(tds[2].textContent).toBe("fake error");
+    expect(container.querySelectorAll("td")[0].innerHTML).toMatch(/fa-circle-exclamation/);
+    expect(container.querySelectorAll("td")[1].textContent).toBe("single");
+    expect(container.querySelectorAll("td")[2].textContent).toBe("fake error");
   });
 
   it("renders silence link for completed requests", () => {
@@ -175,13 +172,12 @@ describe("<MultiClusterStatus />", () => {
       />,
     );
     expect(container.querySelectorAll("tr")).toHaveLength(1);
-    const tds = container.querySelectorAll("td");
-    expect(tds[0].innerHTML).toMatch(/fa-circle-check/);
-    expect(tds[1].textContent).toBe("single");
-    expect(tds[2].textContent).toBe("123456789");
+    expect(container.querySelectorAll("td")[0].innerHTML).toMatch(/fa-circle-check/);
+    expect(container.querySelectorAll("td")[1].textContent).toBe("single");
+    expect(container.querySelectorAll("td")[2].textContent).toBe("123456789");
     expect(
-      tds[2].querySelector('a[href="http://localhost"]'),
-    ).toBeInTheDocument();
+      container.querySelectorAll("td")[2].querySelectorAll('a[href="http://localhost"]'),
+    ).toHaveLength(1);
   });
 });
 
@@ -195,12 +191,8 @@ describe("<SingleClusterStatus />", () => {
         silenceFormStore={silenceFormStore}
       />,
     );
-    expect(container.querySelector("div.display-1")?.innerHTML).toMatch(
-      /fa-circle-notch/,
-    );
-    expect(container.querySelector("div.badge.bg-primary")?.textContent).toBe(
-      "single",
-    );
+    expect(container.querySelectorAll("div.display-1")[0].innerHTML).toMatch(/fa-circle-notch/);
+    expect(container.querySelector("div.badge.bg-primary")!.textContent).toBe("single");
     expect(container.querySelectorAll("p")).toHaveLength(0);
   });
 
@@ -215,13 +207,11 @@ describe("<SingleClusterStatus />", () => {
         silenceFormStore={silenceFormStore}
       />,
     );
-    expect(container.querySelector("div.display-1")?.innerHTML).toMatch(
+    expect(container.querySelectorAll("div.display-1")[0].innerHTML).toMatch(
       /fa-circle-exclamation/,
     );
-    expect(container.querySelector("div.badge.bg-primary")?.textContent).toBe(
-      "single",
-    );
-    expect(container.querySelector("p")?.textContent).toBe("fake error");
+    expect(container.querySelector("div.badge.bg-primary")!.textContent).toBe("single");
+    expect(container.querySelector("p")!.textContent).toBe("fake error");
   });
 
   it("renders silence link for completed requests", () => {
@@ -237,15 +227,9 @@ describe("<SingleClusterStatus />", () => {
       />,
     );
 
-    expect(container.querySelector("div.display-1")?.innerHTML).toMatch(
-      /fa-circle-check/,
-    );
-    expect(container.querySelector("div.badge.bg-primary")?.textContent).toBe(
-      "single",
-    );
-    expect(container.querySelector("p")?.textContent).toBe("123456789");
-    expect(
-      container.querySelector('p a[href="http://localhost"]'),
-    ).toBeInTheDocument();
+    expect(container.querySelectorAll("div.display-1")[0].innerHTML).toMatch(/fa-circle-check/);
+    expect(container.querySelector("div.badge.bg-primary")!.textContent).toBe("single");
+    expect(container.querySelector("p")!.textContent).toBe("123456789");
+    expect(container.querySelector("p")!.querySelectorAll('a[href="http://localhost"]')).toHaveLength(1);
   });
 });

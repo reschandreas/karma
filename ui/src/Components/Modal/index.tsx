@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, PropsWithChildren, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
 import { CSSTransition } from "react-transition-group";
@@ -9,11 +9,13 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 import { ThemeContext } from "Components/Theme";
 
-const ModalInner: FC<{
-  size: "modal-lg" | "modal-xl";
-  isUpper: boolean;
-  toggleOpen: () => void;
-}> = ({ size, isUpper, toggleOpen, children }) => {
+const ModalInner: FC<
+  PropsWithChildren<{
+    size: "modal-lg" | "modal-xl";
+    isUpper: boolean;
+    toggleOpen: () => void;
+  }>
+> = ({ size, isUpper, toggleOpen, children }) => {
   // needed for tests to spy on useRef
   const ref = React.useRef<HTMLDivElement | null>(null);
 
@@ -48,13 +50,15 @@ const ModalInner: FC<{
   );
 };
 
-const Modal: FC<{
-  size?: "modal-lg" | "modal-xl";
-  isOpen: boolean;
-  isUpper?: boolean;
-  toggleOpen: () => void;
-  onExited?: () => void;
-}> = ({
+const Modal: FC<
+  PropsWithChildren<{
+    size?: "modal-lg" | "modal-xl";
+    isOpen: boolean;
+    isUpper?: boolean;
+    toggleOpen: () => void;
+    onExited?: () => void;
+  }>
+> = ({
   size = "modal-lg",
   isOpen,
   isUpper = false,
@@ -63,9 +67,12 @@ const Modal: FC<{
   children,
 }) => {
   const context = React.useContext(ThemeContext);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
   return ReactDOM.createPortal(
     <>
       <CSSTransition
+        nodeRef={modalRef}
         in={isOpen}
         classNames={
           context.animations.duration ? "components-animation-modal" : ""
@@ -76,11 +83,14 @@ const Modal: FC<{
         exit
         unmountOnExit
       >
-        <ModalInner size={size} isUpper={isUpper} toggleOpen={toggleOpen}>
-          {children}
-        </ModalInner>
+        <div ref={modalRef}>
+          <ModalInner size={size} isUpper={isUpper} toggleOpen={toggleOpen}>
+            {children}
+          </ModalInner>
+        </div>
       </CSSTransition>
       <CSSTransition
+        nodeRef={backdropRef}
         in={isOpen && !isUpper}
         classNames="components-animation-backdrop"
         timeout={context.animations.duration ? 300 : 0}
@@ -88,7 +98,7 @@ const Modal: FC<{
         exit
         unmountOnExit
       >
-        <div className="modal-backdrop d-block" />
+        <div ref={backdropRef} className="modal-backdrop d-block" />
       </CSSTransition>
     </>,
     document.body,

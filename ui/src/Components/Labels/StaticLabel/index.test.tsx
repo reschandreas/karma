@@ -10,13 +10,13 @@ beforeEach(() => {
   alertStore = new AlertStore([]);
 });
 
-const renderStaticLabel = () => {
+const MountedStaticLabel = () => {
   return render(<StaticLabel alertStore={alertStore} name="foo" value="bar" />);
 };
 
 describe("<StaticLabel />", () => {
   it("matches snapshot", () => {
-    const { asFragment } = renderStaticLabel();
+    const { asFragment } = MountedStaticLabel();
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -30,10 +30,12 @@ describe("<StaticLabel />", () => {
       },
       ...alertStore.data.colors,
     });
-    const { container } = renderStaticLabel();
-    expect(container.querySelector(".components-label")).toHaveClass(
-      "components-label-dark",
-    );
+    const { container } = MountedStaticLabel();
+    expect(
+      container
+        .querySelector(".components-label")
+        ?.classList.contains("components-label-dark"),
+    ).toBe(true);
   });
 
   it("label with bright background color should have 'components-label-bright' class", () => {
@@ -46,9 +48,11 @@ describe("<StaticLabel />", () => {
       },
       ...alertStore.data.colors,
     });
-    const { container } = renderStaticLabel();
-    expect(container.querySelector(".components-label")).toHaveClass(
-      "components-label-bright",
-    );
+    const { container } = MountedStaticLabel();
+    expect(
+      container
+        .querySelector(".components-label")
+        ?.classList.contains("components-label-bright"),
+    ).toBe(true);
   });
 });

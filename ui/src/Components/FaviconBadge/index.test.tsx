@@ -12,21 +12,21 @@ beforeEach(() => {
   Favico.badge.mockClear();
 });
 
-const renderFaviconBadge = () => {
+const MountedFaviconBadge = () => {
   return render(<FaviconBadge alertStore={alertStore} />);
 };
 
 describe("<FaviconBadge />", () => {
   it("badge is updated on mount", () => {
     alertStore.info.setTotalAlerts(99);
-    renderFaviconBadge();
+    MountedFaviconBadge();
     expect(Favico.badge).toHaveBeenCalledTimes(1);
     expect(Favico.badge).toHaveBeenCalledWith(99);
   });
 
   it("badge is updated when alertStore.info.totalAlerts changes", () => {
     alertStore.info.setTotalAlerts(99);
-    renderFaviconBadge();
+    MountedFaviconBadge();
     expect(Favico.badge).toHaveBeenCalledTimes(1);
     expect(Favico.badge).toHaveBeenCalledWith(99);
 
@@ -37,7 +37,7 @@ describe("<FaviconBadge />", () => {
 
   it("badge is updated when alertStore.status.error changes", () => {
     alertStore.status.setError("foo");
-    renderFaviconBadge();
+    MountedFaviconBadge();
     expect(Favico.badge).toHaveBeenCalledTimes(1);
     expect(Favico.badge).toHaveBeenCalledWith("?");
   });
@@ -61,7 +61,7 @@ describe("<FaviconBadge />", () => {
         },
       ],
     });
-    renderFaviconBadge();
+    MountedFaviconBadge();
     expect(Favico.badge).toHaveBeenCalledWith("!");
   });
 });

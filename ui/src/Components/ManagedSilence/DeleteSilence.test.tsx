@@ -1,9 +1,7 @@
-import { act } from "react-dom/test-utils";
-
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { MockSilence } from "__fixtures__/Alerts";
-import { PressKey } from "__fixtures__/PressKey";
+// import { PressKey } from "__fixtures__/PressKey";
 import { useFetchDelete } from "Hooks/useFetchDelete";
 import type { APISilenceT, APIAlertsResponseUpstreamsT } from "Models/APITypes";
 import { AlertStore } from "Stores/AlertStore";
@@ -58,7 +56,7 @@ afterEach(() => {
 
 const MockOnHide = jest.fn();
 
-const renderDeleteSilenceModalContent = () => {
+const MountedDeleteSilenceModalContent = () => {
   return render(
     <DeleteSilenceModalContent
       alertStore={alertStore}
@@ -70,61 +68,77 @@ const renderDeleteSilenceModalContent = () => {
   );
 };
 
-const renderDeleteSilence = () => {
-  return render(
-    <DeleteSilence
-      alertStore={alertStore}
-      silenceFormStore={silenceFormStore}
-      cluster={cluster}
-      silence={silence}
-    />,
-  );
-};
-
 describe("<DeleteSilence />", () => {
   it("label is 'Delete' by default", () => {
-    renderDeleteSilence();
-    expect(screen.getByText("Delete")).toBeInTheDocument();
+    const { container } = render(
+      <DeleteSilence
+        alertStore={alertStore}
+        silenceFormStore={silenceFormStore}
+        cluster={cluster}
+        silence={silence}
+      />,
+    );
+    expect(container.textContent).toBe("Delete");
   });
 
   it("opens modal on click", () => {
-    const { container } = renderDeleteSilence();
-    const button = container.querySelector("button.btn-danger");
-    fireEvent.click(button!);
-    expect(document.body.querySelector(".modal-body")).toBeInTheDocument();
+    const { container } = render(
+      <DeleteSilence
+        alertStore={alertStore}
+        silenceFormStore={silenceFormStore}
+        cluster={cluster}
+        silence={silence}
+      />,
+    );
+    fireEvent.click(container.querySelector("button.btn-danger")!);
+    expect(document.body.querySelectorAll(".modal-body")).toHaveLength(1);
   });
 
-  it("closes modal on close button click", async () => {
-    const { container } = renderDeleteSilence();
-    const button = container.querySelector("button.btn-danger");
-    fireEvent.click(button!);
-    expect(document.body.querySelector(".modal-body")).toBeInTheDocument();
+  it("closes modal on close button click", () => {
+    const { container } = render(
+      <DeleteSilence
+        alertStore={alertStore}
+        silenceFormStore={silenceFormStore}
+        cluster={cluster}
+        silence={silence}
+      />,
+    );
+    fireEvent.click(container.querySelector("button.btn-danger")!);
+    expect(document.body.querySelectorAll(".modal-body")).toHaveLength(1);
 
-    const closeBtn = document.body.querySelector("button.btn-close");
-    fireEvent.click(closeBtn!);
+    fireEvent.click(document.body.querySelector("button.btn-close")!);
     act(() => {
       jest.runOnlyPendingTimers();
     });
-    await waitFor(() => {
-      expect(
-        document.body.querySelector(".modal-body"),
-      ).not.toBeInTheDocument();
-    });
+    expect(document.body.querySelectorAll(".modal-body")).toHaveLength(0);
   });
 
-  it("closes modal on esc button press", async () => {
-    const { container } = renderDeleteSilence();
-    const button = container.querySelector("button.btn-danger");
-    fireEvent.click(button!);
-    expect(document.body.querySelector(".modal-body")).toBeInTheDocument();
+  it("closes modal on esc button press", () => {
+    const { container } = render(
+      <DeleteSilence
+        alertStore={alertStore}
+        silenceFormStore={silenceFormStore}
+        cluster={cluster}
+        silence={silence}
+      />,
+    );
+    fireEvent.click(container.querySelector("button.btn-danger")!);
+    expect(document.body.querySelectorAll(".modal-body")).toHaveLength(1);
 
-    PressKey("Escape", 27);
     act(() => {
-      jest.runOnlyPendingTimers();
+      const event = new KeyboardEvent("keydown", {
+        key: "Escape",
+        code: "Escape",
+        keyCode: 27,
+        which: 27,
+        bubbles: true,
+      } as KeyboardEventInit);
+      document.dispatchEvent(event);
     });
-    await waitFor(() => {
-      expect(container.querySelector(".modal-body")).not.toBeInTheDocument();
+    act(() => {
+      jest.runAllTimers();
     });
+    expect(document.body.querySelectorAll(".modal-body")).toHaveLength(0);
   });
 
   it("button is disabled when all alertmanager instances are read-only", () => {
@@ -132,24 +146,32 @@ describe("<DeleteSilence />", () => {
     upstreams.instances[0].readonly = true;
     alertStore.data.setUpstreams(upstreams);
 
-    const { container } = renderDeleteSilence();
-    const button = container.querySelector("button");
-    expect(button?.disabled).toBe(true);
+    const { container } = render(
+      <DeleteSilence
+        alertStore={alertStore}
+        silenceFormStore={silenceFormStore}
+        cluster={cluster}
+        silence={silence}
+      />,
+    );
+    expect(
+      (container.querySelector("button") as HTMLButtonElement).disabled,
+    ).toBe(true);
 
-    fireEvent.click(button!);
-    expect(container.querySelector(".modal-body")).not.toBeInTheDocument();
+    fireEvent.click(container.querySelectorAll("button")[0]);
+    expect(document.body.querySelectorAll(".modal-body")).toHaveLength(0);
   });
 });
 
 describe("<DeleteSilenceModalContent />", () => {
   it("blurs silence form on mount", () => {
     expect(silenceFormStore.toggle.blurred).toBe(false);
-    renderDeleteSilenceModalContent();
+    MountedDeleteSilenceModalContent();
     expect(silenceFormStore.toggle.blurred).toBe(true);
   });
 
   it("unblurs silence form on unmount", () => {
-    const { unmount } = renderDeleteSilenceModalContent();
+    const { unmount } = MountedDeleteSilenceModalContent();
     expect(silenceFormStore.toggle.blurred).toBe(true);
     act(() => {
       unmount();
@@ -162,9 +184,8 @@ describe("<DeleteSilenceModalContent />", () => {
       useFetchDelete as jest.MockedFunction<typeof useFetchDelete>
     ).mockReturnValue({ response: "success", error: null, isDeleting: false });
 
-    const { container } = renderDeleteSilenceModalContent();
-    const button = container.querySelector(".btn-danger");
-    fireEvent.click(button!);
+    const { container } = MountedDeleteSilenceModalContent();
+    fireEvent.click(container.querySelector(".btn-danger")!);
 
     expect(
       (useFetchDelete as jest.MockedFunction<typeof useFetchDelete>).mock
@@ -192,9 +213,8 @@ describe("<DeleteSilenceModalContent />", () => {
     };
     alertStore.data.setUpstreams(upstreams);
 
-    const { container } = renderDeleteSilenceModalContent();
-    const button = container.querySelector(".btn-danger");
-    fireEvent.click(button!);
+    const { container } = MountedDeleteSilenceModalContent();
+    fireEvent.click(container.querySelector(".btn-danger")!);
 
     expect(
       (useFetchDelete as jest.MockedFunction<typeof useFetchDelete>).mock
@@ -220,9 +240,8 @@ describe("<DeleteSilenceModalContent />", () => {
     upstreams.instances[0].corsCredentials = "omit";
     alertStore.data.setUpstreams(upstreams);
 
-    const { container } = renderDeleteSilenceModalContent();
-    const button = container.querySelector(".btn-danger");
-    fireEvent.click(button!);
+    const { container } = MountedDeleteSilenceModalContent();
+    fireEvent.click(container.querySelector(".btn-danger")!);
 
     expect(
       (useFetchDelete as jest.MockedFunction<typeof useFetchDelete>).mock
@@ -244,11 +263,10 @@ describe("<DeleteSilenceModalContent />", () => {
       useFetchDelete as jest.MockedFunction<typeof useFetchDelete>
     ).mockReturnValue({ response: null, error: null, isDeleting: true });
 
-    const { container } = renderDeleteSilenceModalContent();
-    const button = container.querySelector(".btn-danger");
-    fireEvent.click(button!);
+    const { container } = MountedDeleteSilenceModalContent();
+    fireEvent.click(container.querySelector(".btn-danger")!);
 
-    expect(container.querySelector(".fa-circle-notch")).toBeInTheDocument();
+    expect(container.querySelectorAll("svg.fa-circle-notch")).toHaveLength(1);
   });
 
   it("renders SuccessMessage on successful response status", () => {
@@ -256,11 +274,12 @@ describe("<DeleteSilenceModalContent />", () => {
       useFetchDelete as jest.MockedFunction<typeof useFetchDelete>
     ).mockReturnValue({ response: "success", error: null, isDeleting: false });
 
-    const { container } = renderDeleteSilenceModalContent();
-    const button = container.querySelector(".btn-danger");
-    fireEvent.click(button!);
+    const { container } = MountedDeleteSilenceModalContent();
+    fireEvent.click(container.querySelector(".btn-danger")!);
 
-    expect(screen.getByText(/Silence deleted/)).toBeInTheDocument();
+    expect(
+      container.querySelectorAll("svg.fa-circle-check"),
+    ).toHaveLength(1);
   });
 
   it("renders ErrorMessage on failed delete fetch request", () => {
@@ -272,11 +291,12 @@ describe("<DeleteSilenceModalContent />", () => {
       isDeleting: false,
     });
 
-    const { container } = renderDeleteSilenceModalContent();
-    const button = container.querySelector(".btn-danger");
-    fireEvent.click(button!);
+    const { container } = MountedDeleteSilenceModalContent();
+    fireEvent.click(container.querySelector(".btn-danger")!);
 
-    expect(screen.getByText("failed")).toBeInTheDocument();
+    expect(
+      container.querySelectorAll("svg.fa-circle-exclamation"),
+    ).toHaveLength(1);
   });
 
   it("'Retry' button is present after failed delete", () => {
@@ -288,11 +308,10 @@ describe("<DeleteSilenceModalContent />", () => {
       isDeleting: false,
     });
 
-    const { container } = renderDeleteSilenceModalContent();
-    const button = container.querySelector(".btn-danger");
-    fireEvent.click(button!);
+    const { container } = MountedDeleteSilenceModalContent();
+    fireEvent.click(container.querySelector(".btn-danger")!);
 
-    expect(screen.getByText("Retry")).toBeInTheDocument();
+    expect(container.querySelector(".btn-danger")!.textContent).toBe("Retry");
   });
 
   it("'Retry' button is not present after successful delete", () => {
@@ -300,11 +319,10 @@ describe("<DeleteSilenceModalContent />", () => {
       useFetchDelete as jest.MockedFunction<typeof useFetchDelete>
     ).mockReturnValue({ response: "success", error: null, isDeleting: false });
 
-    const { container } = renderDeleteSilenceModalContent();
-    const button = container.querySelector(".btn-danger");
-    fireEvent.click(button!);
+    const { container } = MountedDeleteSilenceModalContent();
+    fireEvent.click(container.querySelector(".btn-danger")!);
 
-    expect(screen.queryByText("Retry")).not.toBeInTheDocument();
+    expect(container.querySelectorAll(".btn-danger")).toHaveLength(0);
   });
 
   it("Clicking 'Retry' button triggers new delete", () => {
@@ -316,14 +334,12 @@ describe("<DeleteSilenceModalContent />", () => {
       isDeleting: false,
     });
 
-    const { container } = renderDeleteSilenceModalContent();
-    const button = container.querySelector(".btn-danger");
-    fireEvent.click(button!);
+    const { container } = MountedDeleteSilenceModalContent();
+    fireEvent.click(container.querySelector(".btn-danger")!);
     expect(useFetchDelete).toHaveBeenCalledTimes(1);
 
     jest.setSystemTime(new Date(Date.UTC(2000, 0, 1, 0, 30, 1)));
-    const retryBtn = screen.getByText("Retry");
-    fireEvent.click(retryBtn);
+    fireEvent.click(container.querySelector(".btn-danger")!);
     expect(useFetchDelete).toHaveBeenCalledTimes(2);
   });
 });

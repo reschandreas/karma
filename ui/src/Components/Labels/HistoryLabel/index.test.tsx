@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import { AlertStore } from "Stores/AlertStore";
 
@@ -10,7 +10,7 @@ beforeEach(() => {
   alertStore = new AlertStore([]);
 });
 
-const renderHistoryLabel = (name: string, matcher: string, value: string) => {
+const RenderHistoryLabel = (name: string, matcher: string, value: string) => {
   return render(
     <HistoryLabel
       alertStore={alertStore}
@@ -23,15 +23,15 @@ const renderHistoryLabel = (name: string, matcher: string, value: string) => {
 
 describe("<HistoryLabel />", () => {
   it("renders name, matcher and value if all are set", () => {
-    renderHistoryLabel("foo", "=", "bar");
-    expect(screen.getByText("foo=bar")).toBeInTheDocument();
+    const { container } = RenderHistoryLabel("foo", "=", "bar");
+    expect(container.textContent).toBe("foo=bar");
   });
 
   it("renders only value if name is falsey", () => {
-    render(
+    const { container } = render(
       <HistoryLabel alertStore={alertStore} name="" matcher="" value="bar" />,
     );
-    expect(screen.getByText("bar")).toBeInTheDocument();
+    expect(container.textContent).toBe("bar");
   });
 
   it("label with dark background color should have 'components-label-dark' class", () => {
@@ -44,10 +44,12 @@ describe("<HistoryLabel />", () => {
       },
       ...alertStore.data.colors,
     });
-    renderHistoryLabel("foo", "=", "bar");
+    const { container } = RenderHistoryLabel("foo", "=", "bar");
     expect(
-      screen.getByText("foo=bar").closest(".components-label"),
-    ).toHaveClass("components-label-dark");
+      container
+        .querySelector(".components-label")
+        ?.classList.contains("components-label-dark"),
+    ).toBe(true);
   });
 
   it("label with bright background color should have 'components-label-bright' class", () => {
@@ -60,9 +62,11 @@ describe("<HistoryLabel />", () => {
       },
       ...alertStore.data.colors,
     });
-    renderHistoryLabel("foo", "=", "bar");
+    const { container } = RenderHistoryLabel("foo", "=", "bar");
     expect(
-      screen.getByText("foo=bar").closest(".components-label"),
-    ).toHaveClass("components-label-bright");
+      container
+        .querySelector(".components-label")
+        ?.classList.contains("components-label-bright"),
+    ).toBe(true);
   });
 });

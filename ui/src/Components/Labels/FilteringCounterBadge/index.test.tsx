@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 
 import { AlertStore, NewUnappliedFilter } from "Stores/AlertStore";
 import { QueryOperators } from "Common/Query";
@@ -15,7 +15,7 @@ const validateClassName = (
   className: string,
   themed: boolean,
 ) => {
-  render(
+  const { container } = render(
     <FilteringCounterBadge
       alertStore={alertStore}
       name="@state"
@@ -24,11 +24,11 @@ const validateClassName = (
       themed={themed}
     />,
   );
-  expect(screen.getByText("1")).toHaveClass(className);
+  expect(container.querySelector("span")?.classList.contains(className)).toBe(true);
 };
 
 const validateStyle = (value: string, themed: boolean) => {
-  render(
+  const { container } = render(
     <FilteringCounterBadge
       alertStore={alertStore}
       name="@state"
@@ -37,7 +37,8 @@ const validateStyle = (value: string, themed: boolean) => {
       themed={themed}
     />,
   );
-  expect(screen.getByText("1")).not.toHaveAttribute("style");
+  const span = container.querySelector("span") as HTMLElement;
+  expect(span.style.backgroundColor).toBe("");
 };
 
 const validateOnClick = (
@@ -47,7 +48,7 @@ const validateOnClick = (
   isAppend: boolean,
 ) => {
   alertStore.filters.setFilterValues([NewUnappliedFilter("foo=bar")]);
-  render(
+  const { container } = render(
     <FilteringCounterBadge
       alertStore={alertStore}
       name="@state"
@@ -57,7 +58,8 @@ const validateOnClick = (
       isAppend={isAppend}
     />,
   );
-  fireEvent.click(screen.getByText("1"), { altKey: isNegative ? true : false });
+  const label = container.querySelector(".components-label")!;
+  fireEvent.click(label, { altKey: isNegative ? true : false });
   expect(alertStore.filters.values).toHaveLength(isAppend ? 2 : 1);
   if (isAppend) {
     expect(alertStore.filters.values).toContainEqual(
@@ -98,7 +100,7 @@ describe("<FilteringCounterBadge />", () => {
   });
 
   it("counter badge should have correct children based on the counter prop value", () => {
-    render(
+    const { container } = render(
       <FilteringCounterBadge
         alertStore={alertStore}
         name="@state"
@@ -107,7 +109,7 @@ describe("<FilteringCounterBadge />", () => {
         themed={true}
       />,
     );
-    expect(screen.getByText("123")).toBeInTheDocument();
+    expect(container.textContent).toBe("123");
   });
 
   for (const state of ["unprocessed", "active", "suppressed"]) {

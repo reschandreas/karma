@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 
 import { Settings } from "Stores/Settings";
 import { AnimationsConfiguration } from "./AnimationsConfiguration";
@@ -8,13 +8,13 @@ beforeEach(() => {
   settingsStore = new Settings(null);
 });
 
-const renderConfiguration = () => {
+const FakeConfiguration = () => {
   return render(<AnimationsConfiguration settingsStore={settingsStore} />);
 };
 
 describe("<AnimationsConfiguration />", () => {
   it("matches snapshot with default values", () => {
-    const { asFragment } = renderConfiguration();
+    const { asFragment } = FakeConfiguration();
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -23,8 +23,8 @@ describe("<AnimationsConfiguration />", () => {
   });
 
   it("unchecking the checkbox sets stored animations value to 'false'", async () => {
-    renderConfiguration();
-    const checkbox = screen.getByRole("checkbox");
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-animations")!;
 
     settingsStore.themeConfig.setAnimations(true);
     expect(settingsStore.themeConfig.config.animations).toBe(true);
@@ -35,8 +35,8 @@ describe("<AnimationsConfiguration />", () => {
   });
 
   it("checking the checkbox sets stored animations value to 'true'", async () => {
-    renderConfiguration();
-    const checkbox = screen.getByRole("checkbox");
+    const { container } = FakeConfiguration();
+    const checkbox = container.querySelector("#configuration-animations")!;
 
     settingsStore.themeConfig.setAnimations(false);
     expect(settingsStore.themeConfig.config.animations).toBe(false);

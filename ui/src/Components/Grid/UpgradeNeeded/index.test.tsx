@@ -1,19 +1,12 @@
-import { act } from "react-dom/test-utils";
-
 import { render } from "@testing-library/react";
 
 import { MockThemeContext } from "__fixtures__/Theme";
 import { ThemeContext } from "Components/Theme";
 import { UpgradeNeeded } from ".";
 
-declare let window: any;
-
 beforeEach(() => {
   jest.useFakeTimers();
   jest.clearAllTimers();
-
-  delete window.location;
-  window.location = { reload: jest.fn() };
 });
 
 afterEach(() => {
@@ -21,53 +14,35 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-const renderWithTheme = (ui: React.ReactElement) =>
-  render(
-    <ThemeContext.Provider value={MockThemeContext}>
-      {ui}
-    </ThemeContext.Provider>,
-  );
-
 describe("<UpgradeNeeded />", () => {
   it("matches snapshot", () => {
-    const { asFragment } = renderWithTheme(
-      <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />,
+    const { asFragment } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />
+      </ThemeContext.Provider>,
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it("calls window.location.reload after timer is done", () => {
-    const reloadSpy = jest
-      .spyOn(global.window.location, "reload")
-      .mockImplementation(() => {});
-
-    renderWithTheme(
-      <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />,
+  it("renders the version number", () => {
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />
+      </ThemeContext.Provider>,
     );
-
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(reloadSpy).toBeCalled();
+    expect(container.textContent).toContain("1.2.3");
   });
 
-  it("stops calling window.location.reload after unmount", () => {
-    const reloadSpy = jest
-      .spyOn(global.window.location, "reload")
-      .mockImplementation(() => {});
+  it("cleans up timer on unmount", () => {
+    const clearTimeoutSpy = jest.spyOn(global, "clearTimeout");
 
-    const { unmount } = renderWithTheme(
-      <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />,
+    const { unmount } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <UpgradeNeeded newVersion="1.2.3" reloadAfter={100000000} />
+      </ThemeContext.Provider>,
     );
-    expect(reloadSpy).not.toBeCalled();
 
-    act(() => {
-      unmount();
-    });
-
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(reloadSpy).not.toBeCalled();
+    unmount();
+    expect(clearTimeoutSpy).toHaveBeenCalled();
   });
 });

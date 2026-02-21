@@ -1,6 +1,4 @@
-import { act } from "react-dom/test-utils";
-
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 
 import { addMinutes } from "date-fns/addMinutes";
 import { addHours } from "date-fns/addHours";
@@ -29,91 +27,99 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-const renderDateTimeSelect = () => {
+const RenderDateTimeSelect = () => {
+  return render(<DateTimeSelect silenceFormStore={silenceFormStore} />);
+};
+
+const MountedDateTimeSelect = () => {
   return render(<DateTimeSelect silenceFormStore={silenceFormStore} />);
 };
 
 describe("<DateTimeSelect />", () => {
   it("renders 3 tabs", () => {
-    const { container } = renderDateTimeSelect();
+    const { container } = RenderDateTimeSelect();
     const tabs = container.querySelectorAll(".nav-link");
     expect(tabs).toHaveLength(3);
   });
 
   it("renders 'Duration' tab by default", () => {
-    const { container } = renderDateTimeSelect();
-    const tab = container.querySelector(".nav-link.active");
-    expect(tab).toBeInTheDocument();
-    expect(tab?.textContent).toMatch(/Duration/);
-    expect(container.querySelector(".tab-content")?.textContent).toBe(
+    const { container } = MountedDateTimeSelect();
+    const tab = container.querySelectorAll(".nav-link.active");
+    expect(tab).toHaveLength(1);
+    // check tab title
+    expect(tab[0].textContent).toMatch(/Duration/);
+    // check tab content
+    expect(container.querySelector(".tab-content")!.textContent).toBe(
       "366days0hours0minutes",
     );
   });
 
   it("'Duration' tab matches snapshot", () => {
     jest.setSystemTime(new Date(2060, 1, 1, 0, 0, 0));
-    const { asFragment } = renderDateTimeSelect();
+    const { asFragment } = MountedDateTimeSelect();
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("'Duration' tab unmounts without crashing", () => {
-    const { unmount } = renderDateTimeSelect();
+    const { unmount } = MountedDateTimeSelect();
     unmount();
   });
 
   it("clicking on the 'Starts' tab switches content to 'startsAt' selection", () => {
-    const { container } = renderDateTimeSelect();
-    const tabs = container.querySelectorAll(".nav-link");
-    expect(tabs[0].textContent).toMatch(/Starts/);
-    fireEvent.click(tabs[0]);
-    expect(container.querySelector(".tab-content")?.textContent).toMatch(
+    const { container } = MountedDateTimeSelect();
+    const tab = container.querySelectorAll(".nav-link")[0];
+    expect(tab.textContent).toMatch(/Starts/);
+    fireEvent.click(tab);
+    expect(container.querySelector(".tab-content")!.textContent).toMatch(
       /2060/,
     );
   });
 
   it("'Starts' tab matches snapshot", () => {
     jest.setSystemTime(new Date(2060, 1, 1, 0, 0, 0));
-    const { container, asFragment } = renderDateTimeSelect();
+    const { container, asFragment } = MountedDateTimeSelect();
     fireEvent.click(container.querySelectorAll(".nav-link")[0]);
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("'Starts' tab unmounts without crashing", () => {
-    const { container, unmount } = renderDateTimeSelect();
+    const { container, unmount } = MountedDateTimeSelect();
     fireEvent.click(container.querySelectorAll(".nav-link")[0]);
     unmount();
   });
 
   it("clicking on the 'Ends' tab switches content to 'endsAt' selection", () => {
-    const { container } = renderDateTimeSelect();
-    const tabs = container.querySelectorAll(".nav-link");
-    expect(tabs[1].textContent).toMatch(/Ends/);
-    fireEvent.click(tabs[1]);
-    expect(container.querySelector(".tab-content")?.textContent).toMatch(
+    const { container } = MountedDateTimeSelect();
+    const tab = container.querySelectorAll(".nav-link")[1];
+    expect(tab.textContent).toMatch(/Ends/);
+    fireEvent.click(tab);
+    expect(container.querySelector(".tab-content")!.textContent).toMatch(
       /2061/,
     );
   });
 
   it("'Ends' tab matches snapshot", () => {
     jest.setSystemTime(new Date(2060, 1, 1, 0, 0, 0));
-    const { container, asFragment } = renderDateTimeSelect();
+    const { container, asFragment } = MountedDateTimeSelect();
     fireEvent.click(container.querySelectorAll(".nav-link")[1]);
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("'Ends' tab unmounts without crashing", () => {
-    const { container, unmount } = renderDateTimeSelect();
+    const { container, unmount } = MountedDateTimeSelect();
     fireEvent.click(container.querySelectorAll(".nav-link")[1]);
     unmount();
   });
 
   it("clicking on the 'Duration' tabs switches content to duration selection", () => {
-    const { container } = renderDateTimeSelect();
-    const tabs = container.querySelectorAll(".nav-link");
-    fireEvent.click(tabs[0]);
-    expect(tabs[2].textContent).toMatch(/Duration/);
-    fireEvent.click(tabs[2]);
-    expect(container.querySelector(".tab-content")?.textContent).toBe(
+    const { container } = MountedDateTimeSelect();
+    // first switch to 'Starts'
+    fireEvent.click(container.querySelectorAll(".nav-link")[0]);
+    // then switch back to 'Duration'
+    const tab = container.querySelectorAll(".nav-link")[2];
+    expect(tab.textContent).toMatch(/Duration/);
+    fireEvent.click(tab);
+    expect(container.querySelector(".tab-content")!.textContent).toBe(
       "366days0hours0minutes",
     );
   });
@@ -124,7 +130,7 @@ describe("<DateTimeSelect />", () => {
     silenceFormStore.data.setStart(new Date(2060, 1, 1, 12, 0, 0));
     silenceFormStore.data.setEnd(new Date(2060, 1, 1, 13, 0, 0));
 
-    const { container } = renderDateTimeSelect();
+    const { container } = MountedDateTimeSelect();
     expect(container.querySelectorAll(".nav-link")[1].textContent).toBe(
       "Endsin 1h ",
     );
@@ -140,7 +146,7 @@ describe("<DateTimeSelect />", () => {
   });
 
   it("unmounts cleanly", () => {
-    const { unmount } = renderDateTimeSelect();
+    const { unmount } = MountedDateTimeSelect();
     unmount();
   });
 });
@@ -152,8 +158,7 @@ const ValidateTimeButton = (
   iconMatch: RegExp,
   expectedDiff: number,
 ) => {
-  const buttons = container.querySelectorAll("td > span");
-  const button = buttons[elemIndex];
+  const button = container.querySelectorAll("td > span")[elemIndex];
   expect(button.innerHTML).toMatch(iconMatch);
 
   const oldTimeValue = new Date(silenceFormStore.data[storeKey]);
@@ -175,15 +180,16 @@ const ValidateTimeWheel = (
   deltaY: number,
   expectedDiff: number,
 ) => {
-  const elem = container.querySelector(className);
+  const elem = container.querySelector(className)!;
 
   const oldTimeValue = new Date(silenceFormStore.data[storeKey]);
 
-  fireEvent.wheel(elem!, { deltaY: deltaY });
+  fireEvent.wheel(elem, { deltaY: deltaY });
   // fire real event so cancel listener will trigger
-  const event = new WheelEvent("wheel", { deltaY: deltaY });
-  const hourMinute = container.querySelector("div.components-hour-minute");
-  hourMinute?.dispatchEvent(event);
+  const event = new Event("wheel", { deltaY: deltaY } as EventInit);
+  container
+    .querySelectorAll("div.components-hour-minute")[0]
+    .dispatchEvent(event);
 
   expect(silenceFormStore.data[storeKey].toISOString()).not.toBe(
     oldTimeValue.toISOString(),
@@ -195,50 +201,53 @@ const ValidateTimeWheel = (
   expect(diffMS).toBe(expectedDiff);
 };
 
-const renderTabContentStart = () => {
+const MountedTabContentStart = () => {
   return render(<TabContentStart silenceFormStore={silenceFormStore} />);
 };
 
 describe("<TabContentStart />", () => {
   it("selecting date on DayPicker updates startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     expect(silenceFormStore.data.startsAt.toISOString()).toBe(
       new Date(2060, 1, 1, 0, 0, 0).toISOString(),
     );
-    const dayButtons = container.querySelectorAll("button.rdp-button.rdp-day");
-    fireEvent.click(dayButtons[17]);
+    fireEvent.click(
+      container.querySelectorAll("button.rdp-day_button")[17],
+    );
     expect(silenceFormStore.data.startsAt.toISOString()).toBe(
       new Date(2060, 1, 18, 0, 0, 0).toISOString(),
     );
   });
 
   it("clicking on the hour inc button adds 1h to startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeButton(container, "startsAt", 0, /angle-up/, 3600 * 1000);
   });
 
   it("Today button takes you back to the current month", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     expect(silenceFormStore.data.startsAt.toISOString()).toBe(
       new Date(2060, 1, 1, 0, 0, 0).toISOString(),
     );
-    expect(container.querySelector(".rdp-caption_label")?.textContent).toBe(
+    expect(container.querySelector(".rdp-caption_label")!.textContent).toBe(
       "February 2060",
     );
     fireEvent.click(
-      container.querySelector("button.rdp-button.rdp-nav_button_next")!,
+      container.querySelector("button.rdp-button_next")!,
     );
-    expect(container.querySelector(".rdp-caption_label")?.textContent).toBe(
+    expect(container.querySelector(".rdp-caption_label")!.textContent).toBe(
       "March 2060",
     );
-    fireEvent.click(container.querySelector("button.btn.btn-light.btn-sm")!);
-    expect(container.querySelector(".rdp-caption_label")?.textContent).toBe(
+    fireEvent.click(
+      container.querySelector("button.btn.btn-light.btn-sm")!,
+    );
+    expect(container.querySelector(".rdp-caption_label")!.textContent).toBe(
       format(new Date(), "LLLL yyyy"),
     );
   });
 
   it("scrolling up on the hour button adds 1h to startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeWheel(
       container,
       "startsAt",
@@ -249,12 +258,12 @@ describe("<TabContentStart />", () => {
   });
 
   it("clicking on the minute inc button adds 1m to startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeButton(container, "startsAt", 1, /angle-up/, 60 * 1000);
   });
 
   it("scrolling up on the minute button adds 1m to startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeWheel(
       container,
       "startsAt",
@@ -265,7 +274,7 @@ describe("<TabContentStart />", () => {
   });
 
   it("clicking on the hour dec button subtracts 1h from startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeButton(
       container,
       "startsAt",
@@ -276,7 +285,7 @@ describe("<TabContentStart />", () => {
   });
 
   it("scrolling down on the hour button subtracts 1h from startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeWheel(
       container,
       "startsAt",
@@ -287,7 +296,7 @@ describe("<TabContentStart />", () => {
   });
 
   it("scrolling up on the minute adds 1m to startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeWheel(
       container,
       "startsAt",
@@ -298,7 +307,7 @@ describe("<TabContentStart />", () => {
   });
 
   it("scrolling down on the minute subtracts 1m from startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeWheel(
       container,
       "startsAt",
@@ -309,12 +318,18 @@ describe("<TabContentStart />", () => {
   });
 
   it("clicking on the minute dec button subtracts 1m from startsAt", () => {
-    const { container } = renderTabContentStart();
-    ValidateTimeButton(container, "startsAt", 3, /angle-down/, -1 * 60 * 1000);
+    const { container } = MountedTabContentStart();
+    ValidateTimeButton(
+      container,
+      "startsAt",
+      3,
+      /angle-down/,
+      -1 * 60 * 1000,
+    );
   });
 
   it("scrolling down by deltaY=2 on the minute button subtracts 1m from startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeWheel(
       container,
       "startsAt",
@@ -325,7 +340,7 @@ describe("<TabContentStart />", () => {
   });
 
   it("scrolling up on the minute subtracts 1m from startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeWheel(
       container,
       "startsAt",
@@ -336,7 +351,7 @@ describe("<TabContentStart />", () => {
   });
 
   it("scrolling down by deltaY=1 on the minute subtracts 1m from startsAt", () => {
-    const { container } = renderTabContentStart();
+    const { container } = MountedTabContentStart();
     ValidateTimeWheel(
       container,
       "startsAt",
@@ -347,50 +362,53 @@ describe("<TabContentStart />", () => {
   });
 });
 
-const renderTabContentEnd = () => {
+const MountedTabContentEnd = () => {
   return render(<TabContentEnd silenceFormStore={silenceFormStore} />);
 };
 
 describe("<TabContentEnd />", () => {
   it("Selecting date on DayPicker updates endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     expect(silenceFormStore.data.endsAt.toISOString()).toBe(
       new Date(2061, 1, 1, 0, 0, 0).toISOString(),
     );
-    const dayButtons = container.querySelectorAll("button.rdp-button.rdp-day");
-    fireEvent.click(dayButtons[23]);
+    fireEvent.click(
+      container.querySelectorAll("button.rdp-day_button")[23],
+    );
     expect(silenceFormStore.data.endsAt.toISOString()).toBe(
       new Date(2061, 1, 24, 0, 0, 0).toISOString(),
     );
   });
 
   it("clicking on the hour inc button adds 1h to endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     ValidateTimeButton(container, "endsAt", 0, /angle-up/, 3600 * 1000);
   });
 
   it("Today button takes you back to the current month", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     expect(silenceFormStore.data.endsAt.toISOString()).toBe(
       new Date(2061, 1, 1, 0, 0, 0).toISOString(),
     );
-    expect(container.querySelector(".rdp-caption_label")?.textContent).toBe(
+    expect(container.querySelector(".rdp-caption_label")!.textContent).toBe(
       "February 2061",
     );
     fireEvent.click(
-      container.querySelector("button.rdp-button.rdp-nav_button_next")!,
+      container.querySelector("button.rdp-button_next")!,
     );
-    expect(container.querySelector(".rdp-caption_label")?.textContent).toBe(
+    expect(container.querySelector(".rdp-caption_label")!.textContent).toBe(
       "March 2061",
     );
-    fireEvent.click(container.querySelector("button.btn.btn-light.btn-sm")!);
-    expect(container.querySelector(".rdp-caption_label")?.textContent).toBe(
+    fireEvent.click(
+      container.querySelector("button.btn.btn-light.btn-sm")!,
+    );
+    expect(container.querySelector(".rdp-caption_label")!.textContent).toBe(
       format(new Date(), "LLLL yyyy"),
     );
   });
 
   it("scrolling up on the hour button adds 1h to endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     ValidateTimeWheel(
       container,
       "endsAt",
@@ -401,7 +419,7 @@ describe("<TabContentEnd />", () => {
   });
 
   it("scrolling up on the hour adds 1h to endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     ValidateTimeWheel(
       container,
       "endsAt",
@@ -412,7 +430,7 @@ describe("<TabContentEnd />", () => {
   });
 
   it("scrolling down on the hour subtracts 1h from endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     ValidateTimeWheel(
       container,
       "endsAt",
@@ -423,12 +441,12 @@ describe("<TabContentEnd />", () => {
   });
 
   it("clicking on the minute inc button adds 1m to endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     ValidateTimeButton(container, "endsAt", 1, /angle-up/, 60 * 1000);
   });
 
   it("scrolling up on the minute button adds 1m to endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     ValidateTimeWheel(
       container,
       "endsAt",
@@ -439,12 +457,18 @@ describe("<TabContentEnd />", () => {
   });
 
   it("clicking on the hour dec button subtracts 1h from endsAt", () => {
-    const { container } = renderTabContentEnd();
-    ValidateTimeButton(container, "endsAt", 2, /angle-down/, -1 * 3600 * 1000);
+    const { container } = MountedTabContentEnd();
+    ValidateTimeButton(
+      container,
+      "endsAt",
+      2,
+      /angle-down/,
+      -1 * 3600 * 1000,
+    );
   });
 
   it("scrolling down on the hour button subtracts 1h from endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     ValidateTimeWheel(
       container,
       "endsAt",
@@ -455,12 +479,18 @@ describe("<TabContentEnd />", () => {
   });
 
   it("clicking on the minute dec button subtracts 1m from endsAt", () => {
-    const { container } = renderTabContentEnd();
-    ValidateTimeButton(container, "endsAt", 3, /angle-down/, -1 * 60 * 1000);
+    const { container } = MountedTabContentEnd();
+    ValidateTimeButton(
+      container,
+      "endsAt",
+      3,
+      /angle-down/,
+      -1 * 60 * 1000,
+    );
   });
 
   it("scrolling down on the minute button subtracts 1m from endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     ValidateTimeWheel(
       container,
       "endsAt",
@@ -471,7 +501,7 @@ describe("<TabContentEnd />", () => {
   });
 
   it("scrolling up on the minute adds 1m to endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     ValidateTimeWheel(
       container,
       "endsAt",
@@ -482,7 +512,7 @@ describe("<TabContentEnd />", () => {
   });
 
   it("scrolling down on the minute subtracts 1m from endsAt", () => {
-    const { container } = renderTabContentEnd();
+    const { container } = MountedTabContentEnd();
     ValidateTimeWheel(
       container,
       "endsAt",
@@ -501,8 +531,7 @@ const ValidateDurationButton = (
   const { container } = render(
     <TabContentDuration silenceFormStore={silenceFormStore} />,
   );
-  const buttons = container.querySelectorAll("td > span");
-  const button = buttons[elemIndex];
+  const button = container.querySelectorAll("td > span")[elemIndex];
   expect(button.innerHTML).toMatch(iconMatch);
 
   const oldEndsAt = new Date(silenceFormStore.data.endsAt);
@@ -525,14 +554,13 @@ const ValidateDurationWheel = (
   const { container } = render(
     <TabContentDuration silenceFormStore={silenceFormStore} />,
   );
-  const elems = container.querySelectorAll(".components-duration");
-  const elem = elems[elemIndex];
+  const elem = container.querySelectorAll(".components-duration")[elemIndex];
 
   const oldEndsAt = new Date(silenceFormStore.data.endsAt);
 
   fireEvent.wheel(elem, { deltaY: deltaY });
   // fire real event so cancel listener will trigger
-  const event = new WheelEvent("wheel", { deltaY: deltaY });
+  const event = new Event("wheel", { deltaY: deltaY } as EventInit);
   elem.dispatchEvent(event);
 
   expect(silenceFormStore.data.endsAt.toISOString()).not.toBe(

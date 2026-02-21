@@ -20,18 +20,17 @@ describe("<WrappedCustomMultiSelect />", () => {
   });
 
   it("matches snapshot when focused", () => {
-    const { asFragment, container } = render(<ThemedSelect autoFocus />);
-    const input = container.querySelector("input");
-    fireEvent.focus(input!);
+    // this test is to cover styles state.isFocused conditions
+    const { container, asFragment } = render(<ThemedSelect autoFocus />);
+    fireEvent.focus(container.querySelector("input")!);
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("matches snapshot when focused and disabled", () => {
-    const { asFragment, container } = render(
+    const { container, asFragment } = render(
       <ThemedSelect autoFocus isDisabled />,
     );
-    const input = container.querySelector("input");
-    fireEvent.focus(input!);
+    fireEvent.focus(container.querySelector("input")!);
     expect(asFragment()).toMatchSnapshot();
   });
 

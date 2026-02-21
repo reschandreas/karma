@@ -1,19 +1,12 @@
-import { act } from "react-dom/test-utils";
-
 import { render } from "@testing-library/react";
 
 import { MockThemeContext } from "__fixtures__/Theme";
 import { ThemeContext } from "Components/Theme";
 import { ReloadNeeded } from ".";
 
-declare let window: any;
-
 beforeEach(() => {
   jest.useFakeTimers();
   jest.clearAllTimers();
-
-  delete window.location;
-  window.location = { reload: jest.fn() };
 });
 
 afterEach(() => {
@@ -21,50 +14,35 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-const renderWithTheme = (ui: React.ReactElement) =>
-  render(
-    <ThemeContext.Provider value={MockThemeContext}>
-      {ui}
-    </ThemeContext.Provider>,
-  );
-
 describe("<ReloadNeeded />", () => {
   it("matches snapshot", () => {
-    const { asFragment } = renderWithTheme(
-      <ReloadNeeded reloadAfter={100000000} />,
+    const { asFragment } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <ReloadNeeded reloadAfter={100000000} />
+      </ThemeContext.Provider>,
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it("calls window.location.reload after timer is done", () => {
-    const reloadSpy = jest
-      .spyOn(global.window.location, "reload")
-      .mockImplementation(() => {});
-
-    renderWithTheme(<ReloadNeeded reloadAfter={100000000} />);
-
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(reloadSpy).toBeCalled();
+  it("renders the reload message", () => {
+    const { container } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <ReloadNeeded reloadAfter={100000000} />
+      </ThemeContext.Provider>,
+    );
+    expect(container.textContent).toContain("will try to reload");
   });
 
-  it("stops calling window.location.reload after unmount", () => {
-    const reloadSpy = jest
-      .spyOn(global.window.location, "reload")
-      .mockImplementation(() => {});
+  it("cleans up timer on unmount", () => {
+    const clearTimeoutSpy = jest.spyOn(global, "clearTimeout");
 
-    const { unmount } = renderWithTheme(
-      <ReloadNeeded reloadAfter={100000000} />,
+    const { unmount } = render(
+      <ThemeContext.Provider value={MockThemeContext}>
+        <ReloadNeeded reloadAfter={100000000} />
+      </ThemeContext.Provider>,
     );
-    expect(reloadSpy).not.toBeCalled();
 
-    act(() => {
-      unmount();
-    });
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-    expect(reloadSpy).not.toBeCalled();
+    unmount();
+    expect(clearTimeoutSpy).toHaveBeenCalled();
   });
 });

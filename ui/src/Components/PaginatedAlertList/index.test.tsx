@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import { useFetchGetMock } from "__fixtures__/useFetchGet";
 import { AlertStore } from "Stores/AlertStore";
@@ -39,16 +39,6 @@ afterEach(() => {
   document.body.className = "";
 });
 
-const renderPaginatedAlertList = (filters: string[], title?: string) => {
-  return render(
-    <PaginatedAlertList
-      alertStore={alertStore}
-      filters={filters}
-      title={title}
-    />,
-  );
-};
-
 describe("<PaginatedAlertList />", () => {
   it("renders Placeholder while loading preview", () => {
     useFetchGetMock.fetch.setMockedData({
@@ -60,8 +50,10 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderPaginatedAlertList(["foo=bar"]);
-    expect(container.querySelector(".text-placeholder")).toBeInTheDocument();
+    const { container } = render(
+      <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
+    );
+    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 
   it("renders Placeholder while response is empty", () => {
@@ -74,8 +66,10 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    const { container } = renderPaginatedAlertList(["foo=bar"]);
-    expect(container.querySelector(".text-placeholder")).toBeInTheDocument();
+    const { container } = render(
+      <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
+    );
+    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 
   it("renders LabelSetList with StaticLabel on mount", () => {
@@ -96,8 +90,11 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    renderPaginatedAlertList(["foo=bar"]);
-    expect(screen.getByText("Fake Alert")).toBeInTheDocument();
+    const { container } = render(
+      <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
+    );
+    expect(container.querySelector(".list-group")).toBeInTheDocument();
+    expect(container.querySelectorAll("span.components-label")).toHaveLength(3);
   });
 
   it("renders empty LabelSetList with empty response", () => {
@@ -110,8 +107,11 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    renderPaginatedAlertList(["foo=bar"]);
-    expect(screen.getByText("No alerts matched")).toBeInTheDocument();
+    const { container } = render(
+      <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
+    );
+    expect(container.textContent).toMatch(/No alerts matched/);
+    expect(container.querySelectorAll("span.components-label")).toHaveLength(0);
   });
 
   it("fetches affected alerts on mount", () => {
@@ -139,9 +139,15 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    renderPaginatedAlertList(["foo=bar"], "Affected alerts");
-    expect(screen.getByText("Affected alerts")).toBeInTheDocument();
-    expect(screen.getByText("Fake Alert")).toBeInTheDocument();
+    const { container } = render(
+      <PaginatedAlertList
+        alertStore={alertStore}
+        filters={["foo=bar"]}
+        title="Affected alerts"
+      />,
+    );
+    expect(container.textContent).toMatch(/Affected alerts/);
+    expect(container.querySelectorAll("span.components-label")).toHaveLength(3);
   });
 
   it("handles empty grid response correctly", () => {
@@ -154,8 +160,10 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    renderPaginatedAlertList(["foo=bar"]);
-    expect(screen.getByText("No alerts matched")).toBeInTheDocument();
+    const { container } = render(
+      <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
+    );
+    expect(container.textContent).toMatch(/No alerts matched/);
   });
 
   it("renders FetchError on failed preview fetch", () => {
@@ -168,7 +176,9 @@ describe("<PaginatedAlertList />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    renderPaginatedAlertList(["foo=bar"]);
-    expect(screen.getByText("fake error")).toBeInTheDocument();
+    const { container } = render(
+      <PaginatedAlertList alertStore={alertStore} filters={["foo=bar"]} />,
+    );
+    expect(container.textContent).toMatch(/fake error/);
   });
 });

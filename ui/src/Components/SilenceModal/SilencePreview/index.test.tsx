@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 
 import { AlertStore } from "Stores/AlertStore";
 import { SilenceFormStore, NewEmptyMatcher } from "Stores/SilenceFormStore";
@@ -26,7 +26,7 @@ afterEach(() => {
   (useFetchGet as jest.MockedFunction<typeof useFetchGetMock>).mockReset();
 });
 
-const renderSilencePreview = () => {
+const MountedSilencePreview = () => {
   return render(
     <SilencePreview
       alertStore={alertStore}
@@ -37,7 +37,7 @@ const renderSilencePreview = () => {
 
 describe("<SilencePreview />", () => {
   it("fetches matching alerts on mount", () => {
-    renderSilencePreview();
+    MountedSilencePreview();
     expect(useFetchGet).toHaveBeenCalled();
   });
 
@@ -45,7 +45,7 @@ describe("<SilencePreview />", () => {
     silenceFormStore.data.setAlertmanagers([
       { label: "amName", value: ["amValue"] },
     ]);
-    renderSilencePreview();
+    MountedSilencePreview();
     expect(useFetchGet).toHaveBeenCalledWith(
       "./alertList.json?q=foo%3Dbar&q=%40alertmanager%3D~%5E%28amValue%29%24",
     );
@@ -55,7 +55,7 @@ describe("<SilencePreview />", () => {
     silenceFormStore.data.setAlertmanagers([
       { label: "cluster", value: ["am1", "am2"] },
     ]);
-    renderSilencePreview();
+    MountedSilencePreview();
     expect(useFetchGet).toHaveBeenCalledWith(
       "./alertList.json?q=foo%3Dbar&q=%40alertmanager%3D~%5E%28am1%7Cam2%29%24",
     );
@@ -76,7 +76,7 @@ describe("<SilencePreview />", () => {
       cancelGet: jest.fn(),
     });
 
-    const { asFragment } = renderSilencePreview();
+    const { asFragment } = MountedSilencePreview();
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -90,9 +90,9 @@ describe("<SilencePreview />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    renderSilencePreview();
+    const { container } = MountedSilencePreview();
     expect(
-      document.body.querySelectorAll(".text-placeholder"),
+      container.querySelectorAll(".text-placeholder"),
     ).not.toHaveLength(0);
   });
 
@@ -114,8 +114,11 @@ describe("<SilencePreview />", () => {
       get: jest.fn(),
       cancelGet: jest.fn(),
     });
-    renderSilencePreview();
-    expect(screen.getByText(/Affected alerts/)).toBeInTheDocument();
+    const { container } = MountedSilencePreview();
+    expect(container.textContent).toMatch(/Affected alerts/);
+    expect(
+      container.querySelectorAll("span.components-label"),
+    ).toHaveLength(3);
   });
 
   it("handles empty grid response correctly", () => {
@@ -129,8 +132,8 @@ describe("<SilencePreview />", () => {
       cancelGet: jest.fn(),
     });
 
-    renderSilencePreview();
-    expect(screen.getByText(/No alerts matched/)).toBeInTheDocument();
+    const { container } = MountedSilencePreview();
+    expect(container.textContent).toMatch(/No alerts matched/);
   });
 
   it("renders FetchError on failed fetch", () => {
@@ -144,19 +147,23 @@ describe("<SilencePreview />", () => {
       cancelGet: jest.fn(),
     });
 
-    const { container } = renderSilencePreview();
-    expect(container.innerHTML).toMatch(/Fetch error/);
+    const { container } = MountedSilencePreview();
+    expect(
+      container.querySelectorAll("svg.fa-circle-exclamation"),
+    ).toHaveLength(1);
   });
 
   it("renders LabelSetList on successful fetch", () => {
-    const { container } = renderSilencePreview();
-    expect(container.innerHTML).not.toMatch(/Fetch error/);
+    const { container } = MountedSilencePreview();
+    expect(
+      container.querySelectorAll("svg.fa-circle-exclamation"),
+    ).toHaveLength(0);
   });
 
   it("clicking on the submit button moves form to the 'Submit' stage", () => {
-    const { container } = renderSilencePreview();
-    const button = container.querySelector(".btn-primary");
-    fireEvent.click(button!);
+    const { container } = MountedSilencePreview();
+    const button = container.querySelector(".btn-primary")!;
+    fireEvent.click(button);
     expect(silenceFormStore.data.currentStage).toBe("submit");
   });
 });
